@@ -1,4 +1,4 @@
-cveID	vendorProject	product	shortDescription	Predicted_Label
+cveID	vendor	product	description	Predicted_Label
 CVE-2024-2912	bentoml	bentoml/bentoml	"An insecure deserialization vulnerability exists in the BentoML framework, allowing remote code execution (RCE) by sending a specially crafted POST request. By exploiting this vulnerability, attackers can execute arbitrary commands on the server hosting the BentoML application. The vulnerability is triggered when a serialized object, crafted to execute OS commands upon deserialization, is sent to any valid BentoML endpoint. This issue poses a significant security risk, enabling attackers to compromise the server and potentially gain unauthorized access or control."	hot
 CVE-2024-2011	Hitachi Energy	FOXMAN-UN	"A heap-based buffer overflow vulnerability exists in the FOXMAN-UN/UNEM that
 if exploited will generally lead to a denial of service but can be used 
