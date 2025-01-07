@@ -5,7 +5,7 @@ A repo for output of an experimental intrusion prediction project. Output is pos
 
 Contents:
 
-2024: The first batch with CVEs for 2024 that came out of the model rated 'hot.' This set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
+2024: The first batch with CVEs for 2024 that came out of the model rated 'hot.' This set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on. A rating of 'hot' means the CVE will be on one or more watchlists due to exploitation and / or impaact. How is this being done? Probably not the way you think (no it is not being done by hand, it is an ML / AI project.)
 
 Predictions so far:
 
