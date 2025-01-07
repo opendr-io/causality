@@ -1,7 +1,7 @@
 ![things](/img/precrime.gif?raw=true "text")  
 ## Intrusion Prediction
 
-A repo for output of an experimental intrusion prediction project. Output is posted here where it is timestamped so that any correct predictions can be verified in linear time without creating a causality loop.  A rating of 'hot' means the CVE will be on one or more watchlists due to exploitation and / or impact.
+A repo for publishing the output of an experimental intrusion prediction project. Output is posted here where it is timestamped so that any correct predictions can be verified in linear time without creating a causality loop.  A rating of 'hot' means the CVE will land on one or more watchlists due to significance, exploitation and / or impact.
 
 Contents:
 
