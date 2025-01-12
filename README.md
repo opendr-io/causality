@@ -6,7 +6,8 @@ A repo for publishing the output of an experimental intrusion prediction project
 Contents:
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
-2024: CVEs from calendar 2025 that came out of the model rated 'hot.'
+
+2025: CVEs from calendar 2025 that came out of the model rated 'hot.'
 
 The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
 
