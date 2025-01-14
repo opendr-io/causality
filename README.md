@@ -13,7 +13,7 @@ The 2024 set has not been through search space reduction yet but it will be soon
 
 Predictions so far:
 
-NEW: CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 7 - seven days prior to the KEV addition - in this output file which was committed to Github on that day (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/predictions-jan-7-run.txt)
+**NEW: CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 7 - seven days prior to the KEV addition - in this output file which was committed to Github on that day** (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/predictions-jan-7-run.txt)
 
 CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	hot
 
