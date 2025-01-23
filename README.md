@@ -16,8 +16,6 @@ Predictions so far:
 **NEW: CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 3 - ten days prior to the KEV addition - in this output file which was committed to Github on that day** (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt) Commit history: https://github.com/cyberdyne-ventures/predictions/compare/ca99f27cd91bc6251ffd5c22aa1b18f1dab0d214...40cc5c07883f41762139050820d40ebe787dce4c
 18609	CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	neutral	hot
 
-CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	hot
-
 **These predictions were made by the January 3 run, around three weeks ahead of being added to the other KEV (not CISA, the *other* KEV.)**
 
 Jan22 	CVE-2024-6205	Unknown	PayPlus Payment Gateway	"The PayPlus Payment Gateway WordPress plugin before 6.6.9 does not properly sanitise and escape a parameter before using it in a SQL statement via a WooCommerce API route available to unauthenticated users, leading to an SQL injection vulnerability."	hot
@@ -36,8 +34,8 @@ Jan22	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterprise	"A sql injectio
 Jan22	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_verbose"" function within MCUDBHelper.
 "	neutral	hot
 
-Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
-CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.
+**Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
+CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.**
 
 Rated hot & added to the KEV Jan 8:
 
