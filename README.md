@@ -13,7 +13,7 @@ The 2024 set has not been through search space reduction yet but it will be soon
 
 Predictions so far:
 
-** NEW: CVE 2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then. **
+*** NEW: CVE 2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then. ***
 
 CVE-2024-29059	hot	Microsoft	Microsoft .NET Framework 4.8	.NET Framework Information Disclosure Vulnerability	
 
