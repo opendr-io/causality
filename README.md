@@ -13,7 +13,12 @@ The 2024 set has not been through search space reduction yet but it will be soon
 
 Predictions so far:
 
-**NEW: CVE 2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 32 days!**
+**NEW Feb 6: CVE 2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days!**
+https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt
+
+```8317	CVE-2024-21413	Microsoft	Microsoft Office 2019	Microsoft Outlook Remote Code Execution Vulnerability	neutral	hot```
+
+**NEW Feb 5: CVE 2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 34 days!**
 https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt
 
 ```17109	CVE-2024-53104	Linux	Linux	"In the Linux kernel, the following vulnerability has been resolved:```
