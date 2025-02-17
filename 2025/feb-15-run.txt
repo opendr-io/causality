@@ -1,4 +1,4 @@
-cveID	vendorProject	product	shortDescription	Predicted_Label
+cveID	vendor	product	description	prediction
 CVE-2025-0411	7-Zip	7-Zip	"7-Zip Mark-of-the-Web Bypass Vulnerability. This vulnerability allows remote attackers to bypass the Mark-of-the-Web protection mechanism on affected installations of 7-Zip. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
 
 The specific flaw exists within the handling of archived files. When extracting files from a crafted archive that bears the Mark-of-the-Web, 7-Zip does not propagate the Mark-of-the-Web to the extracted files. An attacker can leverage this vulnerability to execute arbitrary code in the context of the current user. Was ZDI-CAN-25456."	hot
@@ -44,7 +44,7 @@ CVE-2025-0500	Amazon	DCV Client	"An issue in the native clients for Amazon WorkS
 CVE-2025-0501	Amazon	WorkSpaces Client	An issue in the native clients for Amazon WorkSpaces (when running PCoIP protocol) may allow an attacker to access remote sessions via man-in-the-middle.	hot
 CVE-2025-0500	Amazon	WorkSpaces Client	"An issue in the native clients for Amazon WorkSpaces (when running Amazon DCV protocol), Amazon AppStream 2.0, and Amazon DCV Clients may allow an attacker to access remote sessions via man-in-the-middle."	hot
 CVE-2025-1271	Anapi Group	H6Web	"Reflected Cross-Site Scripting (XSS) in Anapi Group's h6web. This security flaw could allow an attacker to inject malicious JavaScript code into a URL. When a user accesses that URL, the injected code is executed in their browser, which can result in the theft of sensitive information, identity theft or the execution of unauthorised actions on behalf of the affected user."	hot
-CVE-2025-1270	Anapi Group	H6Web	"Insecure direct object reference (IDOR) vulnerability in Anapi Group's h6web, allows an authenticated attacker to access other users' information by making a POST request and modifying the ‚Äúpkrelated‚Äù parameter in the ‚Äú/h6web/ha_datos_hermano.php‚Äù endpoint to refer to another user. In addition, the first request could also allow the attacker to impersonate other users. As a result, all requests made after exploitation of the IDOR vulnerability will be executed with the privileges of the impersonated user."	hot
+CVE-2025-1270	Anapi Group	H6Web	"Insecure direct object reference (IDOR) vulnerability in Anapi Group's h6web, allows an authenticated attacker to access other users' information by making a POST request and modifying the ìpkrelatedî parameter in the ì/h6web/ha_datos_hermano.phpî endpoint to refer to another user. In addition, the first request could also allow the attacker to impersonate other users. As a result, all requests made after exploitation of the IDOR vulnerability will be executed with the privileges of the impersonated user."	hot
 CVE-2025-23195	Apache Software Foundation	Apache Ambari	"An XML External Entity (XXE) vulnerability exists in the Ambari/Oozie 
 project, allowing an attacker to inject malicious XML entities. This 
 vulnerability occurs due to insecure parsing of XML input using the 
@@ -127,7 +127,7 @@ CVE-2025-0851	AWS	DeepJavaLibrary	A path traversal issue in ZipUtils.unzip and T
 CVE-2025-0430	Belledonne Communications	Linphone-Desktop	"Belledonne Communications Linphone-Desktop 
  is vulnerable to a NULL Dereference vulnerability, which could allow a remote attacker to create a denial-of-service condition."	hot
 CVE-2025-22507	Benjamin Santalucia (ben@woow-fr.com)	WPMU Prefill Post	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Benjamin Santalucia (ben@woow-fr.com) WPMU Prefill Post allows SQL Injection.This issue affects WPMU Prefill Post: from n/a through 1.02.	hot
-CVE-2025-0637	Beta10	Beta10	"It has been found that the Beta10 software does not provide for proper authorisation control in multiple areas of the application. This deficiency could allow a malicious actor, without authentication, to access private areas and/or areas intended for other roles. The vulnerability has been identified at least in the file or path ‚Äò/app/tools.html‚Äô."	hot
+CVE-2025-0637	Beta10	Beta10	"It has been found that the Beta10 software does not provide for proper authorisation control in multiple areas of the application. This deficiency could allow a malicious actor, without authentication, to access private areas and/or areas intended for other roles. The vulnerability has been identified at least in the file or path ë/app/tools.htmlí."	hot
 CVE-2025-0364	BigAntSoft	BigAnt Server	"BigAntSoft BigAnt Server, up to and including version 5.6.06, is vulnerable to unauthenticated remote code execution via account registration. An unauthenticated remote attacker can create an administrative user through the default exposed SaaS registration mechanism. Once an administrator, the attacker can upload and execute arbitrary PHP code using the ""Cloud Storage Addin,"" leading to unauthenticated code execution."	hot
 CVE-2025-1143	Billion Electric	M100	"Certain models of routers from Billion Electric has hard-coded embedded linux credentials, allowing attackers to log in through the SSH service using these credentials and obtain root privilege of the system."	hot
 CVE-2025-1143	Billion Electric	M120N	"Certain models of routers from Billion Electric has hard-coded embedded linux credentials, allowing attackers to log in through the SSH service using these credentials and obtain root privilege of the system."	hot
@@ -145,8 +145,8 @@ CVE-2025-1053	Brocade	Brocade SANnav	"Under certain error conditions at time of 
 CVE-2025-24367	Cacti	cacti	"Cacti is an open source performance and fault management framework. An authenticated Cacti user can abuse graph creation and graph template functionality to create arbitrary PHP scripts in the web root of the application, leading to remote code execution on the server. This vulnerability is fixed in 1.2.29."	hot
 CVE-2025-26520	Cacti	Cacti	Cacti through 1.2.29 allows SQL injection in the template function in host_templates.php via the graph_template parameter. NOTE: this issue exists because of an incomplete fix for CVE-2024-54146.	hot
 CVE-2025-22604	Cacti	cacti	"Cacti is an open source performance and fault management framework. Due to a flaw in multi-line SNMP result parser, authenticated users can inject malformed OIDs in the response. When processed by ss_net_snmp_disk_io() or ss_net_snmp_disk_bytes(), a part of each OID will be used as a key in an array that is used as part of a system command, causing a command execution vulnerability. This vulnerability is fixed in 1.2.29."	hot
-CVE-2025-0695	Cesanta	Frozen	An Allocation of Resources Without Limits or¬†Throttling vulnerability in Cesanta Frozen versions less than 1.7 allows an attacker to induce a crash of the component embedding the library by supplying a maliciously crafted JSON as input.	hot
-CVE-2025-0696	Cesanta	Frozen	A NULL Pointer Dereference¬†vulnerability in Cesanta Frozen versions less than 1.7 allows an attacker to induce a crash of the component embedding the library by supplying a maliciously crafted JSON as input.	hot
+CVE-2025-0695	Cesanta	Frozen	An Allocation of Resources Without Limits or†Throttling vulnerability in Cesanta Frozen versions less than 1.7 allows an attacker to induce a crash of the component embedding the library by supplying a maliciously crafted JSON as input.	hot
+CVE-2025-0696	Cesanta	Frozen	A NULL Pointer Dereference†vulnerability in Cesanta Frozen versions less than 1.7 allows an attacker to induce a crash of the component embedding the library by supplying a maliciously crafted JSON as input.	hot
 CVE-2025-20165	Cisco	Cisco BroadWorks	"A vulnerability in the SIP processing subsystem of Cisco BroadWorks could allow an unauthenticated, remote attacker to halt the processing of incoming SIP requests, resulting in a denial of service (DoS) condition.
 
 This vulnerability is due to improper memory handling for certain SIP requests. An attacker could exploit this vulnerability by sending a high number of SIP requests to an affected system. A successful exploit could allow the attacker to exhaust the memory that was allocated to the Cisco BroadWorks Network Servers that handle SIP traffic. If no memory is available, the Network Servers can no longer process incoming requests, resulting in a DoS condition that requires manual intervention to recover."	hot
@@ -310,7 +310,7 @@ This vulnerability affects SNMP versions 1, 2c, and 3. To exploit this vulnerabi
 CVE-2025-22216	Cloud Foundry	Cloud Foundry UAA	"A UAA configured with multiple identity zones, does not properly validate session information across those zones.  A User authenticated against a corporate IDP can re-use their jsessionid to access other zones."	hot
 CVE-2025-0651	Cloudflare	WARP	"Improper Privilege Management vulnerability in Cloudflare WARP on Windows allows File Manipulation.
 
-User with a low system privileges¬† can create a set of symlinks inside the¬†C:\ProgramData\Cloudflare\warp-diag-partials folder. After triggering the 'Reset all settings"" option the WARP service will delete the files that the symlink was pointing to. Given the WARP service operates with System privileges this might lead to deleting files owned by the System user.
+User with a low system privileges† can create a set of symlinks inside the†C:\ProgramData\Cloudflare\warp-diag-partials folder. After triggering the 'Reset all settings"" option the WARP service will delete the files that the symlink was pointing to. Given the WARP service operates with System privileges this might lead to deleting files owned by the System user.
 This issue affects WARP: before 2024.12.492.0."	hot
 CVE-2025-24672	CodePeople	Form Builder CP	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in CodePeople Form Builder CP allows SQL Injection. This issue affects Form Builder CP: from n/a through 1.2.41.	hot
 CVE-2025-22785	ComMotion	Course Booking System	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in ComMotion Course Booking System allows SQL Injection.This issue affects Course Booking System: from n/a through 6.0.5.	hot
@@ -408,11 +408,11 @@ manipulating the endpoint to overwrite any user's password within the
 system. This grants them unauthorized administrative access to protected
  areas of the application, compromising the device's system security."	hot
 CVE-2025-22352	ELEXtensions	"ELEX WooCommerce Advanced Bulk Edit Products, Prices & Attributes"	"Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in ELEXtensions ELEX WooCommerce Advanced Bulk Edit Products, Prices & Attributes allows Blind SQL Injection.This issue affects ELEX WooCommerce Advanced Bulk Edit Products, Prices & Attributes: from n/a through 1.4.8."	hot
-CVE-2025-24664	Eniture Technology	LTL Freight Quotes ‚Äì Worldwide Express Edition	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Eniture Technology LTL Freight Quotes ‚Äì Worldwide Express Edition allows SQL Injection. This issue affects LTL Freight Quotes ‚Äì Worldwide Express Edition: from n/a through 5.0.20.	hot
-CVE-2025-24667	Eniture Technology	Small Package Quotes ‚Äì Worldwide Express Edition	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Eniture Technology Small Package Quotes ‚Äì Worldwide Express Edition allows SQL Injection. This issue affects Small Package Quotes ‚Äì Worldwide Express Edition: from n/a through 5.2.17.	hot
+CVE-2025-24664	Eniture Technology	LTL Freight Quotes ñ Worldwide Express Edition	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Eniture Technology LTL Freight Quotes ñ Worldwide Express Edition allows SQL Injection. This issue affects LTL Freight Quotes ñ Worldwide Express Edition: from n/a through 5.0.20.	hot
+CVE-2025-24667	Eniture Technology	Small Package Quotes ñ Worldwide Express Edition	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Eniture Technology Small Package Quotes ñ Worldwide Express Edition allows SQL Injection. This issue affects Small Package Quotes ñ Worldwide Express Edition: from n/a through 5.2.17.	hot
 CVE-2025-24883	ethereum	go-ethereum	go-ethereum (geth) is a golang execution layer implementation of the Ethereum protocol. A vulnerable node can be forced to shutdown/crash using a specially crafted message. This vulnerability is fixed in 1.14.13.	hot
 CVE-2025-22136	Eugeny	tabby	"Tabby (formerly Terminus) is a highly configurable terminal emulator. Prior to 1.0.217 , Tabby enables several high-risk Electron Fuses, including RunAsNode, EnableNodeCliInspectArguments, and EnableNodeOptionsEnvironmentVariable. These fuses create potential code injection vectors even though the application is signed with hardened runtime and lacks dangerous entitlements such as com.apple.security.cs.disable-library-validation and com.apple.security.cs.allow-dyld-environment-variables. This vulnerability is fixed in 1.0.217."	hot
-CVE-2025-21606	exelban	stats	"stats is a macOS system monitor in for the menu bar. The Stats application is vulnerable to a local privilege escalation due to the insecure implementation of its XPC service. The application registers a Mach service under the name `eu.exelban.Stats.SMC.Helper`. The associated binary, eu.exelban.Stats.SMC.Helper, is a privileged helper tool designed to execute actions requiring elevated privileges on behalf of the client, such as setting fan modes, adjusting fan speeds, and executing the `powermetrics` command. The root cause of this vulnerability lies in the `shouldAcceptNewConnection` method, which unconditionally returns YES (or true), allowing any XPC client to connect to the service without any form of verification. As a result, unauthorized clients can establish a connection to the Mach service and invoke methods exposed by the HelperTool interface. An attacker can exploit this vulnerability to modify the hardware settings of the user‚Äôs device and execute arbitrary code with root privileges. This issue has been addressed in version 2.11.21 and all users are advised to upgrade. There are no known workarounds for this vulnerability."	hot
+CVE-2025-21606	exelban	stats	"stats is a macOS system monitor in for the menu bar. The Stats application is vulnerable to a local privilege escalation due to the insecure implementation of its XPC service. The application registers a Mach service under the name `eu.exelban.Stats.SMC.Helper`. The associated binary, eu.exelban.Stats.SMC.Helper, is a privileged helper tool designed to execute actions requiring elevated privileges on behalf of the client, such as setting fan modes, adjusting fan speeds, and executing the `powermetrics` command. The root cause of this vulnerability lies in the `shouldAcceptNewConnection` method, which unconditionally returns YES (or true), allowing any XPC client to connect to the service without any form of verification. As a result, unauthorized clients can establish a connection to the Mach service and invoke methods exposed by the HelperTool interface. An attacker can exploit this vulnerability to modify the hardware settings of the userís device and execute arbitrary code with root privileges. This issue has been addressed in version 2.11.21 and all users are advised to upgrade. There are no known workarounds for this vulnerability."	hot
 CVE-2025-21091	F5	BIG-IP	"When SNMP v1 or v2c are disabled on the BIG-IP, undisclosed requests can cause an increase in memory resource utilization.
 
  
@@ -425,18 +425,18 @@ CVE-2025-21087	F5	BIG-IP	"When Client or Server SSL profiles are configured on a
 
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated"	hot
-CVE-2025-20058	F5	BIG-IP	"When a BIG-IP message routing profile is configured on a virtual server, undisclosed traffic can cause an increase in memory resource utilization.¬†Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated"	hot
+CVE-2025-20058	F5	BIG-IP	"When a BIG-IP message routing profile is configured on a virtual server, undisclosed traffic can cause an increase in memory resource utilization.†Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated"	hot
 CVE-2025-20029	F5	BIG-IP	"Command injection vulnerability exists in iControl REST and BIG-IP TMOS Shell (tmsh) save command, which may allow an authenticated attacker to execute arbitrary system commands.
 
  
 
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-20045	F5	BIG-IP	"When SIP session Application Level Gateway mode (ALG) profile with Passthru Mode enabled and SIP router ALG profile are configured on a Message Routing type virtual server, undisclosed traffic can cause the Traffic Management Microkernel (TMM) to terminate.¬†¬†Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-24312	F5	BIG-IP	"When BIG-IP AFM is provisioned with IPS module enabled and protocol inspection profile is configured on a virtual server or firewall rule or policy, undisclosed traffic can cause an increase in CPU resource utilization.¬†¬†
+CVE-2025-20045	F5	BIG-IP	"When SIP session Application Level Gateway mode (ALG) profile with Passthru Mode enabled and SIP router ALG profile are configured on a Message Routing type virtual server, undisclosed traffic can cause the Traffic Management Microkernel (TMM) to terminate.††Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
+CVE-2025-24312	F5	BIG-IP	"When BIG-IP AFM is provisioned with IPS module enabled and protocol inspection profile is configured on a virtual server or firewall rule or policy, undisclosed traffic can cause an increase in CPU resource utilization.††
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-24497	F5	BIG-IP	"When URL categorization is configured on a virtual server, undisclosed requests can cause TMM to terminate.¬† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
+CVE-2025-24497	F5	BIG-IP	"When URL categorization is configured on a virtual server, undisclosed requests can cause TMM to terminate.† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
 CVE-2025-24326	F5	BIG-IP	"When BIG-IP Advanced WAF/ASM Behavioral DoS (BADoS) TLS Signatures feature is configured, undisclosed traffic can case an increase in memory resource utilization.
 
  
@@ -470,7 +470,7 @@ CVE-2025-22846	F5	BIG-IP	"When SIP Session and Router ALG profiles are configure
 
 
 
-¬† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
+† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
 CVE-2025-21087	F5	BIG-IP Next	"When Client or Server SSL profiles are configured on a Virtual Server, or DNSSEC signing operations are in use, undisclosed traffic can cause an increase in memory and CPU resource utilization.
 
  
@@ -489,25 +489,25 @@ CVE-2025-23413	F5	BIG-IP Next Central Manager	"When users log in through the web
 
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-24312	F5	BIG-IP Next CNF	"When BIG-IP AFM is provisioned with IPS module enabled and protocol inspection profile is configured on a virtual server or firewall rule or policy, undisclosed traffic can cause an increase in CPU resource utilization.¬†¬†
+CVE-2025-24312	F5	BIG-IP Next CNF	"When BIG-IP AFM is provisioned with IPS module enabled and protocol inspection profile is configured on a virtual server or firewall rule or policy, undisclosed traffic can cause an increase in CPU resource utilization.††
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
 CVE-2025-22846	F5	BIG-IP Next SPK	"When SIP Session and Router ALG profiles are configured on a Message Routing type virtual server, undisclosed traffic can cause the Traffic Management Microkernel (TMM) to terminate.
 
 
 
-¬† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-23419	F5	NGINX Open Source	"When multiple server blocks are configured to share the same IP address and port, an attacker can use session resumption to bypass client certificate authentication requirements on these servers. This vulnerability arises when  TLS Session Tickets https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_ticket_key  are used and/or the  SSL session cache https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache  are used in the default server and the default server is performing client certificate authentication.¬†¬†
+† Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
+CVE-2025-23419	F5	NGINX Open Source	"When multiple server blocks are configured to share the same IP address and port, an attacker can use session resumption to bypass client certificate authentication requirements on these servers. This vulnerability arises when  TLS Session Tickets https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_ticket_key  are used and/or the  SSL session cache https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache  are used in the default server and the default server is performing client certificate authentication.††
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
-CVE-2025-23419	F5	NGINX Plus	"When multiple server blocks are configured to share the same IP address and port, an attacker can use session resumption to bypass client certificate authentication requirements on these servers. This vulnerability arises when  TLS Session Tickets https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_ticket_key  are used and/or the  SSL session cache https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache  are used in the default server and the default server is performing client certificate authentication.¬†¬†
+CVE-2025-23419	F5	NGINX Plus	"When multiple server blocks are configured to share the same IP address and port, an attacker can use session resumption to bypass client certificate authentication requirements on these servers. This vulnerability arises when  TLS Session Tickets https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_ticket_key  are used and/or the  SSL session cache https://nginx.org/en/docs/http/ngx_http_ssl_module.html#ssl_session_cache  are used in the default server and the default server is performing client certificate authentication.††
 
 Note: Software versions which have reached End of Technical Support (EoTS) are not evaluated."	hot
 CVE-2025-23016	FastCGI	fcgi	FastCGI fcgi2 (aka fcgi) 2.x through 2.4.4 has an integer overflow (and resultant heap-based buffer overflow) via crafted nameLen or valueLen values in data to the IPC socket. This occurs in ReadParams in fcgiapp.c.	hot
 CVE-2025-0781	FlightGear	SimGear	An attacker can bypass the sandboxing of Nasal scripts and arbitrarily write to any file path that the user has permission to modify at the operating-system level.	hot
-CVE-2025-24472	Fortinet	FortiOS	"An¬†Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot
-CVE-2025-24470	Fortinet	FortiPortal	"An¬†Improper Resolution of Path Equivalence vulnerability [CWE-41] in FortiPortal 7.4.0 through 7.4.2, 7.2.0 through 7.2.6, 7.0.0 through 7.0.11 may allow a remote unauthenticated attacker to retrieve source code via crafted HTTP requests."	hot
-CVE-2025-24472	Fortinet	FortiProxy	"An¬†Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot
+CVE-2025-24472	Fortinet	FortiOS	"An†Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot
+CVE-2025-24470	Fortinet	FortiPortal	"An†Improper Resolution of Path Equivalence vulnerability [CWE-41] in FortiPortal 7.4.0 through 7.4.2, 7.2.0 through 7.2.6, 7.0.0 through 7.0.11 may allow a remote unauthenticated attacker to retrieve source code via crafted HTTP requests."	hot
+CVE-2025-24472	Fortinet	FortiProxy	"An†Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot
 CVE-2025-0373	FreeBSD	FreeBSD	"On 64-bit systems, the implementation of VOP_VPTOFH() in the cd9660, tarfs and ext2fs filesystems overflows the destination FID buffer by 4 bytes, a stack buffer overflow.
 
 A NFS server that exports a cd9660, tarfs, or ext2fs file system can be made to panic by mounting and accessing the export with an NFS client.  Further exploitation (e.g., bypassing file permission checking or remote kernel code execution) is potentially possible, though this has not been demonstrated.  In particular, release kernels are compiled with stack protection enabled, and some instances of the overflow are caught by this mechanism, causing a panic."	hot
@@ -549,9 +549,9 @@ CVE-2025-0982	Google Cloud	Application Integration	"Sandbox escape in the JavaSc
 CVE-2025-24858	Gradle	Enterprise	"Develocity (formerly Gradle Enterprise) before 2024.3.1 allows an attacker who has network access to a Develocity server to obtain the hashed password of the system user. The hash algorithm used by Develocity was chosen according to best practices for password storage and provides some protection against brute-force attempts. The applicable severity of this vulnerability depends on whether a Develocity server is accessible by external or unauthorized users, and the complexity of the System User password."	hot
 CVE-2025-0937	HashiCorp	Nomad	"Nomad Community and Nomad Enterprise (""Nomad"") event stream configured with a wildcard namespace can bypass the ACL Policy allowing reads on other namespaces."	hot
 CVE-2025-0937	HashiCorp	Nomad Enterprise	"Nomad Community and Nomad Enterprise (""Nomad"") event stream configured with a wildcard namespace can bypass the ACL Policy allowing reads on other namespaces."	hot
-CVE-2025-0377	HashiCorp	Shared library	HashiCorp‚Äôs go-slug library is vulnerable to a zip-slip style attack when a non-existing user-provided path is extracted from the tar entry.	hot
-CVE-2025-23052	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking AOS	Authenticated command injection vulnerability in the command¬†line interface of a network management service. Successful¬†exploitation of this vulnerability could allow an attacker to execute¬†arbitrary commands as a privileged user on the underlying¬†operating system.	hot
-CVE-2025-23051	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking AOS	An authenticated parameter injection vulnerability exists¬†in the web-based management interface of the AOS-8 and AOS-10¬†Operating Systems. Successful exploitation could allow an¬†authenticated user to leverage parameter injection to overwrite¬†arbitrary system files.	hot
+CVE-2025-0377	HashiCorp	Shared library	HashiCorpís go-slug library is vulnerable to a zip-slip style attack when a non-existing user-provided path is extracted from the tar entry.	hot
+CVE-2025-23052	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking AOS	Authenticated command injection vulnerability in the command†line interface of a network management service. Successful†exploitation of this vulnerability could allow an attacker to execute†arbitrary commands as a privileged user on the underlying†operating system.	hot
+CVE-2025-23051	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking AOS	An authenticated parameter injection vulnerability exists†in the web-based management interface of the AOS-8 and AOS-10†Operating Systems. Successful exploitation could allow an†authenticated user to leverage parameter injection to overwrite†arbitrary system files.	hot
 CVE-2025-25039	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking ClearPass Policy Manager	A vulnerability in the web-based management interface of HPE Aruba Networking ClearPass Policy Manager (CPPM) allows remote authenticated users to run arbitrary commands on the underlying host. A successful exploit could allow an attacker to execute arbitrary commands as a lower privileged user on the underlying operating system.	hot
 CVE-2025-23058	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking ClearPass Policy Manager	A vulnerability in the ClearPass Policy Manager web-based management interface allows a low-privileged (read-only) authenticated remote attacker to gain unauthorized access to data and the ability to execute functions that should be restricted to administrators only with read/write privileges. Successful exploitation could enable a low-privileged user to execute administrative functions leading to an escalation of privileges.	hot
 CVE-2025-23059	Hewlett Packard Enterprise (HPE)	HPE Aruba Networking ClearPass Policy Manager	"A vulnerability in the web-based management interface of HPE Aruba Networking ClearPass Policy Manager exposes directories containing sensitive information. If exploited successfully, this vulnerability allows an authenticated remote attacker with high privileges to access and retrieve sensitive data, potentially compromising the integrity and security of the entire system."	hot
@@ -578,38 +578,38 @@ CVE-2025-24845	Humming Heads Inc.	Defense Platform Home Edition	"Improper neutra
 CVE-2025-23236	Humming Heads Inc.	Defense Platform Home Edition	"Buffer overflow vulnerability exists in Defense Platform Home Edition Ver.3.9.51.x and earlier. If an attacker performs a specific operation, SYSTEM privilege of the Windows system where the product is running may be obtained."	hot
 CVE-2025-22890	Humming Heads Inc.	Defense Platform Home Edition	"Execution with unnecessary privileges issue exists in Defense Platform Home Edition Ver.3.9.51.x and earlier. If an attacker performs a specific operation, SYSTEM privilege of the Windows system where the product is running may be obtained."	hot
 CVE-2025-22894	Humming Heads Inc.	Defense Platform Home Edition	"Unprotected Windows messaging channel ('Shatter') issue exists in Defense Platform Home Edition Ver.3.9.51.x and earlier. If an attacker sends a specially crafted message to the specific process of the Windows system where the product is running, arbitrary files in the system may be altered. As a result, an arbitrary DLL may be executed with SYSTEM privilege."	hot
-CVE-2025-1077	IBL Software Engineering	Aero Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).¬†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
+CVE-2025-1077	IBL Software Engineering	Aero Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
 
-A remote¬†unauthenticated
+A remote†unauthenticated
 
-attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS¬†pipeline¬†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.¬†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services¬†are run under a privileged user account‚Äîcontrary to the documented installation best practices.
-
-
-
-Upgrade to the patched versions 7.3.10 (or higher), 8.6.0 (or higher)."	hot
-CVE-2025-1077	IBL Software Engineering	NAMIS	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).¬†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
-
-A remote¬†unauthenticated
-
-attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS¬†pipeline¬†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.¬†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services¬†are run under a privileged user account‚Äîcontrary to the documented installation best practices.
+attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS†pipeline†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services†are run under a privileged user accountócontrary to the documented installation best practices.
 
 
 
 Upgrade to the patched versions 7.3.10 (or higher), 8.6.0 (or higher)."	hot
-CVE-2025-1077	IBL Software Engineering	Satellite Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).¬†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
+CVE-2025-1077	IBL Software Engineering	NAMIS	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
 
-A remote¬†unauthenticated
+A remote†unauthenticated
 
-attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS¬†pipeline¬†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.¬†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services¬†are run under a privileged user account‚Äîcontrary to the documented installation best practices.
+attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS†pipeline†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services†are run under a privileged user accountócontrary to the documented installation best practices.
 
 
 
 Upgrade to the patched versions 7.3.10 (or higher), 8.6.0 (or higher)."	hot
-CVE-2025-1077	IBL Software Engineering	Visual Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).¬†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
+CVE-2025-1077	IBL Software Engineering	Satellite Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
 
-A remote¬†unauthenticated
+A remote†unauthenticated
 
-attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS¬†pipeline¬†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.¬†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services¬†are run under a privileged user account‚Äîcontrary to the documented installation best practices.
+attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS†pipeline†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services†are run under a privileged user accountócontrary to the documented installation best practices.
+
+
+
+Upgrade to the patched versions 7.3.10 (or higher), 8.6.0 (or higher)."	hot
+CVE-2025-1077	IBL Software Engineering	Visual Weather	"A security vulnerability has been identified in the IBL Software Engineering Visual Weather and derived products (NAMIS, Aero Weather, Satellite Weather).†The vulnerability is present in the Product Delivery Service (PDS) component in specific server configurations where the PDS pipeline utilizes the IPDS pipeline with Message Editor Output Filters enabled.
+
+A remote†unauthenticated
+
+attacker can exploit this vulnerability to send unauthenticated requests to execute the IPDS†pipeline†with specially crafted Form Properties, enabling remote execution of arbitrary Python code.†This vulnerability could lead to a full system compromise of the affected server, particularly if Visual Weather services†are run under a privileged user accountócontrary to the documented installation best practices.
 
 
 
@@ -617,8 +617,8 @@ Upgrade to the patched versions 7.3.10 (or higher), 8.6.0 (or higher)."	hot
 CVE-2025-0158	IBM	EntireX	IBM EntireX 11.1 could allow a local user to cause a denial of service due to an unhandled error and fault isolation.	hot
 CVE-2025-23019	IETF	IPv6	IPv6-in-IPv4 tunneling (RFC 4213) allows an attacker to spoof and route traffic via an exposed network interface.	hot
 CVE-2025-23018	IETF	IPv6	"IPv4-in-IPv6 and IPv6-in-IPv6 tunneling (RFC 2473) do not require the validation or verification of the source of a network packet, allowing an attacker to spoof and route arbitrary traffic via an exposed network interface. This is a similar issue to CVE-2020-10136."	hot
-CVE-2025-1108	Impronta	Janto	"Insufficient data authenticity verification vulnerability in Janto, versions prior to r12. This allows an unauthenticated attacker to modify the content of emails sent to reset the password. To exploit the vulnerability, the attacker must create a POST request by injecting malicious content into the ‚ÄòXml‚Äô parameter on the ‚Äò/public/cgi/Gateway.php‚Äô endpoint."	hot
-CVE-2025-1107	Impronta	Janto	"Unverified password change vulnerability in Janto, versions prior to r12. This could allow an unauthenticated attacker to change another user's password without knowing their current password. To exploit the vulnerability, the attacker must create a specific POST request and send it to the endpoint ‚Äò/public/cgi/Gateway.php‚Äô."	hot
+CVE-2025-1108	Impronta	Janto	"Insufficient data authenticity verification vulnerability in Janto, versions prior to r12. This allows an unauthenticated attacker to modify the content of emails sent to reset the password. To exploit the vulnerability, the attacker must create a POST request by injecting malicious content into the ëXmlí parameter on the ë/public/cgi/Gateway.phpí endpoint."	hot
+CVE-2025-1107	Impronta	Janto	"Unverified password change vulnerability in Janto, versions prior to r12. This could allow an unauthenticated attacker to change another user's password without knowing their current password. To exploit the vulnerability, the attacker must create a specific POST request and send it to the endpoint ë/public/cgi/Gateway.phpí."	hot
 CVE-2025-23953	Innovative Solutions	user files	Unrestricted Upload of File with Dangerous Type vulnerability in Innovative Solutions user files allows Upload a Web Shell to a Web Server. This issue affects user files: from n/a through 2.4.2.	hot
 CVE-2025-20617	"I-O DATA DEVICE, INC."	UD-LT2	"Improper neutralization of special elements used in an OS command ('OS Command Injection') issue exists in UD-LT2 firmware Ver.1.00.008_SE and earlier. If this vulnerability is exploited, an arbitrary OS command may be executed by an attacker who can access the affected product with an administrative account."	hot
 CVE-2025-23237	"I-O DATA DEVICE, INC."	UD-LT2	"Improper neutralization of special elements used in an OS command ('OS Command Injection') issue exists in UD-LT2 firmware Ver.1.00.008_SE and earlier. If a user logs in to CLI of the affected product, an arbitrary OS command may be executed."	hot
@@ -639,30 +639,30 @@ CVE-2025-22209	joomsky.com	JS Jobs component for Joomla	A SQL injection vulnerab
 CVE-2025-22208	joomsky.com	JS Jobs component for Joomla	A SQL injection vulnerability in the JS Jobs plugin versions 1.1.5-1.4.3 for Joomla allows authenticated attackers (administrator) to execute arbitrary SQL commands via the 'filter_email' parameter in the GDPR Erase Data Request search feature.	hot
 CVE-2025-22206	joomsky.com	JS Jobs component for Joomla	A SQL injection vulnerability in the JS Jobs plugin versions 1.1.5-1.4.2 for Joomla allows authenticated attackers (administrator) to execute arbitrary SQL commands via the 'fieldfor' parameter in the GDPR Field feature.	hot
 CVE-2025-22504	jumpdemand	4ECPS Web Forms	Unrestricted Upload of File with Dangerous Type vulnerability in jumpdemand 4ECPS Web Forms allows Upload a Web Shell to a Web Server.This issue affects 4ECPS Web Forms: from n/a through 0.2.18.	hot
-CVE-2025-21598	Juniper Networks	Junos OS	"An¬†Out-of-bounds Read vulnerability in Juniper Networks Junos OS and Junos OS Evolved's routing protocol daemon (rpd) allows an unauthenticated, network-based attacker to send¬†malformed BGP packets to a device configured with packet receive trace options enabled to crash rpd.
+CVE-2025-21598	Juniper Networks	Junos OS	"An†Out-of-bounds Read vulnerability in Juniper Networks Junos OS and Junos OS Evolved's routing protocol daemon (rpd) allows an unauthenticated, network-based attacker to send†malformed BGP packets to a device configured with packet receive trace options enabled to crash rpd.
 This issue affects:
 
-Junos OS:¬†
+Junos OS:†
 
 
 
-  *  from 21.2R3-S8 before 21.2R3-S9,¬†
-  *  from 21.4R3-S7 before 21.4R3-S9,¬†
-  *  from 22.2R3-S4 before 22.2R3-S5,¬†
-  *  from 22.3R3-S2 before 22.3R3-S4,¬†
-  *  from 22.4R3 before 22.4R3-S5,¬†
-  *  from 23.2R2 before 23.2R2-S2,¬†
-  *  from 23.4R1 before 23.4R2-S1,¬†
+  *  from 21.2R3-S8 before 21.2R3-S9,†
+  *  from 21.4R3-S7 before 21.4R3-S9,†
+  *  from 22.2R3-S4 before 22.2R3-S5,†
+  *  from 22.3R3-S2 before 22.3R3-S4,†
+  *  from 22.4R3 before 22.4R3-S5,†
+  *  from 23.2R2 before 23.2R2-S2,†
+  *  from 23.4R1 before 23.4R2-S1,†
   *  from 24.2R1 before 24.2R1-S1, 24.2R2.
 
 
 Junos OS Evolved:
-  *  from 21.4R3-S7-EVO before 21.4R3-S9-EVO,¬†
-  *  from 22.2R3-S4-EVO before 22.2R3-S5-EVO,¬†
-  *  from 22.3R3-S2-EVO before 22.3R3-S4-EVO,¬†
-  *  from 22.4R3-EVO before 22.4R3-S5-EVO,¬†
-  *  from 23.2R2-EVO before 23.2R2-S2-EVO,¬†
-  *  from 23.4R1-EVO before 23.4R2-S1-EVO,¬†
+  *  from 21.4R3-S7-EVO before 21.4R3-S9-EVO,†
+  *  from 22.2R3-S4-EVO before 22.2R3-S5-EVO,†
+  *  from 22.3R3-S2-EVO before 22.3R3-S4-EVO,†
+  *  from 22.4R3-EVO before 22.4R3-S5-EVO,†
+  *  from 23.2R2-EVO before 23.2R2-S2-EVO,†
+  *  from 23.4R1-EVO before 23.4R2-S1-EVO,†
   *  from 24.2R1-EVO before 24.2R1-S2-EVO, 24.2R2-EVO.
 
 
@@ -677,66 +677,66 @@ This issue affects IPv4 and IPv6.
 An indicator of compromise may be the presence of malformed update messages in a neighboring AS which is unaffected by this issue:
 
 For example, by issuing the command on the neighboring device:
-¬†show log messages
+†show log messages
 
 Reviewing for similar messages from devices within proximity to each other may indicate this malformed packet is propagating:
-¬† rpd[<pid>]: Received malformed update from <IP address> (External AS <AS#>)
+† rpd[<pid>]: Received malformed update from <IP address> (External AS <AS#>)
 and
-¬† rpd[<pid>]: Malformed Attribute"	hot
+† rpd[<pid>]: Malformed Attribute"	hot
 CVE-2025-21596	Juniper Networks	Junos OS	"An Improper Handling of Exceptional Conditions vulnerability in the command-line processing of Juniper Networks Junos OS on SRX1500, SRX4100, and SRX4200 devices allows a local, low-privileged authenticated attacker executing the 'show chassis environment pem' command to cause the chassis daemon (chassisd) to crash and restart, resulting in a temporary Denial of Service (DoS). However, repeated execution of this command will eventually cause the chassisd process to fail to restart, impacting packet processing on the system.
 
-This issue affects Junos OS on SRX1500, SRX4100, SRX4200:¬†
+This issue affects Junos OS on SRX1500, SRX4100, SRX4200:†
 
 
 
-  *  All versions before 21.4R3-S9,¬†
-  *  from 22.2 before 22.2R3-S5,¬†
-  *  from 22.3 before 22.3R3-S4,¬†
-  *  from 22.4 before 22.4R3-S4,¬†
-  *  from 23.2 before 23.2R2-S3,¬†
+  *  All versions before 21.4R3-S9,†
+  *  from 22.2 before 22.2R3-S5,†
+  *  from 22.3 before 22.3R3-S4,†
+  *  from 22.4 before 22.4R3-S4,†
+  *  from 23.2 before 23.2R2-S3,†
   *  from 23.4 before 23.4R2-S1."	hot
-CVE-2025-21599	Juniper Networks	Junos OS Evolved	"A¬†Missing Release of Memory after Effective Lifetime vulnerability in the Juniper Tunnel Driver (jtd) of Juniper Networks Junos OS Evolved allows an unauthenticated network-based attacker to cause Denial of Service.¬†
+CVE-2025-21599	Juniper Networks	Junos OS Evolved	"A†Missing Release of Memory after Effective Lifetime vulnerability in the Juniper Tunnel Driver (jtd) of Juniper Networks Junos OS Evolved allows an unauthenticated network-based attacker to cause Denial of Service.†
 
-Receipt of specifically malformed IPv6 packets, destined to the device, causes kernel memory to not be freed, resulting in memory exhaustion leading to a system crash and Denial of Service (DoS).¬†Continuous receipt and processing of these packets will continue to exhaust kernel memory, creating a sustained Denial of Service (DoS) condition.
+Receipt of specifically malformed IPv6 packets, destined to the device, causes kernel memory to not be freed, resulting in memory exhaustion leading to a system crash and Denial of Service (DoS).†Continuous receipt and processing of these packets will continue to exhaust kernel memory, creating a sustained Denial of Service (DoS) condition.
 This issue only affects systems configured with IPv6.
 
-This issue affects Junos OS Evolved:¬†
+This issue affects Junos OS Evolved:†
 
 
 
-  *  from 22.4-EVO before 22.4R3-S5-EVO,¬†
-  *  from 23.2-EVO before 23.2R2-S2-EVO,¬†
-  *  from 23.4-EVO before 23.4R2-S2-EVO,¬†
+  *  from 22.4-EVO before 22.4R3-S5-EVO,†
+  *  from 23.2-EVO before 23.2R2-S2-EVO,†
+  *  from 23.4-EVO before 23.4R2-S2-EVO,†
   *  from 24.2-EVO before 24.2R1-S2-EVO, 24.2R2-EVO.
 
 
 
 
 This issue does not affect Juniper Networks Junos OS Evolved versions prior to 22.4R1-EVO."	hot
-CVE-2025-21598	Juniper Networks	Junos OS Evolved	"An¬†Out-of-bounds Read vulnerability in Juniper Networks Junos OS and Junos OS Evolved's routing protocol daemon (rpd) allows an unauthenticated, network-based attacker to send¬†malformed BGP packets to a device configured with packet receive trace options enabled to crash rpd.
+CVE-2025-21598	Juniper Networks	Junos OS Evolved	"An†Out-of-bounds Read vulnerability in Juniper Networks Junos OS and Junos OS Evolved's routing protocol daemon (rpd) allows an unauthenticated, network-based attacker to send†malformed BGP packets to a device configured with packet receive trace options enabled to crash rpd.
 This issue affects:
 
-Junos OS:¬†
+Junos OS:†
 
 
 
-  *  from 21.2R3-S8 before 21.2R3-S9,¬†
-  *  from 21.4R3-S7 before 21.4R3-S9,¬†
-  *  from 22.2R3-S4 before 22.2R3-S5,¬†
-  *  from 22.3R3-S2 before 22.3R3-S4,¬†
-  *  from 22.4R3 before 22.4R3-S5,¬†
-  *  from 23.2R2 before 23.2R2-S2,¬†
-  *  from 23.4R1 before 23.4R2-S1,¬†
+  *  from 21.2R3-S8 before 21.2R3-S9,†
+  *  from 21.4R3-S7 before 21.4R3-S9,†
+  *  from 22.2R3-S4 before 22.2R3-S5,†
+  *  from 22.3R3-S2 before 22.3R3-S4,†
+  *  from 22.4R3 before 22.4R3-S5,†
+  *  from 23.2R2 before 23.2R2-S2,†
+  *  from 23.4R1 before 23.4R2-S1,†
   *  from 24.2R1 before 24.2R1-S1, 24.2R2.
 
 
 Junos OS Evolved:
-  *  from 21.4R3-S7-EVO before 21.4R3-S9-EVO,¬†
-  *  from 22.2R3-S4-EVO before 22.2R3-S5-EVO,¬†
-  *  from 22.3R3-S2-EVO before 22.3R3-S4-EVO,¬†
-  *  from 22.4R3-EVO before 22.4R3-S5-EVO,¬†
-  *  from 23.2R2-EVO before 23.2R2-S2-EVO,¬†
-  *  from 23.4R1-EVO before 23.4R2-S1-EVO,¬†
+  *  from 21.4R3-S7-EVO before 21.4R3-S9-EVO,†
+  *  from 22.2R3-S4-EVO before 22.2R3-S5-EVO,†
+  *  from 22.3R3-S2-EVO before 22.3R3-S4-EVO,†
+  *  from 22.4R3-EVO before 22.4R3-S5-EVO,†
+  *  from 23.2R2-EVO before 23.2R2-S2-EVO,†
+  *  from 23.4R1-EVO before 23.4R2-S1-EVO,†
   *  from 24.2R1-EVO before 24.2R1-S2-EVO, 24.2R2-EVO.
 
 
@@ -751,12 +751,12 @@ This issue affects IPv4 and IPv6.
 An indicator of compromise may be the presence of malformed update messages in a neighboring AS which is unaffected by this issue:
 
 For example, by issuing the command on the neighboring device:
-¬†show log messages
+†show log messages
 
 Reviewing for similar messages from devices within proximity to each other may indicate this malformed packet is propagating:
-¬† rpd[<pid>]: Received malformed update from <IP address> (External AS <AS#>)
+† rpd[<pid>]: Received malformed update from <IP address> (External AS <AS#>)
 and
-¬† rpd[<pid>]: Malformed Attribute"	hot
+† rpd[<pid>]: Malformed Attribute"	hot
 CVE-2025-23207	KaTeX	KaTeX	"KaTeX is a fast, easy-to-use JavaScript library for TeX math rendering on the web. KaTeX users who render untrusted mathematical expressions with `renderToString` could encounter malicious input using `\htmlData` that runs arbitrary JavaScript, or generate invalid HTML. Users are advised to upgrade to KaTeX v0.16.21 to remove this vulnerability. Users unable to upgrade should avoid use of or turn off the `trust` option, or set it to forbid `\htmlData` commands, forbid inputs containing the substring `""\\htmlData""` and sanitize HTML output from KaTeX."	hot
 CVE-2025-1028	kleor	Contact Manager	"The Contact Manager plugin for WordPress is vulnerable to arbitrary file uploads due to missing file type validation in the contact form upload feature in all versions up to, and including, 8.6.4. This makes it possible for unauthenticated attackers to upload arbitrary files on the affected site's server which may make remote code execution possible in specific configurations where the first extension is processed over the final. This vulnerability also requires successfully exploiting a race condition in order to exploit."	hot
 CVE-2025-22510	Konrad Karpieszuk	WC Price History for Omnibus	Deserialization of Untrusted Data vulnerability in Konrad Karpieszuk WC Price History for Omnibus allows Object Injection.This issue affects WC Price History for Omnibus: from n/a through 2.1.4.	hot
@@ -1089,7 +1089,7 @@ CVE-2025-0619	M-Files Corporation	M-Files Server	Unsafe password recovery from c
 CVE-2025-0635	M-Files Corporation	M-Files Server	"Denial of service condition in M-Files Server in versions before 
 
 25.1.14445.5 allows an unauthenticated user to consume computing resources in certain conditions."	hot
-CVE-2025-1002	MicroDicom	DICOM Viewer	"MicroDicom DICOM Viewer¬†version 2024.03
+CVE-2025-1002	MicroDicom	DICOM Viewer	"MicroDicom DICOM Viewer†version 2024.03
 
 fails to adequately verify the update server's certificate, which could make it possible for attackers in a privileged network position to alter network traffic and carry out a machine-in-the-middle (MITM) attack. This allows the attackers to modify the server's response and deliver a malicious update to the user."	hot
 CVE-2025-21415	Microsoft	Azure AI Face Service		hot
@@ -1450,7 +1450,7 @@ CVE-2025-1010	Mozilla	Thunderbird	"An attacker could have caused a use-after-fre
 CVE-2025-1017	Mozilla	Thunderbird	"Memory safety bugs present in Firefox 134, Thunderbird 134, Firefox ESR 128.6, and Thunderbird 128.6. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability affects Firefox < 135, Firefox ESR < 128.7, Thunderbird < 128.7, and Thunderbird < 135."	hot
 CVE-2025-1020	Mozilla	Thunderbird	Memory safety bugs present in Firefox 134 and Thunderbird 134. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability affects Firefox < 135 and Thunderbird < 135.	hot
 CVE-2025-1016	Mozilla	Thunderbird	"Memory safety bugs present in Firefox 134, Thunderbird 134, Firefox ESR 115.19, Firefox ESR 128.6, Thunderbird 115.19, and Thunderbird 128.6. Some of these bugs showed evidence of memory corruption and we presume that with enough effort some of these could have been exploited to run arbitrary code. This vulnerability affects Firefox < 135, Firefox ESR < 115.20, Firefox ESR < 128.7, Thunderbird < 128.7, and Thunderbird < 135."	hot
-CVE-2025-1015	Mozilla	Thunderbird	"The Thunderbird Address Book URI fields contained unsanitized links. This could be used by an attacker to create and export an address book containing a malicious payload in a field. For example, in the ‚ÄúOther‚Äù field of the Instant Messaging section. If another user imported the address book, clicking on the link could result in opening a web page inside Thunderbird, and that page could execute (unprivileged) JavaScript. This vulnerability affects Thunderbird < 128.7."	hot
+CVE-2025-1015	Mozilla	Thunderbird	"The Thunderbird Address Book URI fields contained unsanitized links. This could be used by an attacker to create and export an address book containing a malicious payload in a field. For example, in the ìOtherî field of the Instant Messaging section. If another user imported the address book, clicking on the link could result in opening a web page inside Thunderbird, and that page could execute (unprivileged) JavaScript. This vulnerability affects Thunderbird < 128.7."	hot
 CVE-2025-1019	Mozilla	Thunderbird	The z-order of the browser windows could be manipulated to hide the fullscreen notification. This could potentially be leveraged to perform a spoofing attack. This vulnerability affects Firefox < 135 and Thunderbird < 135.	hot
 CVE-2025-1018	Mozilla	Thunderbird	The fullscreen notification is prematurely hidden when fullscreen is re-requested quickly by the user. This could have been leveraged to perform a potential spoofing attack. This vulnerability affects Firefox < 135 and Thunderbird < 135.	hot
 CVE-2025-1014	Mozilla	Thunderbird	"Certificate length was not properly checked when added to a certificate store. In practice only trusted data was processed. This vulnerability affects Firefox < 135, Firefox ESR < 128.7, Thunderbird < 128.7, and Thunderbird < 135."	hot
@@ -1544,7 +1544,7 @@ CVE-2025-22968			An issue in D-Link DWR-M972V 1.05SSG allows a remote attacker t
 CVE-2025-22912			RE11S v1.11 was discovered to contain a command injection vulnerability via the component /goform/formAccept.	hot
 CVE-2025-22904			RE11S v1.11 was discovered to contain a stack overflow via the pptpUserName parameter in the setWAN function.	hot
 CVE-2025-22949			"Tenda ac9 v1.0 firmware v15.03.05.19 is vulnerable to command injection in /goform/SetSambaCfg, which may lead to remote arbitrary code execution."	hot
-CVE-2025-22217		VMware AVI Load Balancer	"Avi Load Balancer contains an unauthenticated blind SQL Injection vulnerability which was privately reported to VMware. Patches are available to remediate this vulnerability in affected VMware products.¬†
+CVE-2025-22217		VMware AVI Load Balancer	"Avi Load Balancer contains an unauthenticated blind SQL Injection vulnerability which was privately reported to VMware. Patches are available to remediate this vulnerability in affected VMware products.†
 
 A malicious user with network access may be able to use specially crafted SQL queries to gain database access."	hot
 CVE-2025-22505	Nabaraj Chapagain	NC Wishlist for Woocommerce	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Nabaraj Chapagain NC Wishlist for Woocommerce allows SQL Injection.This issue affects NC Wishlist for Woocommerce: from n/a through 1.0.1.	hot
@@ -1711,13 +1711,13 @@ CVE-2025-25281	Outback Power	Mojave Inverter	An attacker may modify the URL to d
 CVE-2025-24861	Outback Power	Mojave Inverter	An attacker may inject commands via specially-crafted post requests.	hot
 CVE-2025-26473	Outback Power	Mojave Inverter	The Mojave Inverter uses the GET method for sensitive information.	hot
 CVE-2025-0103	Palo Alto Networks	Cloud NGFW	"An SQL injection vulnerability in Palo Alto Networks Expedition enables an authenticated attacker to reveal Expedition database contents, such as password hashes, usernames, device configurations, and device API keys. This vulnerability also enables attackers to create and read arbitrary files on the Expedition system."	hot
-CVE-2025-0104	Palo Alto Networks	Cloud NGFW	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition user‚Äôs browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
+CVE-2025-0104	Palo Alto Networks	Cloud NGFW	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition userís browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
 CVE-2025-0108	Palo Alto Networks	Cloud NGFW	"An authentication bypass in the Palo Alto Networks PAN-OS software enables an unauthenticated attacker with network access to the management web interface to bypass the authentication otherwise required by the PAN-OS management web interface and invoke certain PHP scripts. While invoking these PHP scripts does not enable remote code execution, it can negatively impact integrity and confidentiality of PAN-OS.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
-CVE-2025-0109	Palo Alto Networks	Cloud NGFW	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ‚Äúnobody‚Äù user; this includes limited logs and configuration files but does not include system files.
+CVE-2025-0109	Palo Alto Networks	Cloud NGFW	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ìnobodyî user; this includes limited logs and configuration files but does not include system files.
 
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
@@ -1725,7 +1725,7 @@ You can greatly reduce the risk of this issue by restricting access to the manag
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
 CVE-2025-0105	Palo Alto Networks	Cloud NGFW	An arbitrary file deletion vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to delete arbitrary files accessible to the www-data user on the host filesystem.	hot
 CVE-2025-0106	Palo Alto Networks	Cloud NGFW	A wildcard expansion vulnerability in Palo Alto Networks Expedition allows an unauthenticated attacker to enumerate files on the host filesystem.	hot
-CVE-2025-0111	Palo Alto Networks	Cloud NGFW	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ‚Äúnobody‚Äù user.
+CVE-2025-0111	Palo Alto Networks	Cloud NGFW	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ìnobodyî user.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
@@ -1735,23 +1735,23 @@ This issue does not affect Cloud NGFW or Prisma Access software."	hot
 CVE-2025-0107	Palo Alto Networks	Cloud NGFW	"An OS command injection vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to run arbitrary OS commands as the www-data user in Expedition, which results in the disclosure of usernames, cleartext passwords, device configurations, and device API keys for firewalls running PAN-OS software."	hot
 CVE-2025-0113	Palo Alto Networks	Cortex XDR Broker VM	A problem with the network isolation mechanism of the Palo Alto Networks Cortex XDR Broker VM allows attackers unauthorized access to Docker containers from the host network used by Broker VM. This may allow access to read files sent for analysis and logs transmitted by the Cortex XDR Agent to the Cortex XDR server.	hot
 CVE-2025-0103	Palo Alto Networks	Expedition	"An SQL injection vulnerability in Palo Alto Networks Expedition enables an authenticated attacker to reveal Expedition database contents, such as password hashes, usernames, device configurations, and device API keys. This vulnerability also enables attackers to create and read arbitrary files on the Expedition system."	hot
-CVE-2025-0104	Palo Alto Networks	Expedition	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition user‚Äôs browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
+CVE-2025-0104	Palo Alto Networks	Expedition	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition userís browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
 CVE-2025-0105	Palo Alto Networks	Expedition	An arbitrary file deletion vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to delete arbitrary files accessible to the www-data user on the host filesystem.	hot
 CVE-2025-0106	Palo Alto Networks	Expedition	A wildcard expansion vulnerability in Palo Alto Networks Expedition allows an unauthenticated attacker to enumerate files on the host filesystem.	hot
 CVE-2025-0107	Palo Alto Networks	Expedition	"An OS command injection vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to run arbitrary OS commands as the www-data user in Expedition, which results in the disclosure of usernames, cleartext passwords, device configurations, and device API keys for firewalls running PAN-OS software."	hot
 CVE-2025-0103	Palo Alto Networks	Panorama	"An SQL injection vulnerability in Palo Alto Networks Expedition enables an authenticated attacker to reveal Expedition database contents, such as password hashes, usernames, device configurations, and device API keys. This vulnerability also enables attackers to create and read arbitrary files on the Expedition system."	hot
-CVE-2025-0104	Palo Alto Networks	Panorama	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition user‚Äôs browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
+CVE-2025-0104	Palo Alto Networks	Panorama	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition userís browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
 CVE-2025-0105	Palo Alto Networks	Panorama	An arbitrary file deletion vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to delete arbitrary files accessible to the www-data user on the host filesystem.	hot
 CVE-2025-0106	Palo Alto Networks	Panorama	A wildcard expansion vulnerability in Palo Alto Networks Expedition allows an unauthenticated attacker to enumerate files on the host filesystem.	hot
 CVE-2025-0107	Palo Alto Networks	Panorama	"An OS command injection vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to run arbitrary OS commands as the www-data user in Expedition, which results in the disclosure of usernames, cleartext passwords, device configurations, and device API keys for firewalls running PAN-OS software."	hot
 CVE-2025-0103	Palo Alto Networks	PAN-OS	"An SQL injection vulnerability in Palo Alto Networks Expedition enables an authenticated attacker to reveal Expedition database contents, such as password hashes, usernames, device configurations, and device API keys. This vulnerability also enables attackers to create and read arbitrary files on the Expedition system."	hot
-CVE-2025-0104	Palo Alto Networks	PAN-OS	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition user‚Äôs browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
+CVE-2025-0104	Palo Alto Networks	PAN-OS	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition userís browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
 CVE-2025-0108	Palo Alto Networks	PAN-OS	"An authentication bypass in the Palo Alto Networks PAN-OS software enables an unauthenticated attacker with network access to the management web interface to bypass the authentication otherwise required by the PAN-OS management web interface and invoke certain PHP scripts. While invoking these PHP scripts does not enable remote code execution, it can negatively impact integrity and confidentiality of PAN-OS.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
-CVE-2025-0109	Palo Alto Networks	PAN-OS	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ‚Äúnobody‚Äù user; this includes limited logs and configuration files but does not include system files.
+CVE-2025-0109	Palo Alto Networks	PAN-OS	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ìnobodyî user; this includes limited logs and configuration files but does not include system files.
 
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
@@ -1759,7 +1759,7 @@ You can greatly reduce the risk of this issue by restricting access to the manag
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
 CVE-2025-0105	Palo Alto Networks	PAN-OS	An arbitrary file deletion vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to delete arbitrary files accessible to the www-data user on the host filesystem.	hot
 CVE-2025-0106	Palo Alto Networks	PAN-OS	A wildcard expansion vulnerability in Palo Alto Networks Expedition allows an unauthenticated attacker to enumerate files on the host filesystem.	hot
-CVE-2025-0111	Palo Alto Networks	PAN-OS	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ‚Äúnobody‚Äù user.
+CVE-2025-0111	Palo Alto Networks	PAN-OS	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ìnobodyî user.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
@@ -1767,17 +1767,17 @@ You can greatly reduce the risk of this issue by restricting access to the manag
 
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
 CVE-2025-0107	Palo Alto Networks	PAN-OS	"An OS command injection vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to run arbitrary OS commands as the www-data user in Expedition, which results in the disclosure of usernames, cleartext passwords, device configurations, and device API keys for firewalls running PAN-OS software."	hot
-CVE-2025-0110	Palo Alto Networks	PAN-OS OpenConfig Plugin	"A command injection vulnerability in the Palo Alto Networks PAN-OS OpenConfig plugin enables an authenticated administrator with the ability to make gNMI requests to the PAN-OS management web interface to bypass system restrictions and run arbitrary commands. The commands are run as the ‚Äú__openconfig‚Äù user (which has the Device Administrator role) on the firewall.
+CVE-2025-0110	Palo Alto Networks	PAN-OS OpenConfig Plugin	"A command injection vulnerability in the Palo Alto Networks PAN-OS OpenConfig plugin enables an authenticated administrator with the ability to make gNMI requests to the PAN-OS management web interface to bypass system restrictions and run arbitrary commands. The commands are run as the ì__openconfigî user (which has the Device Administrator role) on the firewall.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 ."	hot
 CVE-2025-0103	Palo Alto Networks	Prisma Access	"An SQL injection vulnerability in Palo Alto Networks Expedition enables an authenticated attacker to reveal Expedition database contents, such as password hashes, usernames, device configurations, and device API keys. This vulnerability also enables attackers to create and read arbitrary files on the Expedition system."	hot
-CVE-2025-0104	Palo Alto Networks	Prisma Access	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition user‚Äôs browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
+CVE-2025-0104	Palo Alto Networks	Prisma Access	A reflected cross-site scripting (XSS) vulnerability in Palo Alto Networks Expedition enables attackers to execute malicious JavaScript code in the context of an authenticated Expedition userís browser if that authenticated user clicks a malicious link that allows phishing attacks and could lead to Expedition browser-session theft.	hot
 CVE-2025-0108	Palo Alto Networks	Prisma Access	"An authentication bypass in the Palo Alto Networks PAN-OS software enables an unauthenticated attacker with network access to the management web interface to bypass the authentication otherwise required by the PAN-OS management web interface and invoke certain PHP scripts. While invoking these PHP scripts does not enable remote code execution, it can negatively impact integrity and confidentiality of PAN-OS.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
-CVE-2025-0109	Palo Alto Networks	Prisma Access	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ‚Äúnobody‚Äù user; this includes limited logs and configuration files but does not include system files.
+CVE-2025-0109	Palo Alto Networks	Prisma Access	"An unauthenticated file deletion vulnerability in the Palo Alto Networks PAN-OS management web interface enables an unauthenticated attacker with network access to the management web interface to delete certain files as the ìnobodyî user; this includes limited logs and configuration files but does not include system files.
 
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
@@ -1785,7 +1785,7 @@ You can greatly reduce the risk of this issue by restricting access to the manag
 This issue does not affect Cloud NGFW or Prisma Access software."	hot
 CVE-2025-0105	Palo Alto Networks	Prisma Access	An arbitrary file deletion vulnerability in Palo Alto Networks Expedition enables an unauthenticated attacker to delete arbitrary files accessible to the www-data user on the host filesystem.	hot
 CVE-2025-0106	Palo Alto Networks	Prisma Access	A wildcard expansion vulnerability in Palo Alto Networks Expedition allows an unauthenticated attacker to enumerate files on the host filesystem.	hot
-CVE-2025-0111	Palo Alto Networks	Prisma Access	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ‚Äúnobody‚Äù user.
+CVE-2025-0111	Palo Alto Networks	Prisma Access	"An authenticated file read vulnerability in the Palo Alto Networks PAN-OS software enables an authenticated attacker with network access to the management web interface to read files on the PAN-OS filesystem that are readable by the ìnobodyî user.
 
 You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431 .
 
@@ -1836,9 +1836,9 @@ CVE-2025-0910	PDF-XChange	PDF-XChange Editor	"PDF-XChange Editor U3D File Parsin
 The specific flaw exists within the parsing of U3D files. The issue results from the lack of proper validation of user-supplied data, which can result in a write  past the end of an allocated object. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-25748."	hot
 CVE-2025-22131	PHPOffice	PhpSpreadsheet	PhpSpreadsheet is a PHP library for reading and writing spreadsheet files. Cross-Site Scripting (XSS) vulnerability in the code which translates the XLSX file into a HTML representation and displays it in the response.	hot
 CVE-2025-0471	PMB Services	PMB platform	"Unrestricted file upload vulnerability in the PMB platform, affecting versions 4.0.10 and above. This vulnerability could allow an attacker to upload a file to gain remote access to the machine, being able to access, modify and execute commands freely."	hot
-CVE-2025-0473	PMB Services	PMB platform	"Vulnerability in the PMB platform that allows an attacker to persist temporary files on the server, affecting versions 4.0.10 and above. This vulnerability exists in the file upload functionality on the ‚Äò/pmb/authorities/import/iimport_authorities‚Äô endpoint. When a file is uploaded via this resource, the server will create a temporary file that will be deleted after the client sends a POST request to ‚Äò/pmb/authorities/import/iimport_authorities‚Äô. This workflow is automated by the web client, however an attacker can trap and launch the second POST request to prevent the temporary file from being deleted."	hot
-CVE-2025-0332	Progress Software	Progress¬Æ Telerik¬Æ UI for WinForms	"In Progress¬Æ Telerik¬Æ UI for WinForms, versions prior to 2025 Q1 (2025.1.211), using the improper limitation of a target path can lead to decompressing an archive's content into a restricted directory."	hot
-CVE-2025-0556	Progress Software	Telerik Report Server	"In Progress¬Æ Telerik¬Æ Report Server, versions prior to 2025 Q1 (11.0.25.211) when using the older .NET Framework implementation, communication of non-sensitive information between the service agent process and app host process occurs over an unencrypted tunnel, which can be subjected to local network traffic sniffing."	hot
+CVE-2025-0473	PMB Services	PMB platform	"Vulnerability in the PMB platform that allows an attacker to persist temporary files on the server, affecting versions 4.0.10 and above. This vulnerability exists in the file upload functionality on the ë/pmb/authorities/import/iimport_authoritiesí endpoint. When a file is uploaded via this resource, the server will create a temporary file that will be deleted after the client sends a POST request to ë/pmb/authorities/import/iimport_authoritiesí. This workflow is automated by the web client, however an attacker can trap and launch the second POST request to prevent the temporary file from being deleted."	hot
+CVE-2025-0332	Progress Software	ProgressÆ TelerikÆ UI for WinForms	"In ProgressÆ TelerikÆ UI for WinForms, versions prior to 2025 Q1 (2025.1.211), using the improper limitation of a target path can lead to decompressing an archive's content into a restricted directory."	hot
+CVE-2025-0556	Progress Software	Telerik Report Server	"In ProgressÆ TelerikÆ Report Server, versions prior to 2025 Q1 (11.0.25.211) when using the older .NET Framework implementation, communication of non-sensitive information between the service agent process and app host process occurs over an unencrypted tunnel, which can be subjected to local network traffic sniffing."	hot
 CVE-2025-24885	pwncollege	dojo	"pwn.college is an education platform to learn about, and practice, core cybersecurity concepts in a hands-on fashion. Missing access control on rendering custom (unprivileged) dojo pages causes ability for users to create stored XSS."	hot
 CVE-2025-24886	pwncollege	dojo	"pwn.college is an education platform to learn about, and practice, core cybersecurity concepts in a hands-on fashion. Incorrect symlink checks on user specified dojos allows for users (admin not required) to perform an LFI from the CTFd container. When a user clones or updates repositories, a check is performed to see if the repository had contained any symlinks. A malicious user could craft a repository with symlinks pointed to sensitive files and then retrieve them using the CTFd website."	hot
 CVE-2025-24836	Qardio	Heart Health Android Mobile Application	"With a specially crafted Python script, an attacker could send 
@@ -1907,25 +1907,25 @@ CVE-2025-1102	Q-Free	MaxTime	"A CWE-346 ""Origin Validation Error"" in the CORS 
 CVE-2025-1101	Q-Free	MaxTime	"A CWE-204 ""Observable Response Discrepancy"" in the login page in Q-Free MaxTime less than or equal to version 2.11.0 allows an unauthenticated remote attacker to enumerate valid usernames via crafted HTTP requests."	hot
 CVE-2025-1100	Q-Free	MaxTime	"A CWE-259 ""Use of Hard-coded Password"" for the root account in Q-Free MaxTime less than or equal to version 2.11.0 allows an unauthenticated remote attacker to execute arbitrary code with root privileges via SSH."	hot
 CVE-2025-0614	Qualifio	Wheel of fortune	Input validation vulnerability in Qualifio's Wheel of Fortune. This vulnerability could allow an attacker to modify a single email to contain upper and lower case characters in order to access the application and win prizes as many times as wanted.	hot
-CVE-2025-0615	Qualifio	Wheel of fortune	Input validation vulnerability in Qualifio's Wheel of Fortune. This vulnerability allows an attacker to modify an email to contain the ‚Äò+‚Äô symbol to access the application and win prizes as many times as wanted.	hot
+CVE-2025-0615	Qualifio	Wheel of fortune	Input validation vulnerability in Qualifio's Wheel of Fortune. This vulnerability allows an attacker to modify an email to contain the ë+í symbol to access the application and win prizes as many times as wanted.	hot
 CVE-2025-1144	Quanxun	School Affairs System	"School Affairs System from Quanxun has an Exposure of Sensitive Information, allowing unauthenticated attackers to view specific pages and obtain database information as well as plaintext administrator credentials."	hot
 CVE-2025-0650	Red Hat	Fast Datapath for Red Hat Enterprise Linux 8	A flaw was found in the Open Virtual Network (OVN). Specially crafted UDP packets may bypass egress access control lists (ACLs) in OVN installations configured with a logical switch with DNS records set on it and if the same switch has any egress ACLs configured. This issue can lead to unauthorized access to virtual machines and containers running on the OVN network.	hot
 CVE-2025-0650	Red Hat	Fast Datapath for Red Hat Enterprise Linux 9	A flaw was found in the Open Virtual Network (OVN). Specially crafted UDP packets may bypass egress access control lists (ACLs) in OVN installations configured with a logical switch with DNS records set on it and if the same switch has any egress ACLs configured. This issue can lead to unauthorized access to virtual machines and containers running on the OVN network.	hot
 CVE-2025-0750	Red Hat	Red Hat OpenShift Container Platform 4.17	"A vulnerability was found in CRI-O. A path traversal issue in the log management functions (UnMountPodLogs and LinkContainerLogs) may allow an attacker with permissions to create and delete Pods to unmount arbitrary host paths, leading to node-level denial of service by unmounting critical system directories."	hot
 CVE-2025-22204	regularlabs.com	Sourcerer for Joomla	Improper control of generation of code in the sourcerer extension for Joomla in versions before 11.0.0 lead to a remote code execution vulnerability.	hot
 CVE-2025-24478	Rockwell Automation	Compact GuardLogix 5380 SIL 3	"A denial-of-service vulnerability exists in the affected products. The vulnerability could allow a remote, non-privileged user to send malicious requests resulting in a major nonrecoverable fault causing a denial-of-service."	hot
-CVE-2025-0659	Rockwell Automation	DataEdgePlatform DataMosaix‚Ñ¢ Private Cloud	"A path
+CVE-2025-0659	Rockwell Automation	DataEdgePlatform DataMosaixô Private Cloud	"A path
 traversal vulnerability exists in the Rockwell Automation DataEdge Platform DataMosaix Private Cloud. By specifying the character
 sequence in the body of the vulnerable endpoint, it is possible to overwrite
 files outside of the intended directory. A threat actor with admin privileges could
 leverage this vulnerability to overwrite reports including user projects."	hot
 CVE-2025-24479	Rockwell Automation	FactoryTalk View Machine Edition	A Local Code Execution Vulnerability exists in the product and version listed above. The vulnerability is due to a default setting in Windows and allows access to the Command Prompt as a higher privileged user.	hot
-CVE-2025-0498	Rockwell Automation	FactoryTalk¬Æ AssetCentre	"A data exposure vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalk¬Æ AssetCentre. The vulnerability exists due to insecure storage of FactoryTalk¬Æ Security user tokens, which could allow a threat actor to steal a token and, impersonate another user."	hot
-CVE-2025-0477	Rockwell Automation	FactoryTalk¬Æ AssetCentre	An encryption vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalk¬Æ AssetCentre. The vulnerability exists due to a weak encryption methodology and could allow a threat actor to extract passwords belonging to other users of the application.	hot
-CVE-2025-0497	Rockwell Automation	FactoryTalk¬Æ AssetCentre	"A data exposure vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalk¬Æ AssetCentre. The vulnerability exists due to storing credentials in the configuration file of EventLogAttachmentExtractor, ArchiveExtractor, LogCleanUp, or ArchiveLogCleanUp packages."	hot
-CVE-2025-24480	Rockwell Automation	FactoryTalk¬Æ View Machine Edition	A Remote Code Execution Vulnerability exists in the product and version listed above. The vulnerability is due to lack of input sanitation and could allow a remote attacker to run commands or code as a high privileged user.	hot
-CVE-2025-24482	Rockwell Automation	FactoryTalk¬Æ View Site Edition	A Local Code Injection Vulnerability exists in the product and version listed above. The vulnerability is due to incorrect default permissions and allows for DLLs to be executed with higher level permissions.	hot
-CVE-2025-24481	Rockwell Automation	FactoryTalk¬Æ View Site Edition	An Incorrect Permission Assignment Vulnerability exists in the product and version listed above. The vulnerability is due to incorrect permissions being assigned to the remote debugger port and can allow for unauthenticated access to the system configuration.	hot
+CVE-2025-0498	Rockwell Automation	FactoryTalkÆ AssetCentre	"A data exposure vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalkÆ AssetCentre. The vulnerability exists due to insecure storage of FactoryTalkÆ Security user tokens, which could allow a threat actor to steal a token and, impersonate another user."	hot
+CVE-2025-0477	Rockwell Automation	FactoryTalkÆ AssetCentre	An encryption vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalkÆ AssetCentre. The vulnerability exists due to a weak encryption methodology and could allow a threat actor to extract passwords belonging to other users of the application.	hot
+CVE-2025-0497	Rockwell Automation	FactoryTalkÆ AssetCentre	"A data exposure vulnerability exists in all versions prior to V15.00.001 of Rockwell Automation FactoryTalkÆ AssetCentre. The vulnerability exists due to storing credentials in the configuration file of EventLogAttachmentExtractor, ArchiveExtractor, LogCleanUp, or ArchiveLogCleanUp packages."	hot
+CVE-2025-24480	Rockwell Automation	FactoryTalkÆ View Machine Edition	A Remote Code Execution Vulnerability exists in the product and version listed above. The vulnerability is due to lack of input sanitation and could allow a remote attacker to run commands or code as a high privileged user.	hot
+CVE-2025-24482	Rockwell Automation	FactoryTalkÆ View Site Edition	A Local Code Injection Vulnerability exists in the product and version listed above. The vulnerability is due to incorrect default permissions and allows for DLLs to be executed with higher level permissions.	hot
+CVE-2025-24481	Rockwell Automation	FactoryTalkÆ View Site Edition	An Incorrect Permission Assignment Vulnerability exists in the product and version listed above. The vulnerability is due to incorrect permissions being assigned to the remote debugger port and can allow for unauthenticated access to the system configuration.	hot
 CVE-2025-24478	Rockwell Automation	GuardLogix 5580 SIL 3	"A denial-of-service vulnerability exists in the affected products. The vulnerability could allow a remote, non-privileged user to send malicious requests resulting in a major nonrecoverable fault causing a denial-of-service."	hot
 CVE-2025-0631	Rockwell Automation	PowerFlex 755	A Credential Exposure Vulnerability exists in the above-mentioned product and version. The vulnerability is due to using HTTP resulting in credentials being sent in clear text.	hot
 CVE-2025-23915	Roninwp	FAT Event Lite	Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in Roninwp FAT Event Lite allows PHP Local File Inclusion.This issue affects FAT Event Lite: from n/a through 1.1.	hot
@@ -1976,17 +1976,17 @@ CVE-2025-0060	SAP_SE	SAP BusinessObjects Business Intelligence Platform	SAP Busi
 CVE-2025-0064	SAP_SE	SAP BusinessObjects Business Intelligence platform (Central Management Console)	"Under specific conditions, the Central Management Console of the SAP BusinessObjects Business Intelligence platform allows an attacker with admin rights to generate or retrieve a secret passphrase, enabling them to impersonate any user in the system. This results in a high impact on confidentiality and integrity, with no impact on availability."	hot
 CVE-2025-24867	SAP_SE	SAP BusinessObjects Platform (BI Launchpad)	"SAP BusinessObjects Platform (BI Launchpad) does not sufficiently handle user input, resulting in Cross-Site Scripting (XSS) vulnerability. The application allows an unauthenticated attacker to craft a URL that embeds a malicious script within an unprotected parameter. When a victim clicks the link, the script will be executed in the browser, giving the attacker the ability to access and/or modify information related to the web client with no effect on availability."	hot
 CVE-2025-24875	SAP_SE	SAP Commerce	"SAP Commerce, by default, sets certain cookies with the SameSite attribute configured to None (SameSite=None). This includes authentication cookies utilized in SAP Commerce Backoffice. Applying this setting reduces defense in depth against CSRF and may lead to future compatibility issues."	hot
-CVE-2025-25241	SAP_SE	SAP Fiori Apps Reference Library (My Overtime Requests)	"Due to a missing authorization check, an attacker who is logged in to application can view/ delete ÔøΩMy Overtime RequestsÔøΩ which could allow the attacker to access employee information. This leads to low impact on confidentiality, integrity of the application. There is no impact on availability."	hot
+CVE-2025-25241	SAP_SE	SAP Fiori Apps Reference Library (My Overtime Requests)	"Due to a missing authorization check, an attacker who is logged in to application can view/ delete ?My Overtime Requests? which could allow the attacker to access employee information. This leads to low impact on confidentiality, integrity of the application. There is no impact on availability."	hot
 CVE-2025-23191	SAP_SE	SAP Fiori for SAP ERP	Cached values belonging to the SAP OData endpoint in SAP Fiori for SAP ERP could be poisoned by modifying the Host header value in an HTTP GET request. An attacker could alter the `atom:link` values in the returned metadata redirecting them from the SAP server to a malicious link set by the attacker. Successful exploitation could cause low impact on integrity of the application.	hot
-CVE-2025-0056	SAP_SE	SAP GUI for Java	"SAP GUI for Java saves user input on the client PC to improve usability. An attacker with administrative privileges or access to the victimÔøΩs user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
+CVE-2025-0056	SAP_SE	SAP GUI for Java	"SAP GUI for Java saves user input on the client PC to improve usability. An attacker with administrative privileges or access to the victim?s user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
 CVE-2025-24870	SAP_SE	SAP GUI for Windows	"SAP GUI for Windows & RFC service credentials are incorrectly stored in the memory of the program allowing an unauthenticated attacker to access information within systems, resulting in privilege escalation. On successful exploitation, this could result in disclosure of highly sensitive information. This has no impact on integrity, and availability."	hot
-CVE-2025-0055	SAP_SE	SAP GUI for Windows	"SAP GUI for Windows stores user input on the client PC to improve usability. Under very specific circumstances an attacker with administrative privileges or access to the victimÔøΩs user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
+CVE-2025-0055	SAP_SE	SAP GUI for Windows	"SAP GUI for Windows stores user input on the client PC to improve usability. Under very specific circumstances an attacker with administrative privileges or access to the victim?s user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
 CVE-2025-24868	SAP_SE	"SAP HANA extended application services, advanced model (User Account and Authentication Services)"	"The User Account and Authentication service (UAA) for SAP HANA extended application services, advanced model (SAP HANA XS advanced model) allows an unauthenticated attacker to craft a malicious link, that, when clicked by a victim, redirects the browser to a malicious site due to insufficient redirect URL validation. On successful exploitation attacker can cause limited impact on confidentiality, integrity, and availability of the system."	hot
 CVE-2025-23189	SAP_SE	SAP NetWeaver and ABAP Platform (SDCCN)	"Due to missing authorization check in an RFC enabled function module in transaction SDCCN, an authenticated attacker could generate technical meta-data. This leads to a low impact on integrity. There is no impact on confidentiality or availability"	hot
 CVE-2025-23187	SAP_SE	SAP NetWeaver and ABAP Platform (SDCCN)	"Due to missing authorization check in an RFC enabled function module in transaction SDCCN, an unauthenticated attacker could generate technical meta-data. This leads to a low impact on integrity. There is no impact on confidentiality or availability."	hot
 CVE-2025-23190	SAP_SE	SAP NetWeaver and ABAP platform (ST-PI)	"Due to missing authorization check, an authenticated attacker could call a remote-enabled function module which allows them to access data that they would otherwise not have access to. The attacker cannot modify data or impact the availability of the system."	hot
 CVE-2025-0068	SAP_SE	SAP NetWeaver Application Server ABAP	"An obsolete functionality in SAP NetWeaver Application Server ABAP did not perform necessary authorization checks. Because of this, an authenticated attacker could obtain information that would otherwise be restricted. It has no impact on integrity or availability on the application."	hot
-CVE-2025-0059	SAP_SE	SAP NetWeaver Application Server ABAP (applications based on SAP GUI for HTML)	"Applications based on SAP GUI for HTML in SAP NetWeaver Application Server ABAP store user input in the local browser storage to improve usability. An attacker with administrative privileges or access to the victimÔøΩs user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
+CVE-2025-0059	SAP_SE	SAP NetWeaver Application Server ABAP (applications based on SAP GUI for HTML)	"Applications based on SAP GUI for HTML in SAP NetWeaver Application Server ABAP store user input in the local browser storage to improve usability. An attacker with administrative privileges or access to the victim?s user directory on the Operating System level would be able to read this data. Depending on the user input provided in transactions, the disclosed data could range from non-critical data to highly sensitive data, causing high impact on confidentiality of the application."	hot
 CVE-2025-0070	SAP_SE	SAP NetWeaver Application Server for ABAP and ABAP Platform	"SAP NetWeaver Application Server for ABAP and ABAP Platform allows an authenticated attacker to obtain illegitimate access to the system by exploiting improper authentication checks, resulting in privilege escalation. On successful exploitation, this can result in potential security concerns. This results in a high impact on confidentiality, integrity, and availability."	hot
 CVE-2025-0053	SAP_SE	SAP NetWeaver Application Server for ABAP and ABAP Platform	"SAP NetWeaver Application Server for ABAP and ABAP Platform allows an attacker to gain unauthorized access to system information. By using a specific URL parameter, an unauthenticated attacker could retrieve details such as system configuration. This has a limited impact on the confidentiality of the application and may be leveraged to facilitate further attacks or exploits."	hot
 CVE-2025-24869	SAP_SE	SAP NetWeaver Application Server Java	"SAP NetWeaver Application Server Java allows an attacker to access an endpoint that can disclose information about deployed server components, including their XML definitions. This information should ideally be restricted to customer administrators, even though they may not need it. These XML files are not entirely SAP-internal as they are deployed with the server. In such a scenario, sensitive information could be exposed without compromising its integrity or availability."	hot
@@ -1997,7 +1997,7 @@ CVE-2025-0066	SAP_SE	SAP NetWeaver AS for ABAP and ABAP Platform (Internet Commu
 CVE-2025-0057	SAP_SE	SAP NetWeaver AS JAVA (User Admin Application)	"SAP NetWeaver AS JAVA (User Admin Application) is vulnerable to stored cross site scripting vulnerability. An attacker posing as an admin can upload a photo with malicious JS content. When a victim visits the vulnerable component, the attacker can read and modify information within the scope of victim's web browser."	hot
 CVE-2025-23193	SAP_SE	SAP NetWeaver Server ABAP	"SAP NetWeaver Server ABAP allows an unauthenticated attacker to exploit a vulnerability that causes the server to respond differently based on the existence of a specified user, potentially revealing sensitive information. This issue does not enable data modification and has no impact on server availability."	hot
 CVE-2025-25243	SAP_SE	SAP Supplier Relationship Management (Master Data Management Catalog)	SAP Supplier Relationship Management (Master Data Management Catalog) allows an unauthenticated attacker to use a publicly available servlet to download an arbitrary file over the network without any user interaction. This can reveal highly sensitive information with no impact to integrity or availability.	hot
-CVE-2025-0069	SAP_SE	SAPSetup	"Due to DLL injection vulnerability in SAPSetup, an attacker with either local user privileges or with access to a compromised corporate userÔøΩs Windows account could gain higher privileges. With this, he could move laterally within the network and further compromise the active directory of a company. This leads to high impact on confidentiality, integrity and availability of the Windows server."	hot
+CVE-2025-0069	SAP_SE	SAPSetup	"Due to DLL injection vulnerability in SAPSetup, an attacker with either local user privileges or with access to a compromised corporate user?s Windows account could gain higher privileges. With this, he could move laterally within the network and further compromise the active directory of a company. This leads to high impact on confidentiality, integrity and availability of the Windows server."	hot
 CVE-2025-1070	Schneider Electric	ASCO 5310 Single-Channel Remote Annunciator	"CWE-434: Unrestricted Upload of File with Dangerous Type vulnerability exists that could render the device
 inoperable when a malicious file is downloaded."	hot
 CVE-2025-1060	Schneider Electric	ASCO 5310 Single-Channel Remote Annunciator	"CWE-319: Cleartext Transmission of Sensitive Information vulnerability exists that could result in the exposure
@@ -2022,18 +2022,18 @@ CVE-2025-0327	Schneider Electric	EcoStruxure Process Expert for AVEVA System Pla
 trail data and the other acting as server managing client request) that could cause a loss of Confidentiality,
 Integrity and Availability of engineering workstation when an attacker with standard privilege modifies the
 executable path of the windows services. To be exploited, services need to be restarted."	hot
-CVE-2025-0816	Schneider Electric	Enerlin‚ÄôX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
+CVE-2025-0816	Schneider Electric	EnerliníX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
 product when malicious IPV6 packets are sent to the device."	hot
-CVE-2025-0815	Schneider Electric	Enerlin‚ÄôX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
+CVE-2025-0815	Schneider Electric	EnerliníX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
 product when malicious ICMPV6 packets are sent to the device."	hot
-CVE-2025-0814	Schneider Electric	Enerlin‚ÄôX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the network
+CVE-2025-0814	Schneider Electric	EnerliníX eIFE (LV851001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the network
 services running on the product when malicious IEC61850-MMS packets are sent to the device. The core
 functionality of the breaker remains intact during the attack."	hot
-CVE-2025-0816	Schneider Electric	Enerlin‚ÄôX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
+CVE-2025-0816	Schneider Electric	EnerliníX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
 product when malicious IPV6 packets are sent to the device."	hot
-CVE-2025-0815	Schneider Electric	Enerlin‚ÄôX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
+CVE-2025-0815	Schneider Electric	EnerliníX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the
 product when malicious ICMPV6 packets are sent to the device."	hot
-CVE-2025-0814	Schneider Electric	Enerlin‚ÄôX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the network
+CVE-2025-0814	Schneider Electric	EnerliníX IFE interface (LV434001)	"CWE-20: Improper Input Validation vulnerability exists that could cause Denial-of-Service of the network
 services running on the product when malicious IEC61850-MMS packets are sent to the device. The core
 functionality of the breaker remains intact during the attack."	hot
 CVE-2025-22540	Sebastian Orellana	Emailing Subscription	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Sebastian Orellana Emailing Subscription allows Blind SQL Injection.This issue affects Emailing Subscription: from n/a through 1.4.1.	hot
@@ -2134,8 +2134,8 @@ CVE-2025-1099	TP-Link	Tapo C500 V1 Wi-Fi Camera	"This vulnerability exists in Ta
 CVE-2025-1099	TP-Link	Tapo C500 V2 Wi-Fi Camera	"This vulnerability exists in Tapo C500 Wi-Fi camera due to hard-coded RSA private key embedded within the device firmware. An attacker with physical access could exploit this vulnerability to obtain cryptographic private keys which can then be used to perform impersonation, data decryption and man in the middle attacks on the targeted device."	hot
 CVE-2025-22537	traveller11	Google Maps Travel Route	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in traveller11 Google Maps Travel Route allows SQL Injection.This issue affects Google Maps Travel Route: from n/a through 1.3.1.	hot
 CVE-2025-0617	Trellix	Trellix HX Console	"An attacker with access to an HX 10.0.0  and previous versions, may send specially-crafted data to the HX console.  The malicious detection would then trigger file parsing containing exponential entity expansions in the consumer process thus causing a Denial of Service."	hot
-CVE-2025-0994	Trimble	Cityworks	Trimble Cityworks versions prior to 15.8.9 and Cityworks with office companion versions prior to 23.10 are vulnerable to a deserialization vulnerability. This could allow an authenticated user to perform a remote code execution attack against a customer‚Äôs Microsoft Internet Information Services (IIS) web server.	hot
-CVE-2025-0994	Trimble	Cityworks (with office companion)	Trimble Cityworks versions prior to 15.8.9 and Cityworks with office companion versions prior to 23.10 are vulnerable to a deserialization vulnerability. This could allow an authenticated user to perform a remote code execution attack against a customer‚Äôs Microsoft Internet Information Services (IIS) web server.	hot
+CVE-2025-0994	Trimble	Cityworks	Trimble Cityworks versions prior to 15.8.9 and Cityworks with office companion versions prior to 23.10 are vulnerable to a deserialization vulnerability. This could allow an authenticated user to perform a remote code execution attack against a customerís Microsoft Internet Information Services (IIS) web server.	hot
+CVE-2025-0994	Trimble	Cityworks (with office companion)	Trimble Cityworks versions prior to 15.8.9 and Cityworks with office companion versions prior to 23.10 are vulnerable to a deserialization vulnerability. This could allow an authenticated user to perform a remote code execution attack against a customerís Microsoft Internet Information Services (IIS) web server.	hot
 CVE-2025-23912	Typomedia Foundation	WordPress Custom Sidebar	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Typomedia Foundation WordPress Custom Sidebar allows Blind SQL Injection.This issue affects WordPress Custom Sidebar: from n/a through 2.3.	hot
 CVE-2025-23091	Ubiquiti Inc	EFG	"An Improper Certificate Validation on UniFi OS devices, with Identity Enterprise configured, could allow a malicious actor to execute a man-in-the-middle (MitM) attack during application update."	hot
 CVE-2025-23091	Ubiquiti Inc	UCG-Max	"An Improper Certificate Validation on UniFi OS devices, with Identity Enterprise configured, could allow a malicious actor to execute a man-in-the-middle (MitM) attack during application update."	hot
@@ -2160,16 +2160,16 @@ CVE-2025-23114	Veeam	Backup for Oracle Linux Virtualization Manager and Red Hat 
 CVE-2025-23114	Veeam	Backup for Salesforce	A vulnerability in Veeam Updater component allows Man-in-the-Middle attackers to execute arbitrary code on the affected server. This issue occurs due to a failure to properly validate TLS certificate.	hot
 CVE-2025-22799	Vertim Coders	Neon Product Designer	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in Vertim Coders Neon Product Designer allows SQL Injection.This issue affects Neon Product Designer: from n/a through 2.1.1.	hot
 CVE-2025-24357	vllm-project	vllm	"vLLM is a library for LLM inference and serving. vllm/model_executor/weight_utils.py implements hf_model_weights_iterator to load the model checkpoint, which is downloaded from huggingface. It uses the torch.load function and the weights_only parameter defaults to False. When torch.load loads malicious pickle data, it will execute arbitrary code during unpickling. This vulnerability is fixed in v0.7.0."	hot
-CVE-2025-22215	VMware	VMware Aria Automation	"VMware Aria Automation contains a server-side request forgery (SSRF) vulnerability.¬†A malicious actor with ""Organization Member"" access to Aria Automation may exploit this vulnerability enumerate internal services running on the host/network."	hot
-CVE-2025-22222	VMware	VMware Aria Operations	VMware Aria Operations contains an information disclosure vulnerability.¬†A malicious user with non-administrative privileges¬†may exploit this vulnerability to retrieve credentials for an outbound plugin if a valid service credential ID is known.	hot
-CVE-2025-22219	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains a stored cross-site scripting vulnerability.¬†A malicious actor with non-administrative privileges may be able to inject a malicious script that  (can perform stored cross-site scripting) may lead to arbitrary operations as admin¬†user.	hot
-CVE-2025-22218	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains an information disclosure vulnerability.¬†A malicious actor with View Only Admin permissions may be able to read the credentials¬†of a VMware product integrated with VMware Aria Operations for Logs	hot
-CVE-2025-22221	VMware	VMware Aria Operations for Logs	VMware Aria Operation for Logs contains a stored cross-site scripting vulnerability.¬†A malicious actor with admin privileges to VMware Aria Operations for Logs may be able to inject a malicious script that could be executed in a victim's browser when performing a delete action in the Agent Configuration.	hot
-CVE-2025-22220	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains a privilege escalation¬†vulnerability.¬†A malicious actor with non-administrative privileges and network access to Aria Operations for Logs API may be able to perform certain operations in the context of an admin user.	hot
-CVE-2025-22215	VMware	VMware Cloud Foundation (VMware Aria Automation)	"VMware Aria Automation contains a server-side request forgery (SSRF) vulnerability.¬†A malicious actor with ""Organization Member"" access to Aria Automation may exploit this vulnerability enumerate internal services running on the host/network."	hot
+CVE-2025-22215	VMware	VMware Aria Automation	"VMware Aria Automation contains a server-side request forgery (SSRF) vulnerability.†A malicious actor with ""Organization Member"" access to Aria Automation may exploit this vulnerability enumerate internal services running on the host/network."	hot
+CVE-2025-22222	VMware	VMware Aria Operations	VMware Aria Operations contains an information disclosure vulnerability.†A malicious user with non-administrative privileges†may exploit this vulnerability to retrieve credentials for an outbound plugin if a valid service credential ID is known.	hot
+CVE-2025-22219	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains a stored cross-site scripting vulnerability.†A malicious actor with non-administrative privileges may be able to inject a malicious script that  (can perform stored cross-site scripting) may lead to arbitrary operations as admin†user.	hot
+CVE-2025-22218	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains an information disclosure vulnerability.†A malicious actor with View Only Admin permissions may be able to read the credentials†of a VMware product integrated with VMware Aria Operations for Logs	hot
+CVE-2025-22221	VMware	VMware Aria Operations for Logs	VMware Aria Operation for Logs contains a stored cross-site scripting vulnerability.†A malicious actor with admin privileges to VMware Aria Operations for Logs may be able to inject a malicious script that could be executed in a victim's browser when performing a delete action in the Agent Configuration.	hot
+CVE-2025-22220	VMware	VMware Aria Operations for Logs	VMware Aria Operations for Logs contains a privilege escalation†vulnerability.†A malicious actor with non-administrative privileges and network access to Aria Operations for Logs API may be able to perform certain operations in the context of an admin user.	hot
+CVE-2025-22215	VMware	VMware Cloud Foundation (VMware Aria Automation)	"VMware Aria Automation contains a server-side request forgery (SSRF) vulnerability.†A malicious actor with ""Organization Member"" access to Aria Automation may exploit this vulnerability enumerate internal services running on the host/network."	hot
 CVE-2025-26410	Wattsense	Wattsense Bridge	The firmware of all Wattsense Bridge devices contain the same hard-coded user and root credentials. The user password can be easily recovered via password cracking attempts. The recovered credentials can be used to log into the device via the login shell that is exposed by the serial interface. The backdoor user has been removed in firmware BSP >= 6.4.1.	hot
 CVE-2025-24016	wazuh	wazuh	"Wazuh is a free and open source platform used for threat prevention, detection, and response. Starting in version 4.4.0 and prior to version 4.9.1, an unsafe deserialization vulnerability allows for remote code execution on Wazuh servers. DistributedAPI parameters are a serialized as JSON and deserialized using `as_wazuh_object` (in `framework/wazuh/core/cluster/common.py`). If an attacker manages to inject an unsanitized dictionary in DAPI request/response, they can forge an unhandled exception (`__unhandled_exc__`) to evaluate arbitrary python code. The vulnerability can be triggered by anybody with API access (compromised dashboard or Wazuh servers in the cluster) or, in certain configurations, even by a compromised agent. Version 4.9.1 contains a fix."	hot
-CVE-2025-0493	wcmp	MultiVendorX ‚Äì The Ultimate WooCommerce Multivendor Marketplace Solution	"The MultiVendorX ‚Äì The Ultimate WooCommerce Multivendor Marketplace Solution plugin for WordPress is vulnerable to Limited  Local File Inclusion in all versions up to, and including, 4.2.14 via the tabname parameter. This makes it possible for unauthenticated attackers to include PHP files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where PHP files can be uploaded and included"	hot
+CVE-2025-0493	wcmp	MultiVendorX ñ The Ultimate WooCommerce Multivendor Marketplace Solution	"The MultiVendorX ñ The Ultimate WooCommerce Multivendor Marketplace Solution plugin for WordPress is vulnerable to Limited  Local File Inclusion in all versions up to, and including, 4.2.14 via the tabname parameter. This makes it possible for unauthenticated attackers to include PHP files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where PHP files can be uploaded and included"	hot
 CVE-2025-22782	Web Ready Now	WR Price List Manager For Woocommerce	Unrestricted Upload of File with Dangerous Type vulnerability in Web Ready Now WR Price List Manager For Woocommerce allows Upload a Web Shell to a Web Server.This issue affects WR Price List Manager For Woocommerce: from n/a through 1.0.8.	hot
 CVE-2025-23779	web-mv.de	ResAds	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in web-mv.de ResAds allows SQL Injection.This issue affects ResAds: from n/a through 2.0.5.	hot
 CVE-2025-0630	Western Telematic Inc	Console Server (DSM Series)	"Multiple Western Telematic (WTI) products contain a web interface that is vulnerable to a local file inclusion attack (LFI), where any authenticated user has privileged access to files on the device's filesystem."	hot
@@ -2178,7 +2178,7 @@ CVE-2025-0630	Western Telematic Inc	Network Power Switch (NPS Series)	"Multiple 
 CVE-2025-1240	WinZip Computing	WinZip	"WinZip 7Z File Parsing Out-Of-Bounds Write Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of WinZip. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file.
 
 The specific flaw exists within the parsing of 7Z files. The issue results from the lack of proper validation of user-supplied data, which can result in a write past the end of an allocated buffer. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-24986."	hot
-CVE-2025-0834	Wondershare	Dr.Fone	Privilege escalation vulnerability has been found in Wondershare Dr.Fone version 13.5.21. This vulnerability could allow an attacker to escalate privileges by replacing the binary ‚ÄòC:\ProgramData\Wondershare\wsServices\ElevationService.exe‚Äô with a malicious binary. This binary will be executed by SYSTEM automatically.	hot
+CVE-2025-0834	Wondershare	Dr.Fone	Privilege escalation vulnerability has been found in Wondershare Dr.Fone version 13.5.21. This vulnerability could allow an attacker to escalate privileges by replacing the binary ëC:\ProgramData\Wondershare\wsServices\ElevationService.exeí with a malicious binary. This binary will be executed by SYSTEM automatically.	hot
 CVE-2025-23944	WOOEXIM.COM	WOOEXIM	Deserialization of Untrusted Data vulnerability in WOOEXIM.COM WOOEXIM allows Object Injection. This issue affects WOOEXIM: from n/a through 5.0.0.	hot
 CVE-2025-22533	WOOEXIM.COM	WOOEXIM	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in WOOEXIM.COM WOOEXIM allows SQL Injection.This issue affects WOOEXIM: from n/a through 5.0.0.	hot
 CVE-2025-24659	WordPress Download Manager	Premium Packages	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in WordPress Download Manager Premium Packages allows Blind SQL Injection. This issue affects Premium Packages: from n/a through 5.9.6.	hot
