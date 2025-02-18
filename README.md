@@ -12,6 +12,7 @@ Contents:
 The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
 
 Predictions so far:
+
 **14. NEW Feb 18: CVE 2024-53074 was added to the KEV today. This one was predicted to go hot by the model in the Jan 17 run which is 31 days early warning. It could have been in the Jan 3 run but some CVEs were not in the data then because my loader was missing a few.**
 
 ```CVE-2024-53704	hot	SonicWall	SonicOS	An Improper Authentication vulnerability in the SSLVPN authentication mechanism allows a remote attacker to bypass authentication.```
