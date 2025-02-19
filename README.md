@@ -24,7 +24,7 @@ Predictions so far:
 12. Feb 12: CVE 2024-41710 was added to the KEV today. This one was predicted to go hot by the model in the Jan 7 run which is the longest lead time so far at 51 days!**
 ```CVE-2024-41710			"A vulnerability in the Mitel 6800 Series, 6900 Series, and 6900w Series SIP Phones, including the 6970 Conference Unit, through R6.4.0.HF1 (R6.4.0.136) could allow an authenticated attacker with administrative privilege to conduct an argument injection attack, due to insufficient parameter sanitization during the boot process. A successful exploit could allow an attacker to execute arbitrary commands within the context of the system."	hot```
 
-11. Feb 6: CVE 2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days!
+00. Feb 6: CVE 2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days!
 https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt
 
 ```8317	CVE-2024-21413	Microsoft	Microsoft Office 2019	Microsoft Outlook Remote Code Execution Vulnerability	neutral	hot```
