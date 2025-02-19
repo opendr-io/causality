@@ -13,15 +13,15 @@ The 2024 set has not been through search space reduction yet but it will be soon
 
 Predictions so far:
 
-**14. NEW Feb 18: CVE 2024-53704 was added to the KEV today. This one was predicted to go hot by the model in the Jan 17 run which is 31 days early warning. It could have been in the Jan 3 run but some CVEs were not in the data then because my loader was missing a few.**
+**NEW Feb 18: CVE 2024-53704 was added to the KEV today. This one was predicted to go hot by the model in the Jan 17 run which is 31 days early warning. It could have been in the Jan 3 run but some CVEs were not in the data then because my loader was missing a few.**
 
 ```CVE-2024-53704	hot	SonicWall	SonicOS	An Improper Authentication vulnerability in the SSLVPN authentication mechanism allows a remote attacker to bypass authentication.```
 
-**13. NEW Feb 18: CVE 2025-0108 was added to the KEV today. This one was predicted to go hot by the model in the Feb 15 run. It could have been predicted Feb 12 but I am not running the model daily yet.**
+**NEW Feb 18: CVE 2025-0108 was added to the KEV today. This one was predicted to go hot by the model in the Feb 15 run. It could have been predicted Feb 12 but I am not running the model daily yet.**
 
 ```CVE-2025-0108	Palo Alto Networks	Cloud NGFW	"An authentication bypass in the Palo Alto Networks PAN-OS software enables an unauthenticated attacker with network access to the management web interface to bypass the authentication otherwise required by the PAN-OS management web interface and invoke certain PHP scripts. While invoking these PHP scripts does not enable remote code execution, it can negatively impact integrity and confidentiality of PAN-OS. You can greatly reduce the risk of this issue by restricting access to the management web interface to only trusted internal IP addresses according to our recommended  best practices deployment guidelines https://live.paloaltonetworks.com/t5/community-blogs/tips-amp-tricks-how-to-secure-the-management-access-of-your-palo/ba-p/464431. This issue does not affect Cloud NGFW or Prisma Access software."	hot ```
 
-12. Feb 12: CVE 2024-41710 was added to the KEV today. This one was predicted to go hot by the model in the Jan 7 run which is the longest lead time so far at 51 days!**
+Feb 12: CVE 2024-41710 was added to the KEV today. This one was predicted to go hot by the model in the Jan 7 run which is the longest lead time so far at 51 days!**
 ```CVE-2024-41710			"A vulnerability in the Mitel 6800 Series, 6900 Series, and 6900w Series SIP Phones, including the 6970 Conference Unit, through R6.4.0.HF1 (R6.4.0.136) could allow an authenticated attacker with administrative privilege to conduct an argument injection attack, due to insufficient parameter sanitization during the boot process. A successful exploit could allow an attacker to execute arbitrary commands within the context of the system."	hot```
 
 00. Feb 6: CVE 2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days!
@@ -29,35 +29,35 @@ https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-prediction
 
 ```8317	CVE-2024-21413	Microsoft	Microsoft Office 2019	Microsoft Outlook Remote Code Execution Vulnerability	neutral	hot```
 
-10. Feb 5: CVE 2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 34 days!
+Feb 5: CVE 2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 34 days!
 https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt
 
 ```17109	CVE-2024-53104	Linux	Linux	"In the Linux kernel, the following vulnerability has been resolved:```
 ```media: uvcvideo: Skip parsing frames of type UVC_VS_UNDEFINED in uvc_parse_format```
 ```This can lead to out of bounds writes since frames of this type were not taken into account when calculating the size of the frames buffer in uvc_parse_streaming."	neutral	hot```
 
-9. CVE 2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then.
+CVE 2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then.
 
 ```CVE-2024-29059	hot	Microsoft	Microsoft .NET Framework 4.8	.NET Framework Information Disclosure Vulnerability	```
 
-8. NEW: CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 3 - ten days prior to the KEV addition - in this output file which was committed to Github on that day (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt) Commit history: https://github.com/cyberdyne-ventures/predictions/compare/ca99f27cd91bc6251ffd5c22aa1b18f1dab0d214...40cc5c07883f41762139050820d40ebe787dce4c
+CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 3 - ten days prior to the KEV addition - in this output file which was committed to Github on that day (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt) Commit history: https://github.com/cyberdyne-ventures/predictions/compare/ca99f27cd91bc6251ffd5c22aa1b18f1dab0d214...40cc5c07883f41762139050820d40ebe787dce4c
 ```18609	CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	neutral	hot```
 
 These predictions were made by the January 3 run, around three weeks ahead of being added to the other KEV (not CISA, the *other* KEV.)
 
-7. Jan22 	CVE-2024-6205	Unknown	PayPlus Payment Gateway	"The PayPlus Payment Gateway WordPress plugin before 6.6.9 does not properly sanitise and escape a parameter before using it in a SQL statement via a WooCommerce API route available to unauthenticated users, leading to an SQL injection vulnerability."	hot
+Jan22 	CVE-2024-6205	Unknown	PayPlus Payment Gateway	"The PayPlus Payment Gateway WordPress plugin before 6.6.9 does not properly sanitise and escape a parameter before using it in a SQL statement via a WooCommerce API route available to unauthenticated users, leading to an SQL injection vulnerability."	hot
 
-6. Jan22	CVE-2024-32735	CyberPower	CyberPower PowerPanel Enterprise	"An issue regarding missing authentication for certain utilities exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can access the PDNU REST APIs, which may result in compromise of the application."	neutral	hot
+Jan22	CVE-2024-32735	CyberPower	CyberPower PowerPanel Enterprise	"An issue regarding missing authentication for certain utilities exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can access the PDNU REST APIs, which may result in compromise of the application."	neutral	hot
 
-5. Jan22	CVE-2024-32737	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_contract_result"" function within MCUDBHelper."	neutral	hot
+Jan22	CVE-2024-32737	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_contract_result"" function within MCUDBHelper."	neutral	hot
 
-4. Jan22	CVE-2024-32738	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_lean"" function within MCUDBHelper."	neutral	hot
+Jan22	CVE-2024-32738	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_lean"" function within MCUDBHelper."	neutral	hot
 
-3. Jan22	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_utask_verbose"" function within MCUDBHelper."	neutral	hot
+Jan22	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_utask_verbose"" function within MCUDBHelper."	neutral	hot
 
-2. Jan22	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_verbose"" function within MCUDBHelper."	neutral	hot
+Jan22	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_verbose"" function within MCUDBHelper."	neutral	hot
 
-1. Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
+Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
 CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.
 
 Rated hot & added to the KEV Jan 8:
