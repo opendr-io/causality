@@ -14,11 +14,11 @@ The 2024 set has not been through search space reduction yet but it will be soon
 Predictions so far:
 
 March 4: CVE-2024-50302 was added to the KEV. It was rated hot in the Jan 7 run.
-```CVE-2024-50302	Linux	Linux	In the Linux kernel, the following vulnerability has been resolved:
+CVE-2024-50302	Linux	Linux	In the Linux kernel, the following vulnerability has been resolved:
 HID: core: zero-initialize the report buffer
 Since the report buffer is used by all kinds of drivers in various ways, let's
 zero-initialize it during allocation to make sure that it can't be ever used
-to leak kernel memory via specially-crafted report.```
+to leak kernel memory via specially-crafted report.
 
 March 3: CVE-2024-4885 was added to the KEV. It was rated hot in the Jan 3 run, a prediction time of two months, the longest so far. (18)
 ```CVE-2024-4885 hot	Progress Software Corporation	WhatsUp Gold	"In WhatsUp Gold versions released before 2023.1.3 an unauthenticated Remote Code Execution vulnerability in Progress WhatsUpGold. WhatsUp.ExportUtilities.Export.GetFileWithoutZip allows execution of commands with iisapppool\nmconsole privileges.```
