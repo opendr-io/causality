@@ -6,7 +6,6 @@ A repo for publishing the output of an experimental intrusion prediction project
 Contents:
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
-
 2025: CVEs from calendar 2025 that came out of the model rated 'hot.'
 
 The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
@@ -14,7 +13,7 @@ The 2024 set has not been through search space reduction yet but it will be soon
 Predictions so far:
 
 March 4: CVE-2024-50302 was added to the KEV. It was rated hot in the Jan 7 run.
-CVE-2024-50302	Linux	Linux	In the Linux kernel, the following vulnerability has been resolved:
+CVE-2024-50302 In the Linux kernel, the following vulnerability has been resolved:
 HID: core: zero-initialize the report buffer
 Since the report buffer is used by all kinds of drivers in various ways, let's
 zero-initialize it during allocation to make sure that it can't be ever used
