@@ -10,14 +10,27 @@ Contents:
 
 The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
 
-Predictions so far:
+Predictions so far (total 23):
+
+March 10: CVE-2025-25151 was added to the KEV. It was rated hot in the Feb 15 run. (23)
+
+```CVE-2025-25181	Advantive	VeraCore	A SQL injection vulnerability in timeoutWarning.asp in Advantive VeraCore through 2025.1.0 allows remote attackers to execute arbitrary SQL commands via the PmSess1 parameter.	hot```
+
+March 10: CVE-2024-13159 was added to the KEV. It was rated hot in the Jan 17 run.
+
+```CVE-2024-13159	hot	Ivanti	Endpoint Manager	Absolute path traversal in Ivanti EPM before the 2024 January-2025 Security Update and 2022 SU6 January-2025 Security Update allows a remote unauthenticated attacker to leak sensitive information.```
+
+March 10: CVE-2024-13160 was added to the KEV. It was rated hot in the Jan 17 run.
+
+```CVE-2024-13160	hot	Ivanti	Endpoint Manager	Absolute path traversal in Ivanti EPM before the 2024 January-2025 Security Update and 2022 SU6 January-2025 Security Update allows a remote unauthenticated attacker to leak sensitive information.```
+
+March 10: 	CVE-2024-13151 was added to the KEV. It was rated hot in the Jan 17 run.
+
+```CVE-2024-13161	hot	Ivanti	Endpoint Manager Absolute path traversal in Ivanti EPM before the 2024 January-2025 Security Update and 2022 SU6 January-2025 Security Update allows a remote unauthenticated attacker to leak sensitive information.```
 
 March 4: CVE-2024-50302 was added to the KEV. It was rated hot in the Jan 7 run.
-CVE-2024-50302 In the Linux kernel, the following vulnerability has been resolved:
-HID: core: zero-initialize the report buffer
-Since the report buffer is used by all kinds of drivers in various ways, let's
-zero-initialize it during allocation to make sure that it can't be ever used
-to leak kernel memory via specially-crafted report.
+
+```CVE-2024-50302 In the Linux kernel, the following vulnerability has been resolved: HID: core: zero-initialize the report buffer. Since the report buffer is used by all kinds of drivers in various ways, let's zero-initialize it during allocation to make sure that it can't be ever used to leak kernel memory via specially-crafted report.```
 
 March 3: CVE-2024-4885 was added to the KEV. It was rated hot in the Jan 3 run, a prediction time of two months, the longest so far. (18)
 ```CVE-2024-4885 hot	Progress Software Corporation	WhatsUp Gold	"In WhatsUp Gold versions released before 2023.1.3 an unauthenticated Remote Code Execution vulnerability in Progress WhatsUpGold. WhatsUp.ExportUtilities.Export.GetFileWithoutZip allows execution of commands with iisapppool\nmconsole privileges.```
