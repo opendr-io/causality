@@ -12,7 +12,7 @@ The 2024 set has not been through search space reduction yet but it will be soon
 
 Provable predictions so far (total 24) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
 
-March 18: CVE-2025-24472  was added to the KEV. It was rated hot in the Feb 15 run. 
+March 18: CVE-2025-24472  was added to the KEV. It was rated hot in the Feb 15 run, another 31 day lead time.
 ```CVE-2025-24472	Fortinet	FortiOS	"An Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot```
 
 March 10: CVE-2025-25151 was added to the KEV. It was rated hot in the Feb 15 run. (23)
