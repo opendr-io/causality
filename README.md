@@ -10,7 +10,11 @@ Contents:
 
 The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
 
-Provable predictions so far (total 24) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
+Provable predictions so far (total 25) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
+
+March 31: CVE-2024-20439 was added to the KEV. It was was rated hot in the January 3 run which is the longest lead time yet at 94 days! 
+```CVE-2024-20439	Cisco	Cisco Smart License Utility	"A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to log in to an affected system by using a static administrative credential.```
+
 
 March 18: CVE-2025-24472  was added to the KEV. It was rated hot in the Feb 15 run, another 31 day lead time.
 ```CVE-2025-24472	Fortinet	FortiOS	"An Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot```
