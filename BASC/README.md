@@ -5,5 +5,6 @@ https://owaspbasc2025.sched.com/event/1xuPI/no-fate-but-what-we-make-doing-intru
 Contents:
 
 cve-plots-2: a notebook used in the talk
+
 NOFATE-1: - the presentation
 
