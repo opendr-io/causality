@@ -1,3 +1,19 @@
 ## 2024 Prediction Seaerch Space Reduction
 
-In the final 2024 run, the model identified 13,031 CVEs likely to go hot out of 34.582. A 62% decrease in CVEs to look at is good the numbers can be further reduced. This set of 4238 contains 82% of the watchlisted CVEs for calendar 2024. This is a reduction of 88% from the total CVE set for they year and works out to an average of 353 per month. Considering that most organizations can further reduce that number, by ignoring CVEs from software titles or versions they are not using, it becomes a manageable number.  Thjis set is in the text file named reduction.txt
+In the final 2024 run, the model identified 13,031 CVEs likely to go hot out of 34.582. This is a 62% decrease in CVEs to look - good, but the numbers can be further reduced. 
+
+The reductions file has 4238 predictions and contains 82% of the watchlisted CVEs for calendar 2024. This is a reduction of 88% from the total CVE set for theat year and works out to an average of 353 per month. Considering that most organizations can further reduce that number, by ignoring CVEs from software titles or versions they are not using, it becomes a very manageable number.  This set is in the text file named reduction.txt.
+
+Contents
+
+|file name                      |description|
+|-------------------------------|-----------|
+|2024-predictions-jan-17-run.txt|Jan 17 model output        |
+|                               |           |
+|2024-predictions.csv           |Jan 3 output (csv)     |
+|                               |           |
+|2024-predictions.txt           |Jan 3 output (tsv)          |
+|                               |           |
+|predictions-jan-7-run.txt      |Jan 7 output (tsv)           |
+|                               |           |
+|reduction.txt                  |Reduced set (tsv)           |
