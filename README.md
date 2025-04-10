@@ -7,12 +7,14 @@ Contents:
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
 2025: CVEs from calendar 2025 that came out of the model rated 'hot.'
+BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
 
-The 2024 set has not been through search space reduction yet but it will be soon. Predictions will be output here for 2025 CVEs at least monthly, maybe weekly, as the year goes on.
+Provable predictions so far (total 27) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. Updates:
 
-Provable predictions so far (total 25) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
+April 9: Two Linux CVEs were added to the KEV, 2024-53150 and 2024-53197.
+Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
 
-March 31: CVE-2024-20439 was added to the KEV. It was was rated hot in the January 3 run which is the longest lead time yet at 94 days! 
+March 31: CVE-2024-20439 was added to the KEV. It was was rated hot in the January 3 run which is the longest lead time yet at 87 days.
 ```CVE-2024-20439	Cisco	Cisco Smart License Utility	"A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to log in to an affected system by using a static administrative credential.```
 
 
