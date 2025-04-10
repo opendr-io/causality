@@ -6,12 +6,14 @@ A repo for publishing the output of an experimental intrusion prediction project
 ### Contents:
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
+
 2025: CVEs from calendar 2025 that came out of the model rated 'hot.'
+
 BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
 
-Provable predictions so far (total 27) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
-
 ### Updates:
+
+Provable predictions so far (total 27) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
 
 April 9: Two Linux CVEs were added to the KEV, 2024-53150 and 2024-53197.
 Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
