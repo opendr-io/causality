@@ -13,7 +13,16 @@ BASC: A project presentation and accompanying notebook from the OWASP 2025 Bosto
 
 ### Updates:
 
-Provable predictions so far (total 27) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns. 
+Provable predictions so far (total 30) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
+
+May 7: CVE-2024-6047 was added to the KEV. It was rated hot in the Jan 3 run, a lead time opf almost four months.
+```1710	CVE-2024-6047	GeoVision	GV_DSP_LPR_V2	** UNSUPPPORTED WHEN ASSIGNED ** Certain EOL GeoVision devices fail to properly filter user input for the specific functionality. Unauthenticated remote attackers can exploit this vulnerability to inject and execute arbitrary system commands on the device.	neutral	hot```
+
+May 7: 2024-11120 was added to the KEV. It was rated hot in the Jan 3 run, a lead time of almost four months.
+```CVE-2024-11120	hot	GeoVision	GV-VS12	"Certain EOL GeoVision devices have an OS Command Injection vulnerability. Unauthenticated remote attackers can exploit this vulnerability to inject and execute arbitrary system commands on the device. Moreover, this vulnerability has already been exploited by attackers, and we have received related reports."	```
+
+May 1: 2024-38475 was added to the KEV. It was rated hot on the Jan 3 run, a lead time just shy of four months.
+```CVE-2024-38475	Apache Software Foundation	Apache HTTP Server	Improper escaping of output in mod_rewrite in Apache HTTP Server 2.4.59 and earlier allows an attacker to map URLs to filesystem locations that areÂ permitted to be served by the server but are not intentionally/directly reachable by any URL, resulting in code execution or source code disclosure.```
 
 April 9: Two Linux CVEs were added to the KEV, 2024-53150 and 2024-53197.
 Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
