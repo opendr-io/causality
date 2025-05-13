@@ -1,0 +1,5 @@
+CVE-2025-30400	Microsoft	windows	Use after free in Windows DWM allows an authorized attacker to elevate privileges locally.	hot
+CVE-2025-32701	Microsoft	windows	Use after free in Windows Common Log File System Driver allows an authorized attacker to elevate privileges locally.	hot
+CVE-2025-32706	Microsoft	windows	Improper input validation in Windows Common Log File System Driver allows an authorized attacker to elevate privileges locally.	hot
+CVE-2025-32709	Microsoft	windows	Use after free in Windows Ancillary Function Driver for WinSock allows an authorized attacker to elevate privileges locally.	hot
+CVE-2025-30397	Microsoft	windows	Access of resource using incompatible type ('type confusion') in Microsoft Scripting Engine allows an unauthorized attacker to execute code over a network.	hot
