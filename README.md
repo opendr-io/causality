@@ -1,7 +1,10 @@
 ![things](/img/precrime.gif?raw=true "text")  
 ## Intrusion Prediction
 
-A repo for publishing the output of an experimental intrusion prediction project. Output is posted here where it is timestamped so that any correct predictions can be verified in linear time without creating a causality loop.  A rating of 'hot' means the CVE will land on one or more watchlists due to significance, exploitation and / or impact.
+"If we don't engineer a consistent causality, it'll work itself out on its own. Then it's almost always worse."
+*- The Engineer, Contact. Carl Sagan.*
+
+A repo for publishing the output of an intrusion prediction project. CVEs are rated warm and hot acoording to their predicted potential for beinbg added to a watchlist.
 
 ### Contents:
 
@@ -12,6 +15,8 @@ A repo for publishing the output of an experimental intrusion prediction project
 BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
 
 ### Updates:
+
+May 13: Today's five MS CVEs reserved in March and released today are rated HOT!! https://github.com/cyberdyne-ventures/predictions/blob/main/2025/may-13-o4.txt
 
 Provable predictions so far (total 30) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
 
