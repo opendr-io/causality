@@ -2,9 +2,9 @@
 ## Intrusion Prediction
 
 *"If we don't engineer a consistent causality, it'll work itself out on its own. Then it's almost always worse."*
-*- The Engineer, Contact. Carl Sagan.*
+*- The Engineer, Contact, by Carl Sagan.*
 
-A repo for publishing the output of an intrusion prediction project. CVEs are rated warm and hot acoording to their predicted potential for beinbg added to a watchlist.
+A repo for publishing the output of an intrusion prediction project. CVEs are rated warm and hot acoording to their predicted potential for being added to a watchlist.
 
 ### Contents:
 
