@@ -16,9 +16,13 @@ BASC: A project presentation and accompanying notebook from the OWASP 2025 Bosto
 
 ### Updates:
 
-May 13: Today's five MS CVEs reserved in March and released today are rated HOT!! https://github.com/cyberdyne-ventures/predictions/blob/main/2025/may-13-o4.txt
+Provable predictions so far (total 31) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
 
-Provable predictions so far (total 30) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
+May 19: CVE-2024-11182 was added to the KEV. It was rated hot in the Jan 7 run which is the longest lead time yet at 135 days.
+
+```CVE-2024-11182	hot	MDaemon	Email Server	An XSS issue was discovered in MDaemon Email Server before version 24.5.1c. An attacker can send an HTML e-mail message with JavaScript in an img tag. This could allow a remote attacker to load arbitrary JavaScript code in the context of a webmail user's browser window.```
+
+May 13: Today's five MS CVEs reserved in March and released today are rated HOT!! https://github.com/cyberdyne-ventures/predictions/blob/main/2025/may-13-o4.txt
 
 May 7: CVE-2024-6047 was added to the KEV. It was rated hot in the Jan 3 run, a lead time opf almost four months.
 ```1710	CVE-2024-6047	GeoVision	GV_DSP_LPR_V2	** UNSUPPPORTED WHEN ASSIGNED ** Certain EOL GeoVision devices fail to properly filter user input for the specific functionality. Unauthenticated remote attackers can exploit this vulnerability to inject and execute arbitrary system commands on the device.	neutral	hot```
