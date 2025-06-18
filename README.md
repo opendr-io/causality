@@ -1,5 +1,5 @@
 ![things](/img/precrime.gif?raw=true "text")  
-## Intrusion Prediction
+## Causality: An Intrusion Prediction Model
 
 *"If we don't engineer a consistent causality, it'll work itself out on its own. Then it's almost always worse."*
 - Said by the engineer in *Contact,* by Carl Sagan.
@@ -16,7 +16,13 @@ BASC: A project presentation and accompanying notebook from the OWASP 2025 Bosto
 
 ### Updates:
 
-Provable predictions so far (total 31) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
+Provable predictions so far (total 33) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
+
+June 10: CVE-2025-24016 was added to the KEV. It was rated hot in the Feb 15 run, almost four months ago.
+```CVE-2025-24016	wazuh	wazuh	"Wazuh is a free and open source platform used for threat prevention, detection, and response. Starting in version 4.4.0 and prior to version 4.9.1, an unsafe deserialization vulnerability allows for remote code execution on Wazuh servers. DistributedAPI parameters are a serialized as JSON and deserialized using `as_wazuh_object` (in `framework/wazuh/core/cluster/common.py`). If an attacker manages to inject an unsanitized dictionary in DAPI request/response, they can forge an unhandled exception (`__unhandled_exc__`) to evaluate arbitrary python code. The vulnerability can be triggered by anybody with API access (compromised dashboard or Wazuh servers in the cluster) or, in certain configurations, even by a compromised agent. Version 4.9.1 contains a fix."	hot```
+
+June 9: CVE-2025-32433 was added to the KEV. It was rated hot in the May 8 run one month prior.
+```CVE-2025-32433	erlang	otp	"Erlang/OTP is a set of libraries for the Erlang programming language. Prior to versions OTP-27.3.3, OTP-26.2.5.11, and OTP-25.3.2.20, a SSH server may allow an attacker to perform unauthenticated remote code execution (RCE). By exploiting a flaw in SSH protocol message handling, a malicious actor could gain unauthorized access to affected systems and execute arbitrary commands without valid credentials. This issue is patched in versions OTP-27.3.3, OTP-26.2.5.11, and OTP-25.3.2.20. A temporary workaround involves disabling the SSH server or to prevent access via firewall rules."	hot```
 
 May 19: CVE-2024-11182 was added to the KEV. It was rated hot in the Jan 7 run which is the longest lead time yet at 135 days.
 
