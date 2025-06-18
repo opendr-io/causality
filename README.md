@@ -1,8 +1,5 @@
-![things](/img/precrime.gif?raw=true "text")  
-## Causality: An Intrusion Prediction Model
+![things](/img/causality.PNG?raw=true "text")  
 
-*"If we don't engineer a consistent causality, it'll work itself out on its own. Then it's almost always worse."*
-- Said by the engineer in *Contact,* by Carl Sagan.
 
 A repo for publishing the output of an intrusion prediction project. CVEs are rated warm and hot according to their predicted potential for being added to a watchlist and / or becoming fire drills.
 
