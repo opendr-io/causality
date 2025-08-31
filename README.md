@@ -8,7 +8,7 @@
 
 **WARM** CVEs still have potential but they're less likely to become something we hear about. A possible B-list of priorities for more risk reduction.
 
-Everything else was rated cold by the model, meaning they have some potential, but probably won't be the ones that we hear about.
+Everything else was rated cold by the model, meaning they have some potential, but probably won't be the ones that we hear about. Note I am talking about risk reduction, not risk eradication. Use these ratings in concert with local data.
 
 [2024](/2024): Ratings runs for calendar 2024 CVES that came out of the model rated 'hot.' It is possible to predict most of the wathclisted CVEs will be in a subset of 12% of the population.
 
