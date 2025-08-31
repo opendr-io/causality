@@ -5,6 +5,7 @@
     </td>
   </tr>
 </table>
+
 ### Contents:
 
 2025: CVEs from calendar 2025 that have been rated. Starting with the August run, in that folder, there are two raing levels now, hot and warm. 
