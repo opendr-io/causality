@@ -1,6 +1,5 @@
 <table>
   <tr>
-    <td><img src="/img/causality-2.png" alt="things" width="800"></td>
     <td><img src="/img/august.png" alt="things" height=1000 width=1000"></td>
     <td>
       <div style="font-size:32px; line-height:2;">
@@ -8,8 +7,13 @@
     </td>
   </tr>
 </table>
-
-### Contents:
+        
+<table>
+  <tr>
+    <td><img src="/img/august.png" alt="things" height=1000 width=1000"></td>
+    <td>
+      <div style="font-size:32px; line-height:2;">
+     ### Contents:
 
 2025: CVEs from calendar 2025 that have been rated. Starting with the August run, in that folder, there are two raing levels now, hot and warm. 
 
@@ -17,6 +21,11 @@ Hot CVEs have more potential to become something that blows up. Warms still have
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
 BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
+    </td>
+  </tr>
+</table>
+
+
 
 ### Updates:
 
