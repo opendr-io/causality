@@ -1,4 +1,4 @@
-<table><td><img src="/img/august.png" alt="things" height=500 width=500></td>/table>
+<table><td><img src="/img/august.png" alt="things" height=500 width=500></td></table>
 
 ### Contents:
 
