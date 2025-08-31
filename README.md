@@ -2,7 +2,7 @@
 
 ### Contents:
 
-[2025](/2025) : CVEs from calendar 2025 that have been rated by the CAUSALITY model. Starting with the [August](/2025/August) run, in that folder, there are two rating levels now, hot and warm. 
+[2025](/2025) : CVEs from calendar 2025 that have been rated by the CAUSALITY model. Starting with the [August](/2025/August) run, in that folder, there are two rating levels now, hot and warm. This is being done with a multi-stage pipeline of models and algos and has nothing to do with severity, CVSs, EPSS, or the other conventional metrics. The model is not open sourced at this time.
 
 **HOT** CVEs have more potential to become a widely exploited vuln with more impact. If you can target these it will reduce risk.
 
