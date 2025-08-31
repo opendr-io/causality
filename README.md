@@ -1,12 +1,3 @@
-<table>
-  <tr>
-    <td><img src="/img/causality-2.png" alt="things"></td>
-    <td>
-      <div style="font-size:32px; line-height:2;">
-     
-    </td>
-  </tr>
-</table>
         
 <table>
   <tr>
