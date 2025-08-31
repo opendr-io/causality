@@ -2,9 +2,7 @@
   <tr>
     <td>
       <img src="/img/august.png" alt="things" style="width:100%; height:100%;">
-
     </td>
-  
   </tr>
 </table>
 
