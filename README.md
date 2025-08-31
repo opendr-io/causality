@@ -12,6 +12,7 @@
 Hot CVEs have more potential to become something that blows up. Warms still have potential but they're less likely to become a major problem. Everything not in these files was rated cold by the model, meaning it has some non-zero potential, but probably won't be the ones that we hear about.
 
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
+
 BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
 
 ### Updates:
