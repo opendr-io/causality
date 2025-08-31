@@ -1,9 +1,7 @@
 <table>
-  <tr>
     <td>
      <td><img src="/img/august.png" alt="things" height=500 width=500></td
     </td>
-  </tr>
 </table>
 
 ### Contents:
