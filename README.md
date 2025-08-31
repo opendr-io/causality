@@ -8,7 +8,7 @@
 
 **WARM** CVEs still have potential but they're less likely to become something we hear about. A possible B-list of priorities for more risk reduction.
 
-Everything else was rated cold by the model, meaning they have some potential, but probably won't be the ones that we hear about. Note I am talking about risk reduction, not risk eradication. Use these ratings in concert with local data. I am rating nearly all current CVEs - over 17k in this latest run - but there may be a few stragglers that were not processed. Let me know if you're looking for a specific CVE. I am not rating Wordpress vulns because I get better results keeping them out of the model so of you're running Wordpress, let me know if you want ratings for those. 
+Everything else was rated cold by the model, meaning they have some potential, but probably won't be the ones that we hear about. Note I am talking about risk reduction, not risk eradication. Use these ratings in concert with local data. I am rating nearly all current CVEs - over 17k in this latest run - but there may be a few stragglers that were not processed. Let me know if you're looking for a specific CVE. I am not rating Wordpress vulns because I get better results keeping them out of the model so of you're running Wordpress, let me know if you want ratings for those. I have not gone back further than 2024 but if you want me to rate the entire population over the past two decades, hit me up.
 
 [2024](/2024): Ratings runs for calendar 2024 CVES that came out of the model rated 'hot.' It is possible to predict most of the wathclisted CVEs will be in a subset of 12% of the population.
 
