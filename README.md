@@ -3,8 +3,10 @@
 ### Contents:
 
 [2025](/2025) : CVEs from calendar 2025 that have been rated. Starting with the [August](/2025/August) run, in that folder, there are two ratimg levels now, hot and warm. 
-**HOT** CVEs have more potential to become a widely exploited vuln with more impact.
-**WARM** CVEs still have potential but they're less likely to become something we hear about. A possible B-list of priorities.
+**HOT** CVEs have more potential to become a widely exploited vuln with more impact. If you can target these it will reduce risk.
+
+**WARM** CVEs still have potential but they're less likely to become something we hear about. A possible B-list of priorities for more risk reduction.
+
 Everything else was rated cold by the model, meaning they have some potential, but probably won't be the ones that we hear about.
 
 [2024](/2024): Ratings runs for calendar 2024 CVES that came out of the model rated 'hot.' It is possible to predict most of the wathclisted CVEs will be in a subset of 12% of the population.
