@@ -10,10 +10,11 @@
 
 ### Contents:
 
+2025: CVEs from calendar 2025 that have been rated. Starting with the August run, in that folder, there are two raing levels now, hot and warm. 
+
+Hot CVEs have more potential to become something that blows up. Warms still have potential but they're less likely to become a major problem. Everything not in these files was rated cold by the model, meaning it has some non-zero potential, but probably won't be the ones that we hear about.
+
 2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
-
-2025: CVEs from calendar 2025 that came out of the model rated 'hot.'
-
 BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
 
 ### Updates:
