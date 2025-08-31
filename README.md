@@ -1,18 +1,27 @@
-        
 <table>
   <tr>
-    <td><img src="/img/august.png" alt="things" height=4000 width=4000></td>
     <td>
-      <div style="font-size:32px; line-height:2;">
-      CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with early warning times as long as 137 days in order to actually shift "left of boom" and live our best lives. Every incident response we turn into incident avoidance gives time back to busy DevOPS teams while removing business risk. In calendar 2205 it has made 58 verifiable perdictions forward in time. 
-        Contents:
-
-2025: CVEs from calendar 2025 that have been rated. Starting with the August run, in that folder, there are two raing levels now, hot and warm. 
-
-Hot CVEs have more potential to become something that blows up. Warms still have potential but they're less likely to become a major problem. Everything not in these files was rated cold by the model, meaning it has some non-zero potential, but probably won't be the ones that we hear about.
-
-2024: CVEs from calendar 2024 that came out of the model rated 'hot.' 
-BASC: A project presentation and accompanying notebook from the OWASP 2025 Boston Appication Security Conference. 
+      <img src="/img/august.png" alt="things" style="max-width:600px; height:auto;">
+    </td>
+    <td>
+      <div style="font-size:32px; line-height:2; max-width:600px;">
+        CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted 
+        with early warning times as long as 137 days in order to actually shift "left of boom" and live our 
+        best lives. Every incident response we turn into incident avoidance gives time back to busy DevOPS 
+        teams while removing business risk. In calendar 2205 it has made 58 verifiable predictions forward 
+        in time. 
+        <br><br>
+        <strong>Contents:</strong><br><br>
+        <b>2025:</b> CVEs from calendar 2025 that have been rated. Starting with the August run, in that 
+        folder, there are two rating levels now, hot and warm.<br><br>
+        Hot CVEs have more potential to become something that blows up. Warms still have potential but 
+        they're less likely to become a major problem. Everything not in these files was rated cold by the 
+        model, meaning it has some non-zero potential, but probably won't be the ones that we hear about.
+        <br><br>
+        <b>2024:</b> CVEs from calendar 2024 that came out of the model rated 'hot.'<br>
+        <b>BASC:</b> A project presentation and accompanying notebook from the OWASP 2025 Boston Application 
+        Security Conference.
+      </div>
     </td>
   </tr>
 </table>
