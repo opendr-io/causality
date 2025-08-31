@@ -3,6 +3,7 @@
 ### Contents:
 
 [2025](/2025) : CVEs from calendar 2025 that have been rated. Starting with the [August](/2025/August) run, in that folder, there are two ratimg levels now, hot and warm. 
+
 **HOT** CVEs have more potential to become a widely exploited vuln with more impact. If you can target these it will reduce risk.
 
 **WARM** CVEs still have potential but they're less likely to become something we hear about. A possible B-list of priorities for more risk reduction.
