@@ -1,8 +1,7 @@
 <table>
   <tr>
     <td>
-      <img src="/img/august.png" alt="things" style="width:800px; height:auto;">
-
+      <img src="/img/august.png" alt="things" style="width:100px; height:auto;">
     </td>
     <td>
       <div style="font-size:32px; line-height:2; max-width:600px;">
