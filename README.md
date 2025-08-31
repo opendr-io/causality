@@ -1,4 +1,4 @@
-![things](/img/causality.PNG?raw=true "text")  
+![things](/img/causality-2.jpg?raw=true "text")  
 
 Causality is an intrusion prediction model that is successfully predicting CVEs being watchlisted with early warning times as long as 137 days in order to actually shift "left of boom" and live our best lives.  Every incident response we turn into incident avoidance gives time back to busy DevOPS teams while removing business risk.
 
@@ -12,7 +12,68 @@ BASC: A project presentation and accompanying notebook from the OWASP 2025 Bosto
 
 ### Updates:
 
-Provable predictions so far (total 33) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of widely exploited critical vulns.
+Provable predictions so far (total 58) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of the 'hot' rated vulns are also being exploited but we have yet to observe or measure the activity.
+
+August 25: CVEs 2024-8068 and 2024-8096 were added to the KEV. These were rated hot in the Jan 7 run which makes them the longest lead time so far at more than seven and one half months.
+
+```CVE-2024-8068	Citrix	Citrix Session Recording	Privilege escalation to NetworkService Account accessÂ in Citrix Session Recording when an attacker is an authenticated user in the same Windows Active Directory domain as the session recording server domain```
+
+```CVE-2024-8069	Citrix Session Recording	Citrix Session Recording	Limited remote code execution with privilege of a NetworkService Account accessÂ inÂ Citrix Session Recording if the attacker is an authenticated user on the same intranet as the session recording server```
+
+August 19: Shadowserver Reported Expliotation of these CVEs rated hot earlier this year:
+
+```CVE-2024-7029	hot	AVTech	AVM1203 (IP Camera)	Commands can be injected over the network and executed without authentication.	```
+
+```CVE-2024-22024	hot	Ivanti	ICS	"An XML external entity or XXE vulnerability in the SAML component of Ivanti Connect Secure (9.x, 22.x), Ivanti Policy Secure (9.x, 22.x) and ZTA gateways which allows an attacker to access certain restricted resources without authentication."	```
+
+```CVE-2024-5827	hot	vanna-ai	vanna-ai/vanna	"Vanna v0.3.4 is vulnerable to SQL injection in its DuckDB integration exposed to its Flask Web APIs. Attackers can inject malicious SQL training data and generate corresponding queries to write arbitrary files on the victim's file system, such as backdoor.php with contents `<?php system($_GET[0]); ?>`. This can lead to command execution or the creation of backdoors."	```
+
+```CVE-2024-48307	hot			JeecgBoot v3.7.1 was discovered to contain a SQL injection vulnerability via the component /onlDragDatasetHead/getTotalData.```
+
+```CVE-2024-6893	hot	Journyx	Journyx (jtime)	"The ""soap_cgi.pyc"" API handler allows the XML body of SOAP requests to contain references to external entities. This allows an unauthenticated attacker to read local files, perform server-side request forgery, and overwhelm the web server resources."	```
+
+```CVE-2024-1561	hot	gradio-app	gradio-app/gradio	"An issue was discovered in gradio-app/gradio, where the `/component_server` endpoint improperly allows the invocation of any method on a `Component` class with attacker-controlled arguments. Specifically, by exploiting the `move_resource_to_block_cache()` method of the `Block` class, an attacker can copy any file on the filesystem to a temporary directory and subsequently retrieve it. This vulnerability enables unauthorized local file read access, posing a significant risk especially when the application is exposed to the internet via `launch(share=True)`, thereby allowing remote attackers to read files on the host machine. Furthermore, gradio apps hosted on `huggingface.co` are also affected, potentially leading to the exposure of sensitive information such as API keys and credentials stored in environment variables."		```
+
+```CVE-2024-25852	hot			"Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the ""AccessControlList"" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights."	```e
+
+```9832	CVE-2025-0674	Elber	Cleber/3 Broadcast Multi-Purpose Platform; ESE DVB-S/S2 Satellite Receiver; Reble610 M/ODU XPIC IP-ASI-SDH; Signum DVB-S/S2 IRD; Wayber Analog/Digital Audio STL	"Multiple Elber products are affected by an authentication bypass ```
+
+```CVE-2024-8752	hot	Smart HMI	WebIQ	The Windows version of WebIQ 2.15.9 is affected by a directory traversal vulnerability that allows remote attackers to read any file on the system.	```
+
+```CVE-2024-28255	hot	open-metadata	OpenMetadata	"OpenMetadata is a unified platform for discovery, observability, and governance powered by a central metadata repository, in-depth lineage, and seamless team collaboration. The `JwtFilter` handles the API authentication by requiring and verifying JWT tokens. When a new request comes in, the request's path is checked against this list. When the request's path contains any of the excluded endpoints the filter returns without validating the JWT. Unfortunately, an attacker may use Path Parameters to make any path contain any arbitrary strings. For example, a request to `GET /api/v1;v1%2fusers%2flogin/events/subscriptions/validation/condition/111` will match the excluded endpoint condition and therefore will be processed with no JWT validation allowing an attacker to bypass the authentication mechanism and reach any arbitrary endpoint, including the ones listed above that lead to arbitrary SpEL expression injection. This bypass will not work when the endpoint uses the `SecurityContext.getUserPrincipal()` since it will return `null` and will throw an NPE. This issue may lead to authentication bypass and has been addressed in version 1.2.4. Users are advised to upgrade. There are no known workarounds for this vulnerability. This issue is also tracked as `GHSL-2023-237`."	```
+
+August 18: Shadowserver Reported Expliotation of these CVEs rated hot earlier this year:
+
+```CVE-2024-38653	hot	Ivanti	Avalanche	XXE in SmartDeviceServer in Ivanti Avalanche 6.3.1 allows a remote unauthenticated attacker to read arbitrary files on the server.```
+
+```CVE-2024-38289	hot			"A boolean-based SQL injection issue in the Virtual Meeting Password (VMP) endpoint in R-HUB TurboMeeting through 8.x allows unauthenticated remote attackers to extract hashed passwords from the database, and authenticate to the application, via crafted SQL input."```
+
+```CVE-2024-31750	hot			SQL injection vulnerability in f-logic datacube3 v.1.0 allows a remote attacker to obtain sensitive information via the req_id parameter.```
+
+```CVE-2024-34257	hot			"TOTOLINK EX1800T V9.1.0cu.2112_B20220316 has a vulnerability in the apcliEncrypType parameter that allows unauthorized execution of arbitrary commands, allowing an attacker to obtain device administrator privileges."```
+
+```CVE-2024-29973	hot	Zyxel	NAS326 firmware	** UNSUPPORTED WHEN ASSIGNED **	"The command injection vulnerability in the “setCookie” parameter in Zyxel NAS326 firmware versions before V5.21(AAZF.17)C0 and NAS542 firmware versions before V5.21(ABAG.14)C0 could allow an unauthenticated attacker to execute some operating system (OS) commands by sending a crafted HTTP POST request."""```
+
+```CVE-2024-54763	hot			An access control issue in the component /login/hostinfo.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
+
+```CVE-2024-54764	hot			An access control issue in the component /login/hostinfo2.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
+
+```CVE-2024-50334	hot	Erudika	scoold	"Scoold is a Q&A and a knowledge sharing platform for teams. A semicolon path injection vulnerability was found on the /api;/config endpoint. By appending a semicolon in the URL, attackers can bypass authentication and gain unauthorised access to sensitive configuration data. Furthermore, PUT requests on the /api;/config endpoint while setting the Content-Type: application/hocon header allow unauthenticated attackers to file reading via HOCON file inclusion. This allows attackers to retrieve sensitive information such as configuration files from the server, which can be leveraged for further exploitation. The vulnerability has been fixed in Scoold 1.64.0. A workaround would be to disable the Scoold API with scoold.api_enabled = false."```
+
+July 21: Shadowserver
+
+```CVE-2024-34193	hot			"smanga 3.2.7 does not filter the file parameter at the PHP/get file flow.php interface, resulting in a path traversal vulnerability that can cause arbitrary file reading."```	
+
+```10684	CVE-2025-28137			The TOTOLINK A810R V4.1.2cu.5182_B20201026 were found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
+
+```10750	CVE-2025-28036			TOTOLINK A950RG V4.1.2cu.5161_B20200903 was found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
+
+```CVE-2024-51211	hot			"SQL injection vulnerability exists in OS4ED openSIS-Classic Version 9.1, specifically in the resetuserinfo.php file. The vulnerability is due to improper input validation of the $username_stn_id parameter, which can be manipulated by an attacker to inject arbitrary SQL commands."```
+
+July 10: Shadowserver
+
+```CVE-2024-7399	hot	Samsung Electronics	MagicINFO 9 Server	Improper limitation of a pathname to a restricted directory vulnerability in Samsung MagicINFO 9 Server version before 21.1050 allows attackers to write arbitrary file as system authority.```	
+
 
 June 10: CVE-2025-24016 was added to the KEV. It was rated hot in the Feb 15 run, almost four months ago.
 ```CVE-2025-24016	wazuh	wazuh	"Wazuh is a free and open source platform used for threat prevention, detection, and response. Starting in version 4.4.0 and prior to version 4.9.1, an unsafe deserialization vulnerability allows for remote code execution on Wazuh servers. DistributedAPI parameters are a serialized as JSON and deserialized using `as_wazuh_object` (in `framework/wazuh/core/cluster/common.py`). If an attacker manages to inject an unsanitized dictionary in DAPI request/response, they can forge an unhandled exception (`__unhandled_exc__`) to evaluate arbitrary python code. The vulnerability can be triggered by anybody with API access (compromised dashboard or Wazuh servers in the cluster) or, in certain configurations, even by a compromised agent. Version 4.9.1 contains a fix."	hot```
