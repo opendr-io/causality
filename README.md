@@ -1,7 +1,7 @@
         
 <table>
   <tr>
-    <td><img src="/img/august.png" alt="things" height=4000 width=2000"></td>
+    <td><img src="/img/august.png" alt="things" height=4000 width=4000"></td>
     <td>
       <div style="font-size:32px; line-height:2;">
       CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with early warning times as long as 137 days in order to actually shift "left of boom" and live our best lives. Every incident response we turn into incident avoidance gives time back to busy DevOPS teams while removing business risk. In calendar 2205 it has made 58 verifiable perdictions forward in time. 
