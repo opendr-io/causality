@@ -1,7 +1,7 @@
 
 ![Alt text](img/causality.png)
 
-## CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with lead times ranging from days to months. Every incident response we turn into incident avoidance allows us actually get "left of boom" and live our best lives. Risk avoidance gives time back to busy DevOPS teams, in addition to security teams, while producing greater CVE risk reduction velocity than conventional or manual processes.
+### CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with lead times ranging from days to months. Every incident response we turn into incident avoidance allows us actually get "left of boom" and live our best lives. Risk avoidance gives time back to busy DevOPS teams, in addition to security teams, while producing greater CVE risk reduction velocity than conventional or manual processes.
 
 ### Contents:
 
