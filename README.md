@@ -1,5 +1,5 @@
 
-![Alt text](img/causality.png)
+![Alt text](img/causality.PNG)
 
 ### Contents:
 
