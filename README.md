@@ -1,6 +1,8 @@
 
 ![Alt text](img/causality.png)
 
+## CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with lead times ranging from days to months. Every incident response we turn into incident avoidance allows us actually get "left of boom" and live our best lives. Risk avoidance gives time back to busy DevOPS teams, in addition to security teams, while producing greater CVE risk reduction velocity than conventional or manual processes.
+
 ### Contents:
 
 [2025](/2025) : CVEs from calendar 2025 that have been rated by the CAUSALITY model. Starting with the [August](/2025/August) run, in that folder, there are two rating levels now, hot and warm. This is being done with a multi-stage pipeline of models and algos and has nothing to do with severity, CVSs, EPSS, or the other conventional metrics. The model is not open sourced at this time.
