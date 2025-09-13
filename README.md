@@ -19,7 +19,13 @@ Everything else was rated cold by the model, meaning they have some potential, b
 
 ### Updates:
 
-Provable predictions so far (total 58) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of the 'hot' rated vulns are also being exploited but we have yet to observe or measure the activity.
+Provable predictions so far (total 60) - provable meanining the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+
+September 12: 2025-25231 went hot. It was rated warm in the August run.
+```CVE-2025-25231,PUBLISHED,Omnissa,2025-08-11T18:12:49.711Z,,Omnissa Workspace ONE UEM contains a Secondary Context Path Traversal Vulnerability. A malicious actor may be able to gain access to sensitive information by sending crafted GET requests (read-only) to restricted API endpoints.,OMNISSA,Omnissa Workspace ONE UEM,warm```
+
+September 11: 2025-5086 was added to the KEV and ENISA watchlists. It was rated hot.
+```CVE-2025-5086,PUBLISHED,3DS,2025-06-02T17:42:42.620Z,Deserialization of Untrusted Data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A deserialization of untrusted data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could lead to a remote code execution.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
 
 August 25: CVEs 2024-8068 and 2024-8096 were added to the KEV. These were rated hot in the Jan 7 run which makes them the longest lead time so far at more than seven and one half months.
 
