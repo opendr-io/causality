@@ -5,7 +5,7 @@
 
 ### Contents:
 
-causality.ipynb: a Jupyter notebook for processing vuln data and adding ratings. 
+[causlality.ipynb](https://github.com/opendr-io/causality/blob/main/causality.ipynbcausality.ipynb): a Jupyter notebook for processing vuln data and adding ratings. 
 
 [2025](/2025) : CVEs from calendar 2025 that have been rated by the CAUSALITY model. Starting with the [August](/2025/August) run, in that folder, there are two rating levels now, hot and warm. This is being done with a multi-stage pipeline of models and algos and has nothing to do with severity, CVSs, EPSS, or the other conventional metrics. The model is not open sourced at this time.
 
