@@ -1,6 +1,5 @@
 # streamlit_app.py — Dual-source CVE search (SQLite FTS5), RAM-served
-# Search inputs live in the LEFT SIDEBAR; results render in the main page.
-# No auto-results until a query; fixed logo from file; no pagination; show all fields.
+# Sidebar inputs; results in main pane; no auto-results; fixed logo; safe FTS params.
 #
 # Primary TSV (cves.tsv) headers (nulls allowed):
 #   cve, assigner, published, title, description, vendor, product, "affected versions", rating
@@ -11,12 +10,14 @@
 import csv
 import hashlib
 import pathlib
+import re
 import sqlite3
 from typing import List, Tuple
 import urllib.parse
+
 import streamlit as st
 
-# -------- Config --------env
+# -------- Config --------
 DEFAULT_TSV_PRIMARY  = "2025.tsv"   # primary dataset
 DEFAULT_TSV_PRED2024 = "2024.tsv"   # secondary dataset
 DB_PATH = "cve.db"                  # on-disk cache (rebuilt only if sources change)
@@ -64,10 +65,22 @@ def _render_logo(logo_bytes: bytes, ext: str):
     else:
         st.image(logo_bytes, caption=None, use_container_width=False)
 
-# -------- Build/refresh on-disk DB if any TSV changed --------
+def build_fts_param(q: str, vendor_key: str, product_key: str, affected_key: str = "affected_versions"):
+    """Return [param] for MATCH ? (quoted if CVE-like) or [] when q is empty."""
+    q = (q or "").strip()
+    if not q:
+        return []
+    qx = (q.replace("vendor:", f"{vendor_key} ")
+            .replace("product:", f"{product_key} ")
+            .replace("affected:", f"{affected_key} "))
+    # Quote CVE-like tokens so '-' isn't parsed as boolean NOT
+    if re.fullmatch(r"[A-Za-z]+-\d{4}-\d{1,7}", qx):
+        qx = f'"{qx}"'
+    return [qx]
+
+# -------- Build / refresh on-disk DB if any TSV changed --------
 @st.cache_resource(show_spinner=False)
 def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str:
-    # Combined signature: either file change triggers rebuild
     sig = _sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024)
     sig_file = pathlib.Path(db_path + ".sig")
     need_build = True
@@ -231,8 +244,8 @@ def serve_from_memory(db_path: str) -> sqlite3.Connection:
 logo_bytes, logo_ext = _load_logo_bytes(DEFAULT_LOGO)
 if logo_bytes:
     _render_logo(logo_bytes, logo_ext)
-st.title("🔎 CVE Rating Search")
-st.caption("Ratings are available for 2024 and January - August 2025. The RAM-backed SQLite FTS5 will take a few moments to load. Enter a query to begin. A null result means a CVE has not been rated hot or warm.")
+st.title("🔎 CVE Search (RAM-backed SQLite FTS5)")
+st.caption("Search across primary CVE data and 2024 predictions. Enter a query in the sidebar to begin.")
 
 # -------- Sidebar: paths, maintenance, and SEARCH INPUTS --------
 with st.sidebar:
@@ -250,9 +263,9 @@ with st.sidebar:
     st.subheader("Search")
     q = st.text_input(
         "Full-text query",
-        #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
+        placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
     )
-    exact_cve = st.text_input("Exact CVE (use UPPERCASE)" )
+    exact_cve = st.text_input("Exact CVE (fast)", placeholder="CVE-2024-12345")
     vendor = st.text_input("Vendor (prefix)", "")
     product = st.text_input("Product (prefix)", "")
 
@@ -306,28 +319,18 @@ def build_filters_p2024():
 where_c, params_c = build_filters_primary()
 where_p, params_p = build_filters_p2024()
 
-# -------- Two-phase FTS for each dataset (no pagination) --------
-def scope_query(qs: str, vendor_key: str, product_key: str):
-    return (qs.replace("vendor:", f"{vendor_key} ")
-              .replace("product:", f"{product_key} "))
+where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
+where_sql_p = ("WHERE " + " AND ".join(where_p)) if where_p else ""
+
+# -------- Safe FTS params (only add MATCH when q is non-empty) --------
+fts_params_c = build_fts_param(q, "vendor", "product", "affected_versions")
+fts_params_p = build_fts_param(q, "vendor", "product", "description")  # description is indexed too
 
 HIT_CAP_PRIMARY  = max(RESULT_LIMIT_PRIMARY  * 5, 500)
 HIT_CAP_PRED2024 = max(RESULT_LIMIT_PRED2024 * 5, 500)
 
-# --- Primary
-fts_params_c = []
-if q.strip():
-    qx = (q.replace("vendor:", "vendor ")
-            .replace("product:", "product ")
-            .replace("affected:", "affected_versions "))
-    # If user typed a CVE-looking token in the full-text box, wrap in quotes to prevent the '-' being parsed as NOT
-    import re
-    if re.fullmatch(r"[A-Za-z]+-\d{4}-\d{1,7}", qx.strip()):
-        qx = f'"{qx.strip()}"'
-    fts_params_c = [qx]
-
+# --- Primary queries
 if fts_params_c:
-    where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
     count_sql_c = f"""
     WITH hits AS (
       SELECT rowid, bm25(cve_fts) AS rank
@@ -353,10 +356,9 @@ if fts_params_c:
     ORDER BY h.rank, c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
     """
-    count_params_c = fts_params_c
+    count_params_c  = fts_params_c
     search_params_c = fts_params_c + params_c
 else:
-    where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
     count_sql_c = f"SELECT COUNT(*) FROM cves c {where_sql_c}"
     search_sql_c = f"""
     SELECT c.*
@@ -365,21 +367,11 @@ else:
     ORDER BY c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
     """
-    count_params_c = params_c
+    count_params_c  = params_c
     search_params_c = params_c
 
-# --- 2024 predictions
-fts_params_p = []
-if q.strip():
-    qx = (q.replace("vendor:", "vendor ")
-            .replace("product:", "product "))
-    import re
-    if re.fullmatch(r"[A-Za-z]+-\d{4}-\d{1,7}", qx.strip()):
-        qx = f'"{qx.strip()}"'
-    fts_params_p = [qx]
-
+# --- Predictions 2024 queries
 if fts_params_p:
-    where_sql_p = ("WHERE " + " AND ".join(where_p)) if where_p else ""
     count_sql_p = f"""
     WITH hits AS (
       SELECT rowid, bm25(preds2024_fts) AS rank
@@ -392,7 +384,7 @@ if fts_params_p:
     """
     search_sql_p = f"""
     WITH hits AS (
-      SELECT rowid, bm5(preds2024_fts) AS rank
+      SELECT rowid, bm25(preds2024_fts) AS rank
       FROM preds2024_fts
       WHERE preds2024_fts MATCH ?
       ORDER BY rank
@@ -405,14 +397,9 @@ if fts_params_p:
     ORDER BY h.rank, p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
     """
-    # NOTE: bm5 -> typo? Replace with bm25 in final version
-    # Fixing the typo:
-    search_sql_p = search_sql_p.replace("bm5(", "bm25(")
-
-    count_params_p = fts_params_p
+    count_params_p  = fts_params_p
     search_params_p = fts_params_p + params_p
 else:
-    where_sql_p = ("WHERE " + " AND ".join(where_p)) if where_p else ""
     count_sql_p = f"SELECT COUNT(*) FROM preds2024 p {where_sql_p}"
     search_sql_p = f"""
     SELECT p.*
@@ -421,7 +408,7 @@ else:
     ORDER BY p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
     """
-    count_params_p = params_p
+    count_params_p  = params_p
     search_params_p = params_p
 
 # Optional: EXPLAIN plans
@@ -439,12 +426,10 @@ if explain:
         st.write(plan)
 
 # -------- Execute --------
-#total_c = con.execute(count_sql_c, count_params_c).fetchone()[0]
-total_c = con.execute(count_sql_c, fts_params_c).fetchone()[0]
+total_c = con.execute(count_sql_c, count_params_c).fetchone()[0]
 rows_c  = con.execute(search_sql_c,  search_params_c).fetchall()
 
-#total_p = con.execute(count_sql_p, count_params_p).fetchone()[0]
-total_p = con.execute(count_sql_p, fts_params_p).fetchone()[0]
+total_p = con.execute(count_sql_p, count_params_p).fetchone()[0]
 rows_p  = con.execute(search_sql_p,  search_params_p).fetchall()
 
 # -------- Render helpers --------
