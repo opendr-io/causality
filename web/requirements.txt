@@ -1,5 +1,6 @@
 csv
 hashlib
+pathlib
 sqlite3
 streamlit
 typing
