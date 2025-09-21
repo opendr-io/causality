@@ -252,7 +252,7 @@ with st.sidebar:
         "Full-text query",
         #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
     )
-    exact_cve = st.text_input("Exact CVE (use UPPERCASE)" )
+    exact_cve = st.text_input("Exact CVE (eg CVE-2025-1234)" )
     vendor = st.text_input("Vendor (prefix)", "")
     product = st.text_input("Product (prefix)", "")
 
