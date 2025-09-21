@@ -252,7 +252,7 @@ with st.sidebar:
         "Full-text query",
         #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
     )
-    exact_cve = st.text_input("Exact CVE (fast)" )
+    exact_cve = st.text_input("Exact CVE (use UPPERCASE)" )
     vendor = st.text_input("Vendor (prefix)", "")
     product = st.text_input("Product (prefix)", "")
 
@@ -439,7 +439,7 @@ def show_field(label: str, val: str):
     st.markdown(f"**{label}:** {v if v else '—'}")
 
 # -------- Render: Primary section --------
-st.write(f"### Primary CVE data — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results")
+st.write(f"### 2025 Ratings — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results")
 for r in rows_c:
     with st.container(border=True):
         sev = (r["rating"] or "UNKNOWN").upper()
@@ -462,7 +462,7 @@ for r in rows_c:
 st.divider()
 
 # -------- Render: 2024 predictions section --------
-st.write(f"### 2024 Predictions — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results")
+st.write(f"### 2024 Ratings — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results")
 for r in rows_p:
     with st.container(border=True):
         st.markdown(f"**{r['cve']}**  —  {(r['predicted_label'] or 'UNKNOWN').upper()}")
