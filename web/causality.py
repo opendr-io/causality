@@ -1,11 +1,11 @@
 # streamlit_app.py — Dual-source CVE search (SQLite FTS5), RAM-served
-# Search inputs live in the LEFT SIDEBAR; results render in the main page.
-# No auto-results until a query; fixed logo from file; no pagination; show all fields.
+# A search page for the CAUSALITY ratings data
+# Search inputs should live in the LEFT SIDEBAR; results should render in the main page.
 #
-# Primary TSV (cves.tsv) headers (nulls allowed):
+# 2025 TSV (2025.tsv) headers (nulls allowed):
 #   cve, assigner, published, title, description, vendor, product, "affected versions", rating
 #
-# Secondary TSV (2024.tsv) headers (nulls allowed):
+# 2024 TSV (2024.tsv) headers (nulls allowed):
 #   cveID, Predicted_Label, vendorProject, product, description
 
 import csv
