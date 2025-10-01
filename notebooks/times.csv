@@ -1,0 +1,60 @@
+,cve,leadtimedays,rating,listing,dateadded
+0,CVE-2024-11120,120,Rated hot Jan 3 → KEV May 7 (~4 months),,2025-05-07
+1,CVE-2024-11182,135,Rated hot Jan 7 → KEV May 19 (135 days),,2025-05-19
+2,CVE-2024-12686,10,Rated hot Jan 3 → KEV Jan 13 (10 days),,2025-01-13
+3,CVE-2024-13159,60,Rated hot Jan 17 → KEV Mar 10 (~2 months),,2025-03-10
+4,CVE-2024-13160,60,Same as above (~2 months),,2025-03-10
+5,CVE-2024-13161,60,Same as above (~2 months),,2025-03-10
+6,CVE-2024-1561 ,228,Rated hot Jan 3,Listed August 19,
+7,CVE-2024-20439,87,Rated hot Jan 3 → KEV Mar 31 (87 days),,2025-03-31
+8,CVE-2024-21413,35,Rated hot Jan 3 → KEV Feb 6 (35 days),,2025-02-06
+9,CVE-2024-22024 ,228,Rated hot Jan 3,Listed August 19,
+10,CVE-2024-25852 ,224,Rated hot Jan 7,Listed August 19,
+11,CVE-2024-28255 ,224,Rated hot Jan 7,Listed August 19,
+12,CVE-2024-29059,18,Rated hot Jan 17 → KEV Feb 4 (18 days),,2025-02-04
+13,CVE-2024-29973 ,227,Rated hot Jan 3,Listed August 18,
+14,CVE-2024-31750 ,223,Rated hot Jan 7,Listed August 18,
+15,CVE-2024-34193 ,185,Rated hot Jan 17,Listed July 21,
+16,CVE-2024-34257 ,223,Rated hot Jan 7,Listed August 18,
+17,CVE-2024-38289 ,223,Rated hot Jan 7,Listed August 18,
+18,CVE-2024-38475,120,Rated hot Jan 3 → KEV May 1 (~4 months),,2025-05-01
+19,CVE-2024-38653 ,223,Rated hot Jan 7,Listed August 18,
+20,CVE-2024-41710,51,Rated hot Jan 7 → KEV Feb 12 (51 days),,2025-02-12
+21,CVE-2024-48307 ,214,Rated hot Jan 17,Listed August 19,
+22,CVE-2024-4885,60,Rated hot Jan 3 → KEV Mar 3 (~2 months),,2025-03-03
+23,CVE-2024-49035,50,Rated hot Jan 3 → KEV Feb 25 (~7 weeks),,2025-02-25
+24,CVE-2024-50302,60,Rated hot Jan 7 → KEV Mar 4 (~2 months),,2025-03-04
+25,CVE-2024-50334 ,223,Rated hot Jan 7,Listed August 18,
+26,CVE-2024-51211,195,Rated hot Jan 7,Listed July 21,
+27,CVE-2024-53104,34,Rated hot Jan 3 → KEV Feb 5 (34 days),,2025-02-05
+28,CVE-2024-53150,92,Rated hot Jan 7 → KEV Apr 9 (92 days),,2025-04-09
+29,CVE-2024-53197,92,Same as above (92 days),,2025-04-09
+30,CVE-2024-53704,31,Rated hot Jan 17 → KEV Feb 18 (31 days),,2025-02-18
+31,CVE-2024-54763 ,213,Rated hot Jan 17,Listed August 18,
+32,CVE-2024-54764 ,213,Rated hot Jan 17,Listed August 18,
+33,CVE-2024-5827 ,228,Rated hot Jan 3,Listed August 19,
+34,CVE-2024-6047,120,Rated hot Jan 3 → KEV May 7 (~4 months),,2025-05-07
+35,CVE-2024-6893 ,228,Rated hot Jan 3,Listed August 19,
+36,CVE-2024-7029 ,228,Rated hot Jan 3,Listed August 19,
+37,CVE-2024-7399,188,Rated hot Jan 3,Listed July 10,
+38,CVE-2024-8068,234,Rated hot Jan 3,Listed August 25,2025-08-25
+39,CVE-2024-8752 ,228,Rated hot Jan 3,Listed August 19,
+40,CVE-2025-0108,3,Rated hot Feb 15 → KEV Feb 18 (~3 days),,2025-02-18
+41,CVE-2025-0111,5,Rated hot Feb 15 → KEV Feb 20 (5 days),,2025-02-20
+42,CVE-2025-0674 ,228,Rated hot Jan 3,Listed August 19,
+43,CVE-2025-24016,115,Rated hot Feb 15,Listed June 10,2025-06-10
+44,CVE-2025-24472,31,Rated hot Feb 15 → KEV Mar 18 (31 days),,2025-03-18
+45,CVE-2025-25151,23,Rated hot Feb 15 → KEV Mar 10 (23 days),,
+46,CVE-2025-28036 ,74,Rated hot May 8,Listed July 21,
+47,CVE-2025-28137 ,74,Rated hot May 8,Listed July 21,
+48,CVE-2025-32433,32,Rated hot May 8,Listed June 9,2025-06-09
+49,CVE-2024-12856,2,Rated hot Jan 3,Listed Jan 5,
+50,CVE-2024-32735,19,Rated hot Jan 3,Listed Jan 22,
+51,CVE-2024-32736,19,Rated hot Jan 3,Listed Jan 22,
+52,CVE-2024-32737,19,Rated hot Jan 3,Listed Jan 22,
+53,CVE-2024-32738,19,Rated hot Jan 3,Listed Jan 22,
+54,CVE-2024-32739,19,Rated hot Jan 3,Listed Jan 22,
+55,CVE-2025-28137,19,Rated hot Jan 3,Listed July 21,
+56,CVE-2025-5086,10,Rated hot August 31,Listed September 11,2025-09-11
+57,CVE-2024-48307,212,Rated hot Jan 17,Listed August 19,
+58,,117,,,
