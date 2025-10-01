@@ -276,6 +276,7 @@ if not has_input:
     st.info("Enter a query (full-text, exact CVE, vendor, or product) in the left sidebar to see results.")
     st.stop()
 
+
 # -------- Filter builders (prefix-only for speed) --------
 def build_filters_primary():
     where, params = [], []
