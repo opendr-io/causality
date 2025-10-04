@@ -1,4 +1,4 @@
-cveID	vendorProject	product	shortDescription
+cve	vendorProject	product	shortDescription
 CVE-2024-0001	Pure Storage	FlashArray	A condition exists in FlashArray Purity whereby a local account intended for initial array configuration remains active potentially allowing a malicious actor to gain elevated privileges.
 CVE-2024-0002	PureStorage	FlashArray	A condition exists in FlashArray Purity whereby an attacker can employ a privileged account allowing remote access to the array.
 CVE-2024-0003	PureStorage	FlashArray	A condition exists in FlashArray Purity whereby a malicious user could use a remote administrative service to create an account on the array allowing privileged access.
