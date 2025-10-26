@@ -23,15 +23,38 @@ Everything else was rated cold by the model, meaning they have some potential, b
 
 ### Updates:
 
-Provable predictions so far (total 61) - provable meaning the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+Provable predictions so far (total 66) - provable meaning the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+
+October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, uielding almost two motnhs of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
+
+```CVE-2025-33074,PUBLISHED,microsoft,2025-04-30T17:14:51.166Z,Azure Functions Remote Code Execution Vulnerability,Improper verification of cryptographic signature in Microsoft Azure Functions allows an authorized attacker to execute code over a network.,MICROSOFT,Azure Functions,hot```
+
+October 20: CVE-2025-2746 was added to the KEV. It was rated hot in the August run:
+
+```CVE-2025-2746,PUBLISHED,VulnCheck,2025-03-24T18:16:04.022Z,Kentico Xperience Staging Sync Server digest password authentication bypass,An authentication bypass vulnerability in Kentico Xperience allows authentication bypass via the Staging Sync Server password handling of empty SHA1 usernames in digest authentication. Authentication bypass allows an attacker to control administrative objects.This issue affects Xperience through 13.0.172.,KENTICO,Xperience,hot```
+
+October 20: CVE-2025-2747 was added to the KEV. It was rated hot in the August run:
+
+```CVE-2025-2747,PUBLISHED,VulnCheck,2025-03-24T18:17:06.079Z,Kentico Xperience Staging Sync Server None password type authentication bypass,An authentication bypass vulnerability in Kentico Xperience allows authentication bypass via the Staging Sync Server component password handling for the server defined None type. Authentication bypass allows an attacker to control administrative objects.This issue affects Xperience through 13.0.178.,KENTICO,Xperience,hot```
+
+October 14: CVE-2025-54253 was added to the KEV. It was rated hot in the August run:
+
+```CVE-2025-54253,PUBLISHED,adobe,2025-08-05T16:53:40.742Z,Adobe Experience Manager | Misconfiguration (CWE-16),Adobe Experience Manager versions 6.5.23 and earlier are affected by a Misconfiguration vulnerability that could result in arbitrary code execution. An attacker could leverage this vulnerability to bypass security mechanisms and execute code. Exploitation of this issue does not require user interaction and scope is changed.,ADOBE,Adobe Experience Manager,hot```
+
+October 2: CVE-2025-4008 was added to the KEV. It was rated warm in the August run:
+
+```CVE-2025-4008,PUBLISHED,ONEKEY,2025-05-21T15:31:23.118Z,Arbitrary Command Injection in Smartbedded MeteoBridge,"The Meteobridge web interface let meteobridge administrator manage their weather station data collection and administer their meteobridge system through a web application written in CGI shell scripts and C. This web interface exposes an endpoint that is vulnerable to command injection. Remote unauthenticated attackers can gain arbitrary command execution with elevated privileges ( root ) on affected devices.",SMARTBEDDED,MeteoBridge,warm```
 
 October 2: CVE-2025-4005  wsa added to the KEV. It was rated warm in the August run. 
+
 ```CVE-2025-4008	warm	ONEKEY	2025-05-21T15:31:23.118Z	Arbitrary Command Injection in Smartbedded MeteoBridge	"The Meteobridge web interface let meteobridge administrator manage their weather station data collection and administer their meteobridge system through a web application written in CGI shell scripts and C.```
 
 September 12: 2025-25231 went hot. It was rated warm in the August run.
+
 ```CVE-2025-25231,PUBLISHED,Omnissa,2025-08-11T18:12:49.711Z,,Omnissa Workspace ONE UEM contains a Secondary Context Path Traversal Vulnerability. A malicious actor may be able to gain access to sensitive information by sending crafted GET requests (read-only) to restricted API endpoints.,OMNISSA,Omnissa Workspace ONE UEM,warm```
 
 September 11: 2025-5086 was added to the KEV and ENISA watchlists. It was rated hot.
+
 ```CVE-2025-5086,PUBLISHED,3DS,2025-06-02T17:42:42.620Z,Deserialization of Untrusted Data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A deserialization of untrusted data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could lead to a remote code execution.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
 
 August 25: CVEs 2024-8068 and 2024-8096 were added to the KEV. These were rated hot in the Jan 7 run which makes them the longest lead time so far at more than seven and one half months.
