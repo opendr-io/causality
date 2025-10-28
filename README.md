@@ -27,7 +27,7 @@ Provable predictions so far (total 66) - provable meaning the prediction was pub
 
 October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, uielding almost two motnhs of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
 
-```CVE-2025-33074,PUBLISHED,microsoft,2025-04-30T17:14:51.166Z,Azure Functions Remote Code Execution Vulnerability,Improper verification of cryptographic signature in Microsoft Azure Functions allows an authorized attacker to execute code over a network.,MICROSOFT,Azure Functions,hot```
+```CVE-2025-33073,PUBLISHED,microsoft,2025-06-10T17:02:35.874Z,Windows SMB Client Elevation of Privilege Vulnerability,Improper access control in Windows SMB allows an authorized attacker to elevate privileges over a network.,MICROSOFT,windows,hot.'/```
 
 October 20: CVE-2025-2746 was added to the KEV. It was rated hot in the August run:
 
