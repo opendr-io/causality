@@ -23,7 +23,13 @@ Everything else was rated cold by the model, meaning they have some potential, b
 
 ### Updates:
 
-Provable predictions so far (total 66) - provable meaning the prediction was publshed here some time - days or months - before the CVE went 'hot' meaning it was added to a watchlist of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+Provable predictions so far (total 68) - provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+
+October 28: Two CVEs were added to the KEV. They were rated hot in the August run:
+
+```CVE-2025-6204,PUBLISHED,3DS,2025-08-04T09:14:08.343Z,Improper Control of Generation of Code (Code Injection) vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,An Improper Control of Generation of Code (Code Injection) vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could allow an attacker to execute arbitrary code.,DASSAULT SYSTÈMES,DELMIA Apriso,warm```
+
+```CVE-2025-6205,PUBLISHED,3DS,2025-08-04T09:14:42.308Z,Missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could allow an attacker to gain privileged access to the application.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
 
 October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, uielding almost two motnhs of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
 
