@@ -1,7 +1,7 @@
 
 ### Provable predictions so far (total 68):
 
-Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but yet to be observed.
 
 October 28: Two CVEs were added to the KEV. They were rated hot in the August run:
 
@@ -9,7 +9,7 @@ October 28: Two CVEs were added to the KEV. They were rated hot in the August ru
 
 ```CVE-2025-6205,PUBLISHED,3DS,2025-08-04T09:14:42.308Z,Missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could allow an attacker to gain privileged access to the application.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
 
-October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, uielding almost two motnhs of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
+October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, yielding almost two months of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
 
 ```CVE-2025-33073,PUBLISHED,microsoft,2025-06-10T17:02:35.874Z,Windows SMB Client Elevation of Privilege Vulnerability,Improper access control in Windows SMB allows an authorized attacker to elevate privileges over a network.,MICROSOFT,windows,hot.'/```
 
