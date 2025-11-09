@@ -1,11 +1,7 @@
 
-### Provable predictions since January 2025 (total 145):
+### Provable predictions so far (total 68):
 
-Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity. All dates are in 2025.
-
-October 30: CVE-2025-9491 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-```CVE-2025-9491,PUBLISHED,zdi,2025-08-26T16:25:15.179Z,Microsoft Windows LNK File UI Misrepresentation Remote Code Execution Vulnerability,"Microsoft Windows LNK File UI Misrepresentation Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Microsoft Windows. User interaction is required to exploit this vulnerability in that the target must visit a malicious page or open a malicious file. The specific flaw exists within the handling of .LNK files. Crafted data in an .LNK file can cause hazardous content in the file to be invisible to a user who inspects the file via the Windows-provided user interface. An attacker can leverage this vulnerability to execute code in the context of the current user. Was ZDI-CAN-25373.",MICROSOFT,Windows,hot```
+Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but yet to be observed.
 
 October 28: Two CVEs were added to the KEV. They were rated hot in the August run:
 
@@ -13,15 +9,7 @@ October 28: Two CVEs were added to the KEV. They were rated hot in the August ru
 
 ```CVE-2025-6205,PUBLISHED,3DS,2025-08-04T09:14:42.308Z,Missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could allow an attacker to gain privileged access to the application.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
 
-October 27: CVE-2025-6205 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-```CVE-2025-6205,PUBLISHED,3DS,2025-08-04T09:14:42.308Z,Missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A missing authorization vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could allow an attacker to gain privileged access to the application.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
-
-October 23: CVE-2025-24477 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-```CVE-2025-24477,PUBLISHED,fortinet,2025-07-15T08:14:41.283Z,,"A heap-based buffer overflow in Fortinet FortiOS versions 7.6.0 through 7.6.2, 7.4.0 through 7.4.7, 7.2.4 through 7.2.11 allows an attacker to escalate its privileges via a specially crafted CLI command",FORTINET,FortiOS,warm```
-
-October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, uielding almost two motnhs of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
+October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, yielding almost two months of early warning. It would have been rated hot earlier but I cannot prove this only becuase I didn't publish runs in June and July. 
 
 ```CVE-2025-33073,PUBLISHED,microsoft,2025-06-10T17:02:35.874Z,Windows SMB Client Elevation of Privilege Vulnerability,Improper access control in Windows SMB allows an authorized attacker to elevate privileges over a network.,MICROSOFT,windows,hot.'/```
 
@@ -33,31 +21,9 @@ October 20: CVE-2025-2747 was added to the KEV. It was rated hot in the August r
 
 ```CVE-2025-2747,PUBLISHED,VulnCheck,2025-03-24T18:17:06.079Z,Kentico Xperience Staging Sync Server None password type authentication bypass,An authentication bypass vulnerability in Kentico Xperience allows authentication bypass via the Staging Sync Server component password handling for the server defined None type. Authentication bypass allows an attacker to control administrative objects.This issue affects Xperience through 13.0.178.,KENTICO,Xperience,hot```
 
-October 19: CVE-2025-24912 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-```3987	CVE-2025-24912	jpcert	2025-03-12T04:43:54.870Z		"hostapd fails to process crafted RADIUS packets properly. When hostapd authenticates wi-fi devices with RADIUS authentication, an attacker in the position between the hostapd and the RADIUS server may inject crafted RADIUS packets and force RADIUS authentications to fail."	JOUNI MALINEN	hostapd	2.11 and earlier	warm```
-
-October 17: CVE-2024-20419 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-October 17: CVE-2024-5276 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-October 17: CVE-2024-6235 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
 October 14: CVE-2025-54253 was added to the KEV. It was rated hot in the August run:
 
 ```CVE-2025-54253,PUBLISHED,adobe,2025-08-05T16:53:40.742Z,Adobe Experience Manager | Misconfiguration (CWE-16),Adobe Experience Manager versions 6.5.23 and earlier are affected by a Misconfiguration vulnerability that could result in arbitrary code execution. An attacker could leverage this vulnerability to bypass security mechanisms and execute code. Exploitation of this issue does not require user interaction and scope is changed.,ADOBE,Adobe Experience Manager,hot```
-
-October 11: CVE-2025-2611 was added to the Vulncheck watchlist. It was predicted in the August and September runs.
-
-October 10: CVE-2025-22905 was added to the Vulncheck watchlist. It was predicted in the January and February runs.
-
-October 10: CVE-2025-49596 was added to the Vulncheck watchlist. It was predicted in the August and September runs.
-
-October 9: CVE-2025-6019 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-October 9: CVE-2025-36604  was added to the Vulncheck watchlist. It was predicted in the August and September runs.
-
-October 3: CVE-2025-3605 was added to the Vulncheck watchlist. It was predicted in the August and September runs.
 
 October 2: CVE-2025-4008 was added to the KEV. It was rated warm in the August run:
 
@@ -67,53 +33,19 @@ October 2: CVE-2025-4005  wsa added to the KEV. It was rated warm in the August 
 
 ```CVE-2025-4008	warm	ONEKEY	2025-05-21T15:31:23.118Z	Arbitrary Command Injection in Smartbedded MeteoBridge	"The Meteobridge web interface let meteobridge administrator manage their weather station data collection and administer their meteobridge system through a web application written in CGI shell scripts and C.```
 
-September 30: CVE-2024-56064 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-September 26: CVE-2024-29030 was added to the Vulncheck watchlist. It was predicted in the January 7 run.
-
-September 26: CVE-2024-7344 was added to the Vulncheck watchlist. It was predicted in the January 17 run.
-
-September 26: CVE-2024-29028was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-September 25: CVE-2024-29029 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-September 25: CVE-2024-33326 was added to the Vulncheck watchlist. It was predicted in the January 17 run.
-
-September 15: CVE-2025-34152 was added to the Vulncheck watchlist. It was predicted in the August run.
-
 September 12: 2025-25231 went hot. It was rated warm in the August run.
 
 ```CVE-2025-25231,PUBLISHED,Omnissa,2025-08-11T18:12:49.711Z,,Omnissa Workspace ONE UEM contains a Secondary Context Path Traversal Vulnerability. A malicious actor may be able to gain access to sensitive information by sending crafted GET requests (read-only) to restricted API endpoints.,OMNISSA,Omnissa Workspace ONE UEM,warm```
 
-September 11: CVE-2024-11740 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
 September 11: 2025-5086 was added to the KEV and ENISA watchlists. It was rated hot.
 
 ```CVE-2025-5086,PUBLISHED,3DS,2025-06-02T17:42:42.620Z,Deserialization of Untrusted Data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025,A deserialization of untrusted data vulnerability affecting DELMIA Apriso from Release 2020 through Release 2025 could lead to a remote code execution.,DASSAULT SYSTÈMES,DELMIA Apriso,hot```
-
-September 4: CVE-2025-42957 was added to the Vulncheck watchlist. It was predicted in the August run.
-
-September 4: CVE-2025-52970 was added to the Vulncheck watchlist. It was predicted in the August run.
 
 August 25: CVEs 2024-8068 and 2024-8096 were added to the KEV. These were rated hot in the Jan 7 run which makes them the longest lead time so far at more than seven and one half months.
 
 ```CVE-2024-8068	Citrix	Citrix Session Recording	Privilege escalation to NetworkService Account accessÂ in Citrix Session Recording when an attacker is an authenticated user in the same Windows Active Directory domain as the session recording server domain```
 
 ```CVE-2024-8069	Citrix Session Recording	Citrix Session Recording	Limited remote code execution with privilege of a NetworkService Account accessÂ inÂ Citrix Session Recording if the attacker is an authenticated user on the same intranet as the session recording server```
-
-August 22: CVE-2024-45890 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-45884 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-45888 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-45891was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-45885 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-45887was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 22: CVE-2024-48074 was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 August 19: Shadowserver Reported Expliotation of these CVEs rated hot earlier this year:
 
@@ -155,14 +87,6 @@ August 18: Shadowserver Reported Expliotation of these CVEs rated hot earlier th
 
 ```CVE-2024-50334	hot	Erudika	scoold	"Scoold is a Q&A and a knowledge sharing platform for teams. A semicolon path injection vulnerability was found on the /api;/config endpoint. By appending a semicolon in the URL, attackers can bypass authentication and gain unauthorised access to sensitive configuration data. Furthermore, PUT requests on the /api;/config endpoint while setting the Content-Type: application/hocon header allow unauthenticated attackers to file reading via HOCON file inclusion. This allows attackers to retrieve sensitive information such as configuration files from the server, which can be leveraged for further exploitation. The vulnerability has been fixed in Scoold 1.64.0. A workaround would be to disable the Scoold API with scoold.api_enabled = false."```
 
-August  7: CVE-2024-42852 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 4: CVE-2024-38196 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-August 1: CVE-2024-30090 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-July 31: CVE-2025-2264 was added to the Vulncheck watchlist. It was predicted in the May run.
-
 July 21: Shadowserver
 
 ```CVE-2024-34193	hot			"smanga 3.2.7 does not filter the file parameter at the PHP/get file flow.php interface, resulting in a path traversal vulnerability that can cause arbitrary file reading."```	
@@ -173,45 +97,16 @@ July 21: Shadowserver
 
 ```CVE-2024-51211	hot			"SQL injection vulnerability exists in OS4ED openSIS-Classic Version 9.1, specifically in the resetuserinfo.php file. The vulnerability is due to improper input validation of the $username_stn_id parameter, which can be manipulated by an attacker to inject arbitrary SQL commands."```
 
-July 18: CVE-2024-10586 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
 July 10: Shadowserver
 
 ```CVE-2024-7399	hot	Samsung Electronics	MagicINFO 9 Server	Improper limitation of a pathname to a restricted directory vulnerability in Samsung MagicINFO 9 Server version before 21.1050 allows attackers to write arbitrary file as system authority.```	
 
-June 28: CVE-2024-5334 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-June 25: CVE-2024-0692 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-June 25: CVE-2025-0107  was added to the Vulncheck watchlist. It was predicted in the January, February and May runs.
-
-June 10: CVE-2024-21407 was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 June 10: CVE-2025-24016 was added to the KEV. It was rated hot in the Feb 15 run, almost four months ago.
 ```CVE-2025-24016	wazuh	wazuh	"Wazuh is a free and open source platform used for threat prevention, detection, and response. Starting in version 4.4.0 and prior to version 4.9.1, an unsafe deserialization vulnerability allows for remote code execution on Wazuh servers. DistributedAPI parameters are a serialized as JSON and deserialized using `as_wazuh_object` (in `framework/wazuh/core/cluster/common.py`). If an attacker manages to inject an unsanitized dictionary in DAPI request/response, they can forge an unhandled exception (`__unhandled_exc__`) to evaluate arbitrary python code. The vulnerability can be triggered by anybody with API access (compromised dashboard or Wazuh servers in the cluster) or, in certain configurations, even by a compromised agent. Version 4.9.1 contains a fix."	hot```
 
-June 9: CVE-2025-29085 was added to the Vulncheck watchlist. It was predicted in the May run.
-
 June 9: CVE-2025-32433 was added to the KEV. It was rated hot in the May 8 run one month prior.
 ```CVE-2025-32433	erlang	otp	"Erlang/OTP is a set of libraries for the Erlang programming language. Prior to versions OTP-27.3.3, OTP-26.2.5.11, and OTP-25.3.2.20, a SSH server may allow an attacker to perform unauthenticated remote code execution (RCE). By exploiting a flaw in SSH protocol message handling, a malicious actor could gain unauthorized access to affected systems and execute arbitrary commands without valid credentials. This issue is patched in versions OTP-27.3.3, OTP-26.2.5.11, and OTP-25.3.2.20. A temporary workaround involves disabling the SSH server or to prevent access via firewall rules."	hot```
-
-June 8: CVE-2024-3804 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-June 8: CVE-2025-26793 was added to the Vulncheck watchlist. It was predicted in the February run.
-
-June 8: CVE-2024-43360 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-June 7: CVE-2024-5082 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-June 7: CVE-2024-52763 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-June 7: CVE-2024-29972 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-June 7: CVE-2024-20440was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-June 4: CVE-2024-30850 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-May 27: CVE-2024-7314 was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 May 19: CVE-2024-11182 was added to the KEV. It was rated hot in the Jan 7 run which is the longest lead time yet at 135 days.
 
@@ -228,48 +123,15 @@ May 7: 2024-11120 was added to the KEV. It was rated hot in the Jan 3 run, a lea
 May 1: 2024-38475 was added to the KEV. It was rated hot on the Jan 3 run, a lead time just shy of four months.
 ```CVE-2024-38475	Apache Software Foundation	Apache HTTP Server	Improper escaping of output in mod_rewrite in Apache HTTP Server 2.4.59 and earlier allows an attacker to map URLs to filesystem locations that areÂ permitted to be served by the server but are not intentionally/directly reachable by any URL, resulting in code execution or source code disclosure.```
 
-April 23: CVE-2024-4295 was added to the Vulncheck watchlist. It was predicted in a January run.
-
 April 9: Two Linux CVEs were added to the KEV, 2024-53150 and 2024-53197.
 Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
-
-April 9: CVE-2024-38023 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-April 9: CVE-2024-38024was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 March 31: CVE-2024-20439 was added to the KEV. It was was rated hot in the January 3 run which is the longest lead time yet at 87 days.
 ```CVE-2024-20439	Cisco	Cisco Smart License Utility	"A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to log in to an affected system by using a static administrative credential.```
 
-March 27: CVE-2025-2485 was added to the Vulncheck watchlist. It was predicted in the February run.
-
-March 27: CVE-2025-2294 was added to the Vulncheck watchlist. It was predicted in the January and February runs.
-
-March 19: CVE-2024-5932 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-March 19: CVE-2024-8856 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-March 19: CVE-2024-3809 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 19: CVE-2024-3808 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 19: CVE-2024-22120 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 19: CVE-2024-3806 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 19: CVE-2024-8503 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 19: CVE-2024-3807 was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 March 18: CVE-2025-24472  was added to the KEV. It was rated hot in the Feb 15 run, another 31 day lead time.
 ```CVE-2025-24472	Fortinet	FortiOS	"An Authentication Bypass Using an Alternate Path or Channel vulnerability [CWE-288] affecting FortiOS 7.0.0 through 7.0.16 and FortiProxy 7.2.0 through 7.2.12, 7.0.0 through 7.0.19 may allow a remote attacker to gain super-admin privileges via crafted CSF proxy requests."	hot```
-
-March 12: CVE-2024-6409 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-March 11: CVE-2024-11303 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 11: CVE-2024-9593 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-March 11: CVE-2024-2876 was added to the Vulncheck watchlist. It was predicted in the January runs.
 
 March 10: CVE-2025-25151 was added to the KEV. It was rated hot in the Feb 15 run. (23)
 
@@ -294,18 +156,6 @@ March 4: CVE-2024-50302 was added to the KEV. It was rated hot in the Jan 7 run.
 March 3: CVE-2024-4885 was added to the KEV. It was rated hot in the Jan 3 run, a prediction time of two months, the longest so far. (18)
 ```CVE-2024-4885 hot	Progress Software Corporation	WhatsUp Gold	"In WhatsUp Gold versions released before 2023.1.3 an unauthenticated Remote Code Execution vulnerability in Progress WhatsUpGold. WhatsUp.ExportUtilities.Export.GetFileWithoutZip allows execution of commands with iisapppool\nmconsole privileges.```
 
-February 27: CVE-2024-32238 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-February 26: CVE-2024-28916 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-February 26: CVE-2024-21447 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-February 26: CVE-2024-38100 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-February 26: CVE-2024-0582 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-February 25: CVE-2024-38514 was added to the Vulncheck watchlist. It was predicted in the January 7 run.
-
 Feb 25: CVE 2024-49035 was added to the KEV. It was rated hot in the Jan 3 run. 
 ```25614	CVE-2024-49035	Microsoft	Microsoft Partner Center	An improper access control vulnerability in Partner.Microsoft.com allows an a unauthenticated attacker to elevate privileges over a network.	neutral	hot```
 
@@ -323,12 +173,6 @@ Feb 18: CVE 2025-0108 was added to the KEV today. This one was predicted to go h
 Feb 12: CVE 2024-41710 was added to the KEV today. This one was predicted to go hot by the model in the Jan 7 run which is the longest lead time so far at 51 days!**
 ```CVE-2024-41710			"A vulnerability in the Mitel 6800 Series, 6900 Series, and 6900w Series SIP Phones, including the 6970 Conference Unit, through R6.4.0.HF1 (R6.4.0.136) could allow an authenticated attacker with administrative privilege to conduct an argument injection attack, due to insufficient parameter sanitization during the boot process. A successful exploit could allow an attacker to execute arbitrary commands within the context of the system."	hot```
 
-February 12: CVE-2024-24328 was added to the Vulncheck watchlist. It was predicted in a January run.
-
-February 12: CVE-2024-2353 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
-February 12: CVE-2024-24329 was added to the Vulncheck watchlist. It was predicted in the January 17 run.
-
 Feb 6: CVE 2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days! (12)
 https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt
 
@@ -344,12 +188,8 @@ https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-prediction
 CVE 2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then.
 ```CVE-2024-29059	hot	Microsoft	Microsoft .NET Framework 4.8	.NET Framework Information Disclosure Vulnerability	```
 
-February 2: CVE-2024-6298 was added to the Vulncheck watchlist. It was predicted in the January runs.
-
 CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 3 - ten days prior to the KEV addition - in this output file which was committed to Github on that day (https://github.com/cyberdyne-ventures/predictions/blob/main/2024/2024-predictions.txt) Commit history: https://github.com/cyberdyne-ventures/predictions/compare/ca99f27cd91bc6251ffd5c22aa1b18f1dab0d214...40cc5c07883f41762139050820d40ebe787dce4c
 ```18609	CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	neutral	hot```
-
-January 23:  CVE-2024-42448 was added to the Vulncheck watchlist. It was predicted January 7.
 
 These predictions were made by the January 3 run, around three weeks ahead of being added to the other KEV (not CISA, the *other* KEV.) (8)
 
