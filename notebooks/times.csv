@@ -1,60 +1,123 @@
-,cve,leadtimedays,rating,listing,dateadded
-0,CVE-2024-11120,120,Rated hot Jan 3 → KEV May 7 (~4 months),,2025-05-07
-1,CVE-2024-11182,135,Rated hot Jan 7 → KEV May 19 (135 days),,2025-05-19
-2,CVE-2024-12686,10,Rated hot Jan 3 → KEV Jan 13 (10 days),,2025-01-13
-3,CVE-2024-13159,60,Rated hot Jan 17 → KEV Mar 10 (~2 months),,2025-03-10
-4,CVE-2024-13160,60,Same as above (~2 months),,2025-03-10
-5,CVE-2024-13161,60,Same as above (~2 months),,2025-03-10
-6,CVE-2024-1561 ,228,Rated hot Jan 3,Listed August 19,
-7,CVE-2024-20439,87,Rated hot Jan 3 → KEV Mar 31 (87 days),,2025-03-31
-8,CVE-2024-21413,35,Rated hot Jan 3 → KEV Feb 6 (35 days),,2025-02-06
-9,CVE-2024-22024 ,228,Rated hot Jan 3,Listed August 19,
-10,CVE-2024-25852 ,224,Rated hot Jan 7,Listed August 19,
-11,CVE-2024-28255 ,224,Rated hot Jan 7,Listed August 19,
-12,CVE-2024-29059,18,Rated hot Jan 17 → KEV Feb 4 (18 days),,2025-02-04
-13,CVE-2024-29973 ,227,Rated hot Jan 3,Listed August 18,
-14,CVE-2024-31750 ,223,Rated hot Jan 7,Listed August 18,
-15,CVE-2024-34193 ,185,Rated hot Jan 17,Listed July 21,
-16,CVE-2024-34257 ,223,Rated hot Jan 7,Listed August 18,
-17,CVE-2024-38289 ,223,Rated hot Jan 7,Listed August 18,
-18,CVE-2024-38475,120,Rated hot Jan 3 → KEV May 1 (~4 months),,2025-05-01
-19,CVE-2024-38653 ,223,Rated hot Jan 7,Listed August 18,
-20,CVE-2024-41710,51,Rated hot Jan 7 → KEV Feb 12 (51 days),,2025-02-12
-21,CVE-2024-48307 ,214,Rated hot Jan 17,Listed August 19,
-22,CVE-2024-4885,60,Rated hot Jan 3 → KEV Mar 3 (~2 months),,2025-03-03
-23,CVE-2024-49035,50,Rated hot Jan 3 → KEV Feb 25 (~7 weeks),,2025-02-25
-24,CVE-2024-50302,60,Rated hot Jan 7 → KEV Mar 4 (~2 months),,2025-03-04
-25,CVE-2024-50334 ,223,Rated hot Jan 7,Listed August 18,
-26,CVE-2024-51211,195,Rated hot Jan 7,Listed July 21,
-27,CVE-2024-53104,34,Rated hot Jan 3 → KEV Feb 5 (34 days),,2025-02-05
-28,CVE-2024-53150,92,Rated hot Jan 7 → KEV Apr 9 (92 days),,2025-04-09
-29,CVE-2024-53197,92,Same as above (92 days),,2025-04-09
-30,CVE-2024-53704,31,Rated hot Jan 17 → KEV Feb 18 (31 days),,2025-02-18
-31,CVE-2024-54763 ,213,Rated hot Jan 17,Listed August 18,
-32,CVE-2024-54764 ,213,Rated hot Jan 17,Listed August 18,
-33,CVE-2024-5827 ,228,Rated hot Jan 3,Listed August 19,
-34,CVE-2024-6047,120,Rated hot Jan 3 → KEV May 7 (~4 months),,2025-05-07
-35,CVE-2024-6893 ,228,Rated hot Jan 3,Listed August 19,
-36,CVE-2024-7029 ,228,Rated hot Jan 3,Listed August 19,
-37,CVE-2024-7399,188,Rated hot Jan 3,Listed July 10,
-38,CVE-2024-8068,234,Rated hot Jan 3,Listed August 25,2025-08-25
-39,CVE-2024-8752 ,228,Rated hot Jan 3,Listed August 19,
-40,CVE-2025-0108,3,Rated hot Feb 15 → KEV Feb 18 (~3 days),,2025-02-18
-41,CVE-2025-0111,5,Rated hot Feb 15 → KEV Feb 20 (5 days),,2025-02-20
-42,CVE-2025-0674 ,228,Rated hot Jan 3,Listed August 19,
-43,CVE-2025-24016,115,Rated hot Feb 15,Listed June 10,2025-06-10
-44,CVE-2025-24472,31,Rated hot Feb 15 → KEV Mar 18 (31 days),,2025-03-18
-45,CVE-2025-25151,23,Rated hot Feb 15 → KEV Mar 10 (23 days),,
-46,CVE-2025-28036 ,74,Rated hot May 8,Listed July 21,
-47,CVE-2025-28137 ,74,Rated hot May 8,Listed July 21,
-48,CVE-2025-32433,32,Rated hot May 8,Listed June 9,2025-06-09
-49,CVE-2024-12856,2,Rated hot Jan 3,Listed Jan 5,
-50,CVE-2024-32735,19,Rated hot Jan 3,Listed Jan 22,
-51,CVE-2024-32736,19,Rated hot Jan 3,Listed Jan 22,
-52,CVE-2024-32737,19,Rated hot Jan 3,Listed Jan 22,
-53,CVE-2024-32738,19,Rated hot Jan 3,Listed Jan 22,
-54,CVE-2024-32739,19,Rated hot Jan 3,Listed Jan 22,
-55,CVE-2025-28137,19,Rated hot Jan 3,Listed July 21,
-56,CVE-2025-5086,10,Rated hot August 31,Listed September 11,2025-09-11
-57,CVE-2024-48307,212,Rated hot Jan 17,Listed August 19,
-58,,117,,,
+cve,leadtimedays,rating,listing,dateadded
+CVE-2024-11120,120,predicted Jan 3 → KEV May 7 (~4 months),,5/7/2025
+CVE-2024-11182,135,predicted Jan 7 → KEV May 19 (135 days),,5/19/2025
+CVE-2024-12686,10,predicted Jan 3 → KEV Jan 13 (10 days),,1/13/2025
+CVE-2024-13159,60,predicted Jan 17 → KEV Mar 10 (~2 months),,3/10/2025
+CVE-2024-13160,60,Same as above (~2 months),,3/10/2025
+CVE-2024-13161,60,Same as above (~2 months),,3/10/2025
+CVE-2024-1561 ,228,predicted Jan 3,Listed August 19,
+CVE-2024-20439,87,predicted Jan 3 → KEV Mar 31 (87 days),,3/31/2025
+CVE-2024-21413,35,predicted Jan 3 → KEV Feb 6 (35 days),,2/6/2025
+CVE-2024-22024 ,228,predicted Jan 3,Listed August 19,
+CVE-2024-25852 ,224,predicted Jan 7,Listed August 19,
+CVE-2024-28255 ,224,predicted Jan 7,Listed August 19,
+CVE-2024-29059,18,predicted Jan 17 → KEV Feb 4 (18 days),,2/4/2025
+CVE-2024-29973 ,227,predicted Jan 3,Listed August 18,
+CVE-2024-31750 ,223,predicted Jan 7,Listed August 18,
+CVE-2024-34193 ,185,predicted Jan 17,Listed July 21,
+CVE-2024-34257 ,223,predicted Jan 7,Listed August 18,
+CVE-2024-38289 ,223,predicted Jan 7,Listed August 18,
+CVE-2024-38475,120,predicted Jan 3 → KEV May 1 (~4 months),,5/1/2025
+CVE-2024-38653 ,223,predicted Jan 7,Listed August 18,
+CVE-2024-41710,51,predicted Jan 7 → KEV Feb 12 (51 days),,2/12/2025
+CVE-2024-48307 ,214,predicted Jan 17,Listed August 19,
+CVE-2024-4885,60,predicted Jan 3 → KEV Mar 3 (~2 months),,3/3/2025
+CVE-2024-49035,50,predicted Jan 3 → KEV Feb 25 (~7 weeks),,2/25/2025
+CVE-2024-50302,60,predicted Jan 7 → KEV Mar 4 (~2 months),,3/4/2025
+CVE-2024-50334 ,223,predicted Jan 7,Listed August 18,
+CVE-2024-51211,195,predicted Jan 7,Listed July 21,
+CVE-2024-53104,34,predicted Jan 3 → KEV Feb 5 (34 days),,2/5/2025
+CVE-2024-53150,92,predicted Jan 7 → KEV Apr 9 (92 days),,4/9/2025
+CVE-2024-53197,92,Same as above (92 days),,4/9/2025
+CVE-2024-53704,31,predicted Jan 17 → KEV Feb 18 (31 days),,2/18/2025
+CVE-2024-54763 ,213,predicted Jan 17,Listed August 18,
+CVE-2024-54764 ,213,predicted Jan 17,Listed August 18,
+CVE-2024-5827 ,228,predicted Jan 3,Listed August 19,
+CVE-2024-6047,120,predicted Jan 3 → KEV May 7 (~4 months),,5/7/2025
+CVE-2024-6893 ,228,predicted Jan 3,Listed August 19,
+CVE-2024-7029 ,228,predicted Jan 3,Listed August 19,
+CVE-2024-7399,188,predicted Jan 3,Listed July 10,
+CVE-2024-8068,234,predicted Jan 3,Listed August 25,8/25/2025
+CVE-2024-8752 ,228,predicted Jan 3,Listed August 19,
+CVE-2025-0108,3,predicted Feb 15 → KEV Feb 18 (~3 days),,2/18/2025
+CVE-2025-0111,5,predicted Feb 15 → KEV Feb 20 (5 days),,2/20/2025
+CVE-2025-0674 ,228,predicted Jan 3,Listed August 19,
+CVE-2025-24016,115,predicted Feb 15,Listed June 10,6/10/2025
+CVE-2025-24472,31,predicted Feb 15 → KEV Mar 18 (31 days),,3/18/2025
+CVE-2025-25151,23,predicted Feb 15 → KEV Mar 10 (23 days),,
+CVE-2025-28036 ,74,predicted May 8,Listed July 21,
+CVE-2025-28137 ,74,predicted May 8,Listed July 21,
+CVE-2025-32433,32,predicted May 8,Listed June 9,6/9/2025
+CVE-2024-12856,2,predicted Jan 3,Listed Jan 5,
+CVE-2024-32735,19,predicted Jan 3,Listed Jan 22,
+CVE-2024-32736,19,predicted Jan 3,Listed Jan 22,
+CVE-2024-32737,19,predicted Jan 3,Listed Jan 22,
+CVE-2024-32738,19,predicted Jan 3,Listed Jan 22,
+CVE-2024-32739,19,predicted Jan 3,Listed Jan 22,
+CVE-2025-28137,19,predicted Jan 3,Listed July 21,
+CVE-2025-5086,10,predicted August 31,Listed September 11,9/11/2025
+CVE-2024-48307,212,predicted Jan 17,Listed August 19,
+CVE-2024-42448,20,January 23:  CVE-2024-42448 was added to the Vulncheck watch list. It was predicted January 3.,,
+CVE-2024-6298,30,February 2: CVE-2024-6298 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-24328,26,February 12: CVE-2024-24328 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-24329,26,February 12: CVE-2024-24329 was added to the Vulncheck watch list. It was predicted in the January 17 run.,,
+CVE-2024-38514,49,February 25: CVE-2024-38514 was added to the Vulncheck watch list. It was predicted in the January 7 run.,,
+CVE-2024-28916,54,February 26: CVE-2024-28916 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-21447,54,February 26: CVE-2024-21447 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-38100,54,February 26: CVE-2024-38100 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-0582,54,February 26: CVE-2024-0582 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-32238,41,February 27: CVE-2024-32238 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-11303,63,March 11: CVE-2024-11303 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-9593,67,March 11: CVE-2024-9593 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-6409,68,March 12: CVE-2024-6409 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-5932,71,March 19: CVE-2024-5932 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-8856,71,March 19: CVE-2024-8856 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-3808,75,March 19: CVE-2024-3808 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-22120,75,March 19: CVE-2024-22120 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-3806,75,March 19: CVE-2024-3806 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-8503,75,March 19: CVE-2024-8503 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-38023,84,April 9: CVE-2024-38023 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-38024,96,April 9: CVE-2024-38024 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-7314,140,May 27: CVE-2024-7314 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-30850,148,June 4: CVE-2024-30850 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-5082,141,June 7: CVE-2024-5082 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-52763,151,June 7: CVE-2024-52763 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-29972,159,June 7: CVE-2024-29972 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-20440,155,June 7: CVE-2024-20440 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2025-26793,112,June 8: CVE-2025-26793 was added to the Vulncheck watch list. It was predicted in the January run.,,
+CVE-2024-43360,114,June 8: CVE-2024-43360 was added to the Vulncheck watch list. It was predicted in a Feb run.,,
+CVE-2025-29085,32,June 9: CVE-2025-29085 was added to the Vulncheck watch list. It was predicted in the May run.,,
+CVE-2024-21407,158,June 10: CVE-2024-21407 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-0692,168,June 25: CVE-2024-0692 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2025-0107,161,"June 25: CVE-2025-0107  was added to the Vulncheck watch list. It was predicted in the January, February and May runs.",,
+CVE-2024-5334,171,June 28: CVE-2024-5334 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-10586,196,July 18: CVE-2024-10586was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2025-2264,84,July 31: CVE-2025-2264 was added to the Vulncheck watch list. It was predicted in the May run.,,
+CVE-2024-30090,196,August 1: CVE-2024-30090 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-38196,213,August 4: CVE-2024-38196 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-42852,211,August  7: CVE-2024-42852 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45890,227,August 22: CVE-2024-45890 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45884,227,August 22: CVE-2024-45884 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45888,227,August 22: CVE-2024-45888 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45891,227,August 22: CVE-2024-45891was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45885,227,August 22: CVE-2024-45885 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-45887,227,August 22: CVE-2024-45887was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-48074,217,August 22: CVE-2024-48074 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2025-42957,5,September 4: CVE-2025-42957 was added to the Vulncheck watch list. It was predicted in the August run.,,
+CVE-2025-52970,5,September 4: CVE-2025-52970 was added to the Vulncheck watch list. It was predicted in the August run.,,
+CVE-2024-11740,251,September 11: CVE-2024-11740 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2025-34152,16,September 15: CVE-2025-34152 was added to the Vulncheck watch list. It was predicted in the August run.,,
+CVE-2024-29029,24,September 25: CVE-2024-29029 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2024-33326,261,September 25: CVE-2024-33326 was added to the Vulncheck watch list. It was predicted in the January 17 run.,,
+CVE-2024-29030,252,September 26: CVE-2024-29030 was added to the Vulncheck watch list. It was predicted in the January 7 run.,,
+CVE-2024-7344,242,September 26: CVE-2024-7344 was added to the Vulncheck watch list. It was predicted in the January 17 run.,,
+CVE-2024-29028,252,September 26: CVE-2024-29028 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-56064,256,September 30: CVE-2024-56064 was added to the Vulncheck watch list. It was predicted in a January run.,,
+CVE-2025-22905,268,October 10: CVE-2025-22905 was added to the Vulncheck watch list. It was predicted in the January and Feb runs.,,
+CVE-2025-6019,40,October 9: CVE-2025-6019 was added to the Vulncheck watch list. It was predicted in the August run.,,
+CVE-2025-36604,40,October 9: CVE-2025-36604  was added to the Vulncheck watch list. It was predicted in the August and September runs.,,
+CVE-2025-2611,42,October 11: CVE-2025-2611 was added to the Vulncheck watch list. It was predicted in the August and September runs.,,
+cve-2024-6235,285,October 17: CVE-2024-6235 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-20419,285,October 17: CVE-2024-20419 was added to the Vulncheck watch list. It was predicted in the January runs.,,
+CVE-2024-54006,268,November 7: added to VulnCheck KEV. predicted Jan 17.,,
+CVE-2025-9491,60,October 30: added to VulnCheck KEV. predicted in August.,,
