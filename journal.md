@@ -1,7 +1,17 @@
 
-### Provable predictions since January 2025 (total 132):
+### Provable predictions since January 2025 (total 137:
 
 Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity. All dates are in 2025.
+
+November 26: CVE-2024-53375 was added to the VulnCheck KEV. It was predicted in January. Second lead time over ten months.
+
+November 19: CVE-2024-12912 was added to the VulnCheck KEV. It was predicted in January. This is the longest lead time yet, over ten months!
+
+November 19: CVE-2025-2492 was added to the VulnCheck KEV. It was predicted in May.
+
+November 12: CVE-2025-37393 was added to the VulnCheck KEV. It was predicted in January. This was the longest lead time in just under ten months.
+
+November 10: CVE-2025-53118 was added to the VulnCheck KEV. It was predicted in August.
 
 November 7: CVE-2024-54006 was added to the VulCheck KEV.
 
