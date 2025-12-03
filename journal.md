@@ -1,5 +1,5 @@
 
-### Provable predictions since January 2025 (total 137:
+### Provable predictions since January 2025 (total 137):
 
 Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity. All dates are in 2025.
 
