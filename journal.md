@@ -1,7 +1,13 @@
 
-### Provable predictions since January 2025 (total 151):
+### Provable predictions since January 2025 (total 154):
 
 Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity. All dates are in 2025.
+
+December 31: CVE-2025-10204 was added to the VulnCheck KEV. It was predicted in the December 3 run.
+
+December 27: CVE-2025-49619 was added to the VulnCheck KEV. It was predicted in the August run.
+
+December 23: CVE-2025-49544 was added to the VulnCheck KEV. It was predicted in the December 3 run.
 
 December 21: CVE-2025-11953 was added to the VulnCheck KEV. It was predicted in the December 3 run.
 
