@@ -5,7 +5,7 @@
 
 ### Contents:]
 
-[Results](journal.md) contains a history of the provable correct predictions. So far there have been 151 provable correct public predictions in 2025.
+[Results](journal.md) contains a history of the provable correct predictions. 
 
 [web](/web)  contains a streamlit app with a search interface for the ratings data. Search by CVE (exact match) or other fields. Ratings are available for CVEs between January 2024 - August 2025. I have not yet rated years before 2024; hit me up if you would like me to.
 
