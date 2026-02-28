@@ -4,7 +4,7 @@ Copyright © [2025] by the openDR project (the "Affirmer.") All rights reserved.
 
 1. Definitions
 
-“Work” means the MUE materials made available by Licensor, including documentation, specifications, text, data, models, software, and related materials.
+“Work” means the openDR materials made available by Licensor, including documentation, specifications, text, data, models, software, and related materials.
 
 “Licensor” means Affirmer.
 
