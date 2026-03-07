@@ -1,6 +1,1 @@
-hashlib
-pathlib
-sqlite3
-streamlit
-typing
-urllib
+streamlit==1.55.0

@@ -10,21 +10,40 @@
 
 import csv
 import hashlib
+import logging
 import pathlib
 import sqlite3
+from collections import Counter
 from typing import List, Tuple
 import urllib.parse
 import streamlit as st
 
 # -------- Config --------env
-DEFAULT_TSV_PRIMARY  = "2025.tsv"   # primary dataset
-DEFAULT_TSV_PRED2024 = "2024.tsv"   # secondary dataset
-DB_PATH = "cve.db"                  # on-disk cache (rebuilt only if sources change)
+BASE_DIR = pathlib.Path(__file__).resolve().parent
+DEFAULT_TSV_PRIMARY  = "2025-ratings-final.txt"   # primary dataset
+DEFAULT_TSV_PRED2024 = "2024-output-may-24.txt"   # secondary dataset
+DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources change)
+LOG_PATH = str(BASE_DIR / "causality.log")  # app log output
 RESULT_LIMIT_PRIMARY  = 100         # top-N to display from primary
 RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
-DEFAULT_LOGO = "logo.png"           # fixed logo path (PNG/JPG/WEBP/SVG)
+DEFAULT_LOGO = str(BASE_DIR / "causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
 
 st.set_page_config(page_title="CVE Search", layout="wide")
+
+def _get_logger() -> logging.Logger:
+    logger = logging.getLogger("causality")
+    if logger.handlers:
+        return logger
+    logger.setLevel(logging.INFO)
+    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+    fh = logging.FileHandler(LOG_PATH, encoding="utf-8")
+    fh.setFormatter(fmt)
+    logger.addHandler(fh)
+    logger.propagate = False
+    return logger
+
+LOGGER = _get_logger()
+LOGGER.info("App startup: cwd=%s", pathlib.Path.cwd())
 
 # -------- Utilities --------
 def _nz(x):
@@ -47,32 +66,47 @@ def _sha256_file(path: str) -> str:
     return h.hexdigest()
 
 @st.cache_resource(show_spinner=False)
-def _load_logo_bytes(path: str):
+def _load_logo_bytes(path: str, logo_sig: str):
+    _ = logo_sig  # include content signature in cache key
     p = pathlib.Path(path)
     if not p.exists() or not p.is_file():
         return None, None
     data = p.read_bytes()
     return data, p.suffix.lower()
 
-def _render_logo(logo_bytes: bytes, ext: str):
+def _source_signature(tsv_primary: str, tsv_pred2024: str) -> str:
+    # Use content hashes so cache invalidates when either source TSV changes.
+    return _sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024)
+
+def _resolve_input_path(path_text: str) -> str:
+    p = pathlib.Path(path_text)
+    return str(p if p.is_absolute() else (BASE_DIR / p))
+
+def _render_logo(logo_bytes: bytes, ext: str, width_px: int = 180):
     if not logo_bytes:
         return
     if ext == ".svg":
         svg_text = logo_bytes.decode("utf-8", errors="ignore")
         data_uri = "data:image/svg+xml;charset=utf-8," + urllib.parse.quote(svg_text)
-        st.markdown(f"<img src='{data_uri}' alt='logo' style='height:64px;'>", unsafe_allow_html=True)
+        st.markdown(
+            f"<img src='{data_uri}' alt='logo' style='width:{width_px}px;height:auto;max-width:100%;'>",
+            unsafe_allow_html=True,
+        )
     else:
-        st.image(logo_bytes, caption=None, use_container_width=False)
+        st.image(logo_bytes, caption=None, width=width_px)
 
 # -------- Build/refresh on-disk DB if any TSV changed --------
 @st.cache_resource(show_spinner=False)
-def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str:
-    # Combined signature: either file change triggers rebuild
-    sig = _sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024)
+def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str, source_sig: str) -> str:
+    sig = source_sig
     sig_file = pathlib.Path(db_path + ".sig")
     need_build = True
     if pathlib.Path(db_path).exists() and sig_file.exists():
         need_build = (sig_file.read_text() != sig)
+    LOGGER.info(
+        "DB check: primary=%s secondary=%s db=%s rebuild=%s",
+        tsv_primary, tsv_pred2024, db_path, need_build
+    )
 
     con = sqlite3.connect(db_path, check_same_thread=False)
     con.row_factory = sqlite3.Row
@@ -83,6 +117,7 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
     cur.execute("PRAGMA cache_size=-200000;")
 
     if need_build:
+        LOGGER.info("Rebuilding SQLite index from source files")
         cur.executescript("""
         DROP TABLE IF EXISTS cves;
         DROP TABLE IF EXISTS cve_fts;
@@ -143,23 +178,28 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
 
         # Load primary TSV
         p = pathlib.Path(tsv_primary)
+        primary_loaded = 0
         if p.exists() and p.is_file():
             with open(tsv_primary, newline="", encoding="utf-8", errors="ignore") as f:
                 rdr = csv.DictReader(f, delimiter="\t")
                 batch: List[Tuple] = []
                 for r in rdr:
+                    cve = _get(r, "cve") or _get(r, "cveID")
+                    if not cve:
+                        continue
                     batch.append((
-                        _get(r, "cve"),
+                        cve,
                         _get(r, "assigner"),
                         _get(r, "published")[:10],
-                        _get(r, "title"),
-                        _get(r, "description"),
-                        _get(r, "vendor"),
+                        (_get(r, "title") or _get(r, "vulnerabilityName")),
+                        (_get(r, "description") or _get(r, "shortDescription")),
+                        (_get(r, "vendor") or _get(r, "vendorProject")),
                         _get(r, "product"),
                         (_get(r, "affected versions") or _get(r, "affected_versions")),
                         _get(r, "rating"),
                     ))
                     if len(batch) >= 5000:
+                        primary_loaded += len(batch)
                         cur.executemany(
                             """INSERT INTO cves
                                (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
@@ -168,6 +208,7 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
                         )
                         batch.clear()
                 if batch:
+                    primary_loaded += len(batch)
                     cur.executemany(
                         """INSERT INTO cves
                            (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
@@ -175,22 +216,30 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
                         batch
                     )
             cur.execute("INSERT INTO cve_fts(cve_fts) VALUES('rebuild');")
+            LOGGER.info("Primary dataset loaded: rows=%s file=%s", primary_loaded, tsv_primary)
+        else:
+            LOGGER.warning("Primary dataset missing: file=%s", tsv_primary)
 
         # Load 2024 TSV
         p2 = pathlib.Path(tsv_pred2024)
+        pred_loaded = 0
         if p2.exists() and p2.is_file():
             with open(tsv_pred2024, newline="", encoding="utf-8", errors="ignore") as f:
                 rdr = csv.DictReader(f, delimiter="\t")
                 batch2: List[Tuple] = []
                 for r in rdr:
+                    cve = _get(r, "cveID") or _get(r, "cve")
+                    if not cve or cve.lower() == "cveid":
+                        continue
                     batch2.append((
-                        _get(r, "cveID"),
-                        _get(r, "Predicted_Label"),
-                        _get(r, "vendorProject"),
+                        cve,
+                        (_get(r, "Predicted_Label") or _get(r, "rating")),
+                        (_get(r, "vendorProject") or _get(r, "vendor")),
                         _get(r, "product"),
-                        _get(r, "description"),
+                        (_get(r, "description") or _get(r, "shortDescription")),
                     ))
                     if len(batch2) >= 5000:
+                        pred_loaded += len(batch2)
                         cur.executemany(
                             """INSERT INTO preds2024
                                (cve,predicted_label,vendor,product,description)
@@ -199,6 +248,7 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
                         )
                         batch2.clear()
                 if batch2:
+                    pred_loaded += len(batch2)
                     cur.executemany(
                         """INSERT INTO preds2024
                            (cve,predicted_label,vendor,product,description)
@@ -206,16 +256,21 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, db_path: str) -> str
                         batch2
                     )
             cur.execute("INSERT INTO preds2024_fts(preds2024_fts) VALUES('rebuild');")
+            LOGGER.info("2024 dataset loaded: rows=%s file=%s", pred_loaded, tsv_pred2024)
+        else:
+            LOGGER.warning("2024 dataset missing: file=%s", tsv_pred2024)
 
         con.commit()
         sig_file.write_text(sig)
+        LOGGER.info("DB rebuild complete: db=%s sig_file=%s", db_path, sig_file)
 
     con.close()
     return db_path
 
 # -------- Serve entirely from RAM --------
 @st.cache_resource(show_spinner=False)
-def serve_from_memory(db_path: str) -> sqlite3.Connection:
+def serve_from_memory(db_path: str, source_sig: str) -> sqlite3.Connection:
+    _ = source_sig  # part of cache key to force RAM refresh when TSV content changes
     disk = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, check_same_thread=False)
     disk.row_factory = sqlite3.Row
     mem = sqlite3.connect(":memory:", check_same_thread=False)
@@ -225,36 +280,69 @@ def serve_from_memory(db_path: str) -> sqlite3.Connection:
 
     mem.execute("PRAGMA temp_store=MEMORY;")
     mem.execute("PRAGMA cache_size=-400000;")
+    LOGGER.info("Loaded database into RAM: db=%s", db_path)
     return mem
 
 # -------- Header (fixed logo + title + description) --------
-logo_bytes, logo_ext = _load_logo_bytes(DEFAULT_LOGO)
-if logo_bytes:
-    _render_logo(logo_bytes, logo_ext)
-st.title("🔎 CVE Rating Search")
-st.caption("Ratings are available for 2024 and January - August 2025. The RAM-backed SQLite FTS5 will take a few moments to load. Enter a query to begin. A null result means a CVE has not been rated hot or warm.")
+logo_sig = _sha256_file(DEFAULT_LOGO)
+logo_bytes, logo_ext = _load_logo_bytes(DEFAULT_LOGO, logo_sig)
+st.markdown(
+    """
+<style>
+section.main > div.block-container {
+    padding-top: 0.8rem;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "<h3 style='margin:0.05rem 0 0.2rem 0;'>CAUSALITY CVE Prediction Ratings Search</h3>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    "<p style='margin:0;font-size:0.9rem;color:var(--text-color);'>Ratings are available for 2024 and 2025. The RAM-backed SQLite FTS5 will take a few moments to load. Enter a query to begin. A null result means a CVE has not been rated hot or warm.</p>",
+    unsafe_allow_html=True,
+)
 
 # -------- Sidebar: paths, maintenance, and SEARCH INPUTS --------
+if st.session_state.pop("_clear_search_pending", False):
+    for k in ("q", "exact_cve", "vendor", "product"):
+        st.session_state[k] = ""
+
 with st.sidebar:
-    st.subheader("Data sources")
-    tsv_primary  = st.text_input("Primary TSV path", value=DEFAULT_TSV_PRIMARY)
-    tsv_pred2024 = st.text_input("2024 TSV path", value=DEFAULT_TSV_PRED2024)
+    if logo_bytes:
+        _render_logo(logo_bytes, logo_ext, width_px=230)
+    search_tab, data_tab = st.tabs(["Search", "Data/Index"])
 
-    col1, col2 = st.columns(2)
-    with col1:
-        force_rebuild = st.button("Force rebuild index")
-    with col2:
-        explain = st.checkbox("Explain query plan", value=False)
+    with search_tab:
+        q = st.text_input(
+            "Full-text query",
+            key="q",
+            #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
+        )
+        exact_cve = st.text_input("Exact CVE (eg CVE-2025-1234)", key="exact_cve")
+        vendor = st.text_input("Vendor (prefix)", "", key="vendor")
+        product = st.text_input("Product (prefix)", "", key="product")
+        clear_search = st.button("Clear search options")
 
-    st.markdown("---")
-    st.subheader("Search")
-    q = st.text_input(
-        "Full-text query",
-        #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
-    )
-    exact_cve = st.text_input("Exact CVE (eg CVE-2025-1234)" )
-    vendor = st.text_input("Vendor (prefix)", "")
-    product = st.text_input("Product (prefix)", "")
+    with data_tab:
+        st.subheader("Data sources")
+        tsv_primary  = st.text_input("Primary TSV path", value=DEFAULT_TSV_PRIMARY)
+        tsv_pred2024 = st.text_input("2024 TSV path", value=DEFAULT_TSV_PRED2024)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            force_rebuild = st.button("Force rebuild index")
+        with col2:
+            explain = st.checkbox("Explain query plan", value=False)
+
+if clear_search:
+    st.session_state["_clear_search_pending"] = True
+    st.rerun()
+
+tsv_primary_path = _resolve_input_path(tsv_primary)
+tsv_pred2024_path = _resolve_input_path(tsv_pred2024)
 
 if force_rebuild:
     try:
@@ -267,13 +355,13 @@ if force_rebuild:
     except Exception as e:
         st.warning(f"Could not delete DB: {e}")
 
-disk_db_path = build_or_open_disk(tsv_primary, tsv_pred2024, DB_PATH)
-con = serve_from_memory(disk_db_path)
+source_sig = _source_signature(tsv_primary_path, tsv_pred2024_path)
+disk_db_path = build_or_open_disk(tsv_primary_path, tsv_pred2024_path, DB_PATH, source_sig)
+con = serve_from_memory(disk_db_path, source_sig)
 
 # -------- Don't run a search until there's some input --------
 has_input = any(s.strip() for s in (q, exact_cve, vendor, product))
 if not has_input:
-    st.info("Enter a query (full-text, exact CVE, vendor, or product) in the left sidebar to see results.")
     st.stop()
 
 
@@ -413,13 +501,119 @@ else:
     count_params_p = params_p
     search_params_p = params_p
 
+# --- Rating distribution SQL
+if fts_params_c:
+    rating_sql_c = f"""
+    WITH hits AS (
+      SELECT rowid, bm25(cve_fts) AS rank
+      FROM cve_fts
+      WHERE cve_fts MATCH ?
+      ORDER BY rank
+      LIMIT {HIT_CAP_PRIMARY}
+    )
+    SELECT COALESCE(NULLIF(TRIM(c.rating), ''), 'UNKNOWN') AS rating_value, COUNT(*) AS cnt
+    FROM hits h
+    JOIN cves c ON c.id = h.rowid
+    {where_sql_c}
+    GROUP BY rating_value
+    ORDER BY cnt DESC, rating_value
+    """
+    rating_params_c = fts_params_c + params_c
+else:
+    rating_sql_c = f"""
+    SELECT COALESCE(NULLIF(TRIM(c.rating), ''), 'UNKNOWN') AS rating_value, COUNT(*) AS cnt
+    FROM cves c
+    {where_sql_c}
+    GROUP BY rating_value
+    ORDER BY cnt DESC, rating_value
+    """
+    rating_params_c = params_c
+
+if fts_params_p:
+    rating_sql_p = f"""
+    WITH hits AS (
+      SELECT rowid, bm25(preds2024_fts) AS rank
+      FROM preds2024_fts
+      WHERE preds2024_fts MATCH ?
+      ORDER BY rank
+      LIMIT {HIT_CAP_PRED2024}
+    )
+    SELECT COALESCE(NULLIF(TRIM(p.predicted_label), ''), 'UNKNOWN') AS rating_value, COUNT(*) AS cnt
+    FROM hits h
+    JOIN preds2024 p ON p.id = h.rowid
+    {where_sql_p}
+    GROUP BY rating_value
+    ORDER BY cnt DESC, rating_value
+    """
+    rating_params_p = fts_params_p + params_p
+else:
+    rating_sql_p = f"""
+    SELECT COALESCE(NULLIF(TRIM(p.predicted_label), ''), 'UNKNOWN') AS rating_value, COUNT(*) AS cnt
+    FROM preds2024 p
+    {where_sql_p}
+    GROUP BY rating_value
+    ORDER BY cnt DESC, rating_value
+    """
+    rating_params_p = params_p
+
+# --- Distinct product values (for current query scope)
+if fts_params_c:
+    product_sql_c = f"""
+    WITH hits AS (
+      SELECT rowid, bm25(cve_fts) AS rank
+      FROM cve_fts
+      WHERE cve_fts MATCH ?
+      ORDER BY rank
+      LIMIT {HIT_CAP_PRIMARY}
+    )
+    SELECT DISTINCT TRIM(c.product) AS product_value
+    FROM hits h
+    JOIN cves c ON c.id = h.rowid
+    {where_sql_c}
+    """
+    product_params_c = fts_params_c + params_c
+else:
+    product_sql_c = f"""
+    SELECT DISTINCT TRIM(c.product) AS product_value
+    FROM cves c
+    {where_sql_c}
+    """
+    product_params_c = params_c
+
+if fts_params_p:
+    product_sql_p = f"""
+    WITH hits AS (
+      SELECT rowid, bm25(preds2024_fts) AS rank
+      FROM preds2024_fts
+      WHERE preds2024_fts MATCH ?
+      ORDER BY rank
+      LIMIT {HIT_CAP_PRED2024}
+    )
+    SELECT DISTINCT TRIM(p.product) AS product_value
+    FROM hits h
+    JOIN preds2024 p ON p.id = h.rowid
+    {where_sql_p}
+    """
+    product_params_p = fts_params_p + params_p
+else:
+    product_sql_p = f"""
+    SELECT DISTINCT TRIM(p.product) AS product_value
+    FROM preds2024 p
+    {where_sql_p}
+    """
+    product_params_p = params_p
+
 # Optional: EXPLAIN plans
 if explain:
     for label, sql, params in [
         ("PRIMARY count", count_sql_c, count_params_c),
         ("PRIMARY search", search_sql_c, search_params_c),
+        ("PRIMARY ratings", rating_sql_c, rating_params_c),
+        ("PRIMARY products", product_sql_c, product_params_c),
         ("PRED2024 count", count_sql_p, count_params_p),
         ("PRED2024 search", search_sql_p, search_params_p),
+        ("PRED2024 ratings", rating_sql_p, rating_params_p),
+        ("PRED2024 products", product_sql_p, product_params_p),
     ]:
         st.subheader(label)
         st.code(sql.strip())
@@ -428,11 +622,66 @@ if explain:
         st.write(plan)
 
 # -------- Execute --------
-total_c = con.execute(count_sql_c, count_params_c).fetchone()[0]
+total_c_raw = con.execute(count_sql_c, count_params_c).fetchone()[0]
 rows_c  = con.execute(search_sql_c,  search_params_c).fetchall()
+rating_rows_c = con.execute(rating_sql_c, rating_params_c).fetchall()
+product_rows_c = con.execute(product_sql_c, product_params_c).fetchall()
 
-total_p = con.execute(count_sql_p, count_params_p).fetchone()[0]
+total_p_raw = con.execute(count_sql_p, count_params_p).fetchone()[0]
 rows_p  = con.execute(search_sql_p,  search_params_p).fetchall()
+rating_rows_p = con.execute(rating_sql_p, rating_params_p).fetchall()
+product_rows_p = con.execute(product_sql_p, product_params_p).fetchall()
+
+rating_counter = Counter()
+for rr in rating_rows_c:
+    rating_counter[(rr["rating_value"] or "UNKNOWN").upper()] += int(rr["cnt"])
+for rr in rating_rows_p:
+    rating_counter[(rr["rating_value"] or "UNKNOWN").upper()] += int(rr["cnt"])
+rating_options = [k for k, _ in sorted(rating_counter.items(), key=lambda x: (-x[1], x[0]))]
+selected_ratings = st.multiselect(
+    "Results by Rating",
+    options=rating_options,
+    default=rating_options,
+    format_func=lambda k: f"{k}: {rating_counter[k]:,}",
+)
+selected_rating_set = set(selected_ratings)
+
+def _norm_rating(val: str) -> str:
+    return ((val or "").strip().upper() or "UNKNOWN")
+
+rows_c = [r for r in rows_c if _norm_rating(r["rating"]) in selected_rating_set]
+rows_p = [r for r in rows_p if _norm_rating(r["predicted_label"]) in selected_rating_set]
+
+total_c = sum(
+    int(rr["cnt"])
+    for rr in rating_rows_c
+    if _norm_rating(rr["rating_value"]) in selected_rating_set
+)
+total_p = sum(
+    int(rr["cnt"])
+    for rr in rating_rows_p
+    if _norm_rating(rr["rating_value"]) in selected_rating_set
+)
+product_values = {
+    (r["product_value"] or "").strip()
+    for r in list(product_rows_c) + list(product_rows_p)
+    if (r["product_value"] or "").strip()
+}
+product_value_count = len(product_values)
+LOGGER.info(
+    "Search executed: q=%r exact_cve=%r vendor=%r product=%r total_2025=%s total_2024=%s filtered_2025=%s filtered_2024=%s shown_2025=%s shown_2024=%s",
+    q, exact_cve, vendor, product, total_c_raw, total_p_raw, total_c, total_p, len(rows_c), len(rows_p)
+)
+
+# Top-of-page summary across both datasets
+st.markdown(
+    f"<p style='font-size:0.9rem; margin: -0.3rem 0 0.7rem 0;'><strong>Total Results:</strong> {(total_c + total_p):,}</p>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    f"<p style='font-size:0.9rem; margin: -0.3rem 0 0.7rem 0;'><strong>Product Values:</strong> {product_value_count:,}</p>",
+    unsafe_allow_html=True,
+)
 
 # -------- Render helpers --------
 def show_field(label: str, val: str):
@@ -440,7 +689,14 @@ def show_field(label: str, val: str):
     st.markdown(f"**{label}:** {v if v else '—'}")
 
 # -------- Render: Primary section --------
-st.write(f"### 2025 Ratings — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results")
+st.markdown(
+    f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2025 Ratings</strong> — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results</p>",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    f"<p style='font-size:0.9rem; margin: -0.2rem 0 0.7rem 0;'><a href='#results-2024'>2024 Ratings — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results</a></p>",
+    unsafe_allow_html=True,
+)
 for r in rows_c:
     with st.container(border=True):
         sev = (r["rating"] or "UNKNOWN").upper()
@@ -463,7 +719,11 @@ for r in rows_c:
 st.divider()
 
 # -------- Render: 2024 predictions section --------
-st.write(f"### 2024 Ratings — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results")
+st.markdown("<div id='results-2024'></div>", unsafe_allow_html=True)
+st.markdown(
+    f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2024 Ratings</strong> — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results</p>",
+    unsafe_allow_html=True,
+)
 for r in rows_p:
     with st.container(border=True):
         st.markdown(f"**{r['cve']}**  —  {(r['predicted_label'] or 'UNKNOWN').upper()}")
@@ -486,3 +746,4 @@ with st.expander("Search syntax tips"):
 - Exact CVE (fastest): use the **Exact CVE** box (`CVE-2024-12345`)
 """
     )
+
