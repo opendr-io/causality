@@ -26,7 +26,7 @@ DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources cha
 LOG_PATH = str(BASE_DIR / "causality.log")  # app log output
 RESULT_LIMIT_PRIMARY  = 100         # top-N to display from primary
 RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
-DEFAULT_LOGO = str(BASE_DIR / "causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
+DEFAULT_LOGO = str(BASE_DIR / "img/causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
 
 st.set_page_config(page_title="CVE Search", layout="wide")
 
@@ -290,18 +290,18 @@ st.markdown(
     """
 <style>
 section.main > div.block-container {
-    padding-top: 0.8rem;
+    padding-top: 4rem;
 }
 </style>
 """,
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<h3 style='margin:0.05rem 0 0.2rem 0;'>CAUSALITY CVE Prediction Ratings Search</h3>",
+    "<h3 style='margin:0.05rem 0 0.2rem 0;'>CAUSALITY Ratings Search</h3>",
     unsafe_allow_html=True,
 )
 st.markdown(
-    "<p style='margin:0;font-size:0.9rem;color:var(--text-color);'>Ratings are available for 2024 and 2025. The RAM-backed SQLite FTS5 will take a few moments to load. Enter a query to begin. A null result means a CVE has not been rated hot or warm.</p>",
+    "<p style='margin:0;font-size:0.9rem;color:var(--text-color);'>Ratings are available for 2024 and 2025. A null result means a CVE has not been rated hot or warm.</p>",
     unsafe_allow_html=True,
 )
 
