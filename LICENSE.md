@@ -1,6 +1,6 @@
 openDR Research & Evaluation License v1.0
 
-Copyright © [2025] by the openDR project (the "Affirmer.") All rights reserved.
+Copyright © [2024-2026] by the openDR project (the "Affirmer.") All rights reserved.
 
 1. Definitions
 
