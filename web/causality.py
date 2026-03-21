@@ -16,19 +16,32 @@ import sqlite3
 from collections import Counter
 from typing import List, Tuple
 import urllib.parse
+import requests
 import streamlit as st
 
 # -------- Config --------env
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-DEFAULT_TSV_PRIMARY  = "2025-ratings-final.txt"   # primary dataset
-DEFAULT_TSV_PRED2024 = "2024-output-may-24.txt"   # secondary dataset
-DEFAULT_CSV_2026     = "2026-MARCH-RUN.csv"        # 2026 dataset (optional, CSV)
+DEFAULT_TSV_PRIMARY  = "../HEAD/2025-processed-clean.tsv"  # primary dataset
+DEFAULT_TSV_PRED2024 = "../HEAD/2024-output-may-24.txt"    # secondary dataset
+DEFAULT_CSV_2026     = "../HEAD/2026-MARCH-RUN.csv"        # 2026 dataset (optional, CSV)
+DEFAULT_PRED_DATES   = "pred_dates.csv"            # CVE -> earliest prediction date
 DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources change)
 LOG_PATH = str(BASE_DIR / "causality.log")  # app log output
 RESULT_LIMIT_PRIMARY  = 100         # top-N to display from primary
 RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
 RESULT_LIMIT_2026     = 100         # top-N to display from 2026
 DEFAULT_LOGO = str(BASE_DIR / "img/causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
+DEFAULT_PROMPT_FILE = "prompt.txt"                     # AI prompt template
+OPENROUTER_MODELS = [
+    "anthropic/claude-opus-4",
+    "anthropic/claude-sonnet-4-5",
+    "openai/gpt-4o",
+    "openai/gpt-4o-mini",
+    "google/gemini-2.0-flash-001",
+    "meta-llama/llama-3.3-70b-instruct",
+    "mistralai/mistral-large-2411",
+    "deepseek/deepseek-chat-v3-0324",
+]
 
 st.set_page_config(page_title="CVE Search", layout="wide")
 
@@ -76,9 +89,10 @@ def _load_logo_bytes(path: str, logo_sig: str):
     data = p.read_bytes()
     return data, p.suffix.lower()
 
-def _source_signature(tsv_primary: str, tsv_pred2024: str, csv_2026: str) -> str:
+def _source_signature(tsv_primary: str, tsv_pred2024: str, csv_2026: str, pred_dates: str) -> str:
     # Use content hashes so cache invalidates when any source file changes.
-    return _sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024) + "|" + _sha256_file(csv_2026)
+    return (_sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024) +
+            "|" + _sha256_file(csv_2026) + "|" + _sha256_file(pred_dates))
 
 def _resolve_input_path(path_text: str) -> str:
     p = pathlib.Path(path_text)
@@ -97,11 +111,48 @@ def _render_logo(logo_bytes: bytes, ext: str, width_px: int = 180):
     else:
         st.image(logo_bytes, caption=None, width=width_px)
 
+# -------- AI helpers --------
+def _load_prompt(path: str) -> str:
+    p = pathlib.Path(path)
+    if p.exists() and p.is_file():
+        return p.read_text(encoding="utf-8").strip()
+    return "Give a summary of how to reason about exposure to this CVE and how to patch or mitigate it."
+
+def _build_ai_context(data: dict) -> str:
+    lines = [
+        f"CVE ID: {data['cve']}",
+        f"Year: {data['year']}",
+        f"Rating: {data['rating']}",
+    ]
+    if data.get("title"):
+        lines.append(f"Title: {data['title']}")
+    if data.get("vendor"):
+        lines.append(f"Vendor: {data['vendor']}")
+    if data.get("product"):
+        lines.append(f"Product: {data['product']}")
+    if data.get("description"):
+        lines.append(f"Description: {data['description']}")
+    return "\n".join(lines)
+
+def _ask_perplexity(api_key: str, model: str, prompt: str, cve_data: dict) -> str:
+    context = _build_ai_context(cve_data)
+    full_prompt = f"{prompt}\n\n---\n{context}"
+    resp = requests.post(
+        "https://openrouter.ai/api/v1/chat/completions",
+        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+        json={"model": model, "messages": [{"role": "user", "content": full_prompt}]},
+        timeout=60,
+    )
+    resp.raise_for_status()
+    return resp.json()["choices"][0]["message"]["content"]
+
+
 # -------- Build/refresh on-disk DB if any TSV changed --------
 @st.cache_resource(show_spinner=False)
-def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, db_path: str, source_sig: str) -> str:
+def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, pred_dates: str, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
     sig = source_sig
     sig_file = pathlib.Path(db_path + ".sig")
+    load_errors: List[str] = []
     need_build = True
     if pathlib.Path(db_path).exists() and sig_file.exists():
         need_build = (sig_file.read_text() != sig)
@@ -204,31 +255,48 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, db_pa
         CREATE INDEX IF NOT EXISTS idx_p26_vendor  ON preds2026(vendor);
         CREATE INDEX IF NOT EXISTS idx_p26_product ON preds2026(product);
         CREATE INDEX IF NOT EXISTS idx_p26_rating  ON preds2026(rating);
+
+        -- Prediction dates lookup (CVE -> earliest pred date)
+        DROP TABLE IF EXISTS pred_dates;
+        CREATE TABLE pred_dates (
+          cve TEXT PRIMARY KEY,
+          pred_date TEXT        -- YYYY-MM-DD
+        );
         """)
 
         # Load primary TSV
         p = pathlib.Path(tsv_primary)
         primary_loaded = 0
         if p.exists() and p.is_file():
-            with open(tsv_primary, newline="", encoding="utf-8", errors="ignore") as f:
-                rdr = csv.DictReader(f, delimiter="\t")
-                batch: List[Tuple] = []
-                for r in rdr:
-                    cve = _get(r, "cve") or _get(r, "cveID")
-                    if not cve:
-                        continue
-                    batch.append((
-                        cve,
-                        _get(r, "assigner"),
-                        _get(r, "published")[:10],
-                        (_get(r, "title") or _get(r, "vulnerabilityName")),
-                        (_get(r, "description") or _get(r, "shortDescription")),
-                        (_get(r, "vendor") or _get(r, "vendorProject")),
-                        _get(r, "product"),
-                        (_get(r, "affected versions") or _get(r, "affected_versions")),
-                        _get(r, "rating"),
-                    ))
-                    if len(batch) >= 5000:
+            try:
+                with open(tsv_primary, newline="", encoding="utf-8", errors="ignore") as f:
+                    rdr = csv.DictReader(f, delimiter="\t")
+                    batch: List[Tuple] = []
+                    for r in rdr:
+                        cve = _get(r, "cve") or _get(r, "cveID") or _get(r, "cveid")
+                        if not cve:
+                            continue
+                        batch.append((
+                            cve,
+                            _get(r, "assigner"),
+                            _get(r, "published")[:10],
+                            (_get(r, "title") or _get(r, "vulnerabilityName") or _get(r, "vulnerabilityname")),
+                            (_get(r, "description") or _get(r, "shortDescription") or _get(r, "shortdescription")),
+                            (_get(r, "vendor") or _get(r, "vendorProject") or _get(r, "vendorproject")),
+                            _get(r, "product"),
+                            (_get(r, "affected versions") or _get(r, "affected_versions")),
+                            _get(r, "rating"),
+                        ))
+                        if len(batch) >= 5000:
+                            primary_loaded += len(batch)
+                            cur.executemany(
+                                """INSERT INTO cves
+                                   (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
+                                   VALUES (?,?,?,?,?,?,?,?,?)""",
+                                batch
+                            )
+                            batch.clear()
+                    if batch:
                         primary_loaded += len(batch)
                         cur.executemany(
                             """INSERT INTO cves
@@ -236,39 +304,46 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, db_pa
                                VALUES (?,?,?,?,?,?,?,?,?)""",
                             batch
                         )
-                        batch.clear()
-                if batch:
-                    primary_loaded += len(batch)
-                    cur.executemany(
-                        """INSERT INTO cves
-                           (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
-                           VALUES (?,?,?,?,?,?,?,?,?)""",
-                        batch
-                    )
-            cur.execute("INSERT INTO cve_fts(cve_fts) VALUES('rebuild');")
-            LOGGER.info("Primary dataset loaded: rows=%s file=%s", primary_loaded, tsv_primary)
+                cur.execute("INSERT INTO cve_fts(cve_fts) VALUES('rebuild');")
+                LOGGER.info("Primary dataset loaded: rows=%s file=%s", primary_loaded, tsv_primary)
+            except Exception as e:
+                msg = f"Error reading primary file {tsv_primary}: {e}"
+                LOGGER.error(msg)
+                load_errors.append(msg)
         else:
-            LOGGER.warning("Primary dataset missing: file=%s", tsv_primary)
+            msg = f"Primary file not found: {tsv_primary}"
+            LOGGER.warning(msg)
+            load_errors.append(msg)
 
         # Load 2024 TSV
         p2 = pathlib.Path(tsv_pred2024)
         pred_loaded = 0
         if p2.exists() and p2.is_file():
-            with open(tsv_pred2024, newline="", encoding="utf-8", errors="ignore") as f:
-                rdr = csv.DictReader(f, delimiter="\t")
-                batch2: List[Tuple] = []
-                for r in rdr:
-                    cve = _get(r, "cveID") or _get(r, "cve")
-                    if not cve or cve.lower() == "cveid":
-                        continue
-                    batch2.append((
-                        cve,
-                        (_get(r, "Predicted_Label") or _get(r, "rating")),
-                        (_get(r, "vendorProject") or _get(r, "vendor")),
-                        _get(r, "product"),
-                        (_get(r, "description") or _get(r, "shortDescription")),
-                    ))
-                    if len(batch2) >= 5000:
+            try:
+                with open(tsv_pred2024, newline="", encoding="utf-8", errors="ignore") as f:
+                    rdr = csv.DictReader(f, delimiter="\t")
+                    batch2: List[Tuple] = []
+                    for r in rdr:
+                        cve = _get(r, "cveID") or _get(r, "cve")
+                        if not cve or cve.lower() == "cveid":
+                            continue
+                        batch2.append((
+                            cve,
+                            (_get(r, "Predicted_Label") or _get(r, "rating")),
+                            (_get(r, "vendorProject") or _get(r, "vendor")),
+                            _get(r, "product"),
+                            (_get(r, "description") or _get(r, "shortDescription")),
+                        ))
+                        if len(batch2) >= 5000:
+                            pred_loaded += len(batch2)
+                            cur.executemany(
+                                """INSERT INTO preds2024
+                                   (cve,predicted_label,vendor,product,description)
+                                   VALUES (?,?,?,?,?)""",
+                                batch2
+                            )
+                            batch2.clear()
+                    if batch2:
                         pred_loaded += len(batch2)
                         cur.executemany(
                             """INSERT INTO preds2024
@@ -276,43 +351,50 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, db_pa
                                VALUES (?,?,?,?,?)""",
                             batch2
                         )
-                        batch2.clear()
-                if batch2:
-                    pred_loaded += len(batch2)
-                    cur.executemany(
-                        """INSERT INTO preds2024
-                           (cve,predicted_label,vendor,product,description)
-                           VALUES (?,?,?,?,?)""",
-                        batch2
-                    )
-            cur.execute("INSERT INTO preds2024_fts(preds2024_fts) VALUES('rebuild');")
-            LOGGER.info("2024 dataset loaded: rows=%s file=%s", pred_loaded, tsv_pred2024)
+                cur.execute("INSERT INTO preds2024_fts(preds2024_fts) VALUES('rebuild');")
+                LOGGER.info("2024 dataset loaded: rows=%s file=%s", pred_loaded, tsv_pred2024)
+            except Exception as e:
+                msg = f"Error reading 2024 file {tsv_pred2024}: {e}"
+                LOGGER.error(msg)
+                load_errors.append(msg)
         else:
-            LOGGER.warning("2024 dataset missing: file=%s", tsv_pred2024)
+            msg = f"2024 file not found: {tsv_pred2024}"
+            LOGGER.warning(msg)
+            load_errors.append(msg)
 
         # Load 2026 CSV (optional, comma-delimited)
         p3 = pathlib.Path(csv_2026)
         pred2026_loaded = 0
         if p3.exists() and p3.is_file():
-            with open(csv_2026, newline="", encoding="utf-8", errors="ignore") as f:
-                rdr = csv.DictReader(f, delimiter=",")
-                batch3: List[Tuple] = []
-                for r in rdr:
-                    cve = _get(r, "cveid") or _get(r, "cve") or _get(r, "cveID")
-                    if not cve:
-                        continue
-                    pub = _get(r, "published")
-                    batch3.append((
-                        cve,
-                        _get(r, "assigner"),
-                        pub[:10] if pub else "",
-                        (_get(r, "vulnerabilityname") or _get(r, "title")),
-                        (_get(r, "shortdescription") or _get(r, "description")),
-                        (_get(r, "vendorproject") or _get(r, "vendor")),
-                        _get(r, "product"),
-                        _get(r, "rating"),
-                    ))
-                    if len(batch3) >= 5000:
+            try:
+                with open(csv_2026, newline="", encoding="utf-8", errors="ignore") as f:
+                    rdr = csv.DictReader(f, delimiter=",")
+                    batch3: List[Tuple] = []
+                    for r in rdr:
+                        cve = _get(r, "cveid") or _get(r, "cve") or _get(r, "cveID")
+                        if not cve:
+                            continue
+                        pub = _get(r, "published")
+                        batch3.append((
+                            cve,
+                            _get(r, "assigner"),
+                            pub[:10] if pub else "",
+                            (_get(r, "vulnerabilityname") or _get(r, "title")),
+                            (_get(r, "shortdescription") or _get(r, "description")),
+                            (_get(r, "vendorproject") or _get(r, "vendor")),
+                            _get(r, "product"),
+                            _get(r, "rating"),
+                        ))
+                        if len(batch3) >= 5000:
+                            pred2026_loaded += len(batch3)
+                            cur.executemany(
+                                """INSERT INTO preds2026
+                                   (cve,assigner,published,title,description,vendor,product,rating)
+                                   VALUES (?,?,?,?,?,?,?,?)""",
+                                batch3
+                            )
+                            batch3.clear()
+                    if batch3:
                         pred2026_loaded += len(batch3)
                         cur.executemany(
                             """INSERT INTO preds2026
@@ -320,26 +402,52 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, db_pa
                                VALUES (?,?,?,?,?,?,?,?)""",
                             batch3
                         )
-                        batch3.clear()
-                if batch3:
-                    pred2026_loaded += len(batch3)
-                    cur.executemany(
-                        """INSERT INTO preds2026
-                           (cve,assigner,published,title,description,vendor,product,rating)
-                           VALUES (?,?,?,?,?,?,?,?)""",
-                        batch3
-                    )
-            cur.execute("INSERT INTO preds2026_fts(preds2026_fts) VALUES('rebuild');")
-            LOGGER.info("2026 dataset loaded: rows=%s file=%s", pred2026_loaded, csv_2026)
+                cur.execute("INSERT INTO preds2026_fts(preds2026_fts) VALUES('rebuild');")
+                LOGGER.info("2026 dataset loaded: rows=%s file=%s", pred2026_loaded, csv_2026)
+            except Exception as e:
+                msg = f"Error reading 2026 file {csv_2026}: {e}"
+                LOGGER.error(msg)
+                load_errors.append(msg)
         else:
             LOGGER.info("2026 dataset not present, skipping: file=%s", csv_2026)
+
+        # Load pred_dates CSV
+        p4 = pathlib.Path(pred_dates)
+        pred_dates_loaded = 0
+        if p4.exists() and p4.is_file():
+            try:
+                with open(pred_dates, newline="", encoding="utf-8", errors="ignore") as f:
+                    rdr = csv.DictReader(f)
+                    batch4: List[Tuple] = []
+                    for r in rdr:
+                        cve = _get(r, "cve")
+                        pd = _get(r, "pred_date")
+                        if not cve or not pd:
+                            continue
+                        batch4.append((cve, pd))
+                        if len(batch4) >= 5000:
+                            pred_dates_loaded += len(batch4)
+                            cur.executemany("INSERT OR REPLACE INTO pred_dates (cve, pred_date) VALUES (?,?)", batch4)
+                            batch4.clear()
+                    if batch4:
+                        pred_dates_loaded += len(batch4)
+                        cur.executemany("INSERT OR REPLACE INTO pred_dates (cve, pred_date) VALUES (?,?)", batch4)
+                LOGGER.info("pred_dates loaded: rows=%s file=%s", pred_dates_loaded, pred_dates)
+            except Exception as e:
+                msg = f"Error reading pred_dates file {pred_dates}: {e}"
+                LOGGER.error(msg)
+                load_errors.append(msg)
+        else:
+            msg = f"pred_dates file not found: {pred_dates}"
+            LOGGER.warning(msg)
+            load_errors.append(msg)
 
         con.commit()
         sig_file.write_text(sig)
         LOGGER.info("DB rebuild complete: db=%s sig_file=%s", db_path, sig_file)
 
     con.close()
-    return db_path
+    return db_path, load_errors
 
 # -------- Serve entirely from RAM --------
 @st.cache_resource(show_spinner=False)
@@ -387,7 +495,7 @@ if st.session_state.pop("_clear_search_pending", False):
 with st.sidebar:
     if logo_bytes:
         _render_logo(logo_bytes, logo_ext, width_px=230)
-    search_tab, data_tab = st.tabs(["Search", "Data/Index"])
+    search_tab, data_tab, ai_tab = st.tabs(["Search", "Data/Index", "AI"])
 
     with search_tab:
         q = st.text_input(
@@ -405,12 +513,21 @@ with st.sidebar:
         tsv_primary  = st.text_input("Primary TSV path", value=DEFAULT_TSV_PRIMARY)
         tsv_pred2024 = st.text_input("2024 TSV path", value=DEFAULT_TSV_PRED2024)
         csv_2026     = st.text_input("2026 CSV path", value=DEFAULT_CSV_2026)
+        counts_placeholder = st.empty()
 
         col1, col2 = st.columns(2)
         with col1:
             force_rebuild = st.button("Force rebuild index")
         with col2:
             explain = st.checkbox("Explain query plan", value=False)
+        errors_placeholder = st.empty()
+
+    with ai_tab:
+        st.subheader("AI Settings")
+        openrouter_api_key = st.text_input("OpenRouter API key", type="password", key="openrouter_api_key")
+        ai_model = st.selectbox("Model", options=OPENROUTER_MODELS, key="ai_model")
+        ai_custom_model = st.text_input("Or enter a custom model ID", key="ai_custom_model")
+        prompt_file = st.text_input("Prompt file", value=DEFAULT_PROMPT_FILE, key="prompt_file")
 
 if clear_search:
     st.session_state["_clear_search_pending"] = True
@@ -431,9 +548,27 @@ if force_rebuild:
     except Exception as e:
         st.warning(f"Could not delete DB: {e}")
 
-source_sig = _source_signature(tsv_primary_path, tsv_pred2024_path, csv_2026_path)
-disk_db_path = build_or_open_disk(tsv_primary_path, tsv_pred2024_path, csv_2026_path, DB_PATH, source_sig)
+_active_model = ai_custom_model.strip() if ai_custom_model.strip() else ai_model
+prompt_text = _load_prompt(_resolve_input_path(prompt_file))
+
+pred_dates_path = _resolve_input_path(DEFAULT_PRED_DATES)
+source_sig = _source_signature(tsv_primary_path, tsv_pred2024_path, csv_2026_path, pred_dates_path)
+disk_db_path, load_errors = build_or_open_disk(tsv_primary_path, tsv_pred2024_path, csv_2026_path, pred_dates_path, DB_PATH, source_sig)
 con = serve_from_memory(disk_db_path, source_sig)
+
+_n2025 = con.execute("SELECT COUNT(*) FROM cves").fetchone()[0]
+_n2024 = con.execute("SELECT COUNT(*) FROM preds2024").fetchone()[0]
+_n2026 = con.execute("SELECT COUNT(*) FROM preds2026").fetchone()[0]
+counts_placeholder.markdown(
+    f"**CVEs indexed**  \n"
+    f"2025: {_n2025:,}  \n"
+    f"2024: {_n2024:,}  \n"
+    f"2026: {_n2026:,}"
+)
+if load_errors:
+    errors_placeholder.error("\n\n".join(load_errors))
+else:
+    errors_placeholder.empty()
 
 # -------- Don't run a search until there's some input --------
 has_input = any(s.strip() for s in (q, exact_cve, vendor, product))
@@ -518,9 +653,10 @@ if fts_params_c:
       ORDER BY rank
       LIMIT {HIT_CAP_PRIMARY}
     )
-    SELECT h.rank, c.*
+    SELECT h.rank, c.*, pd.pred_date
     FROM hits h
     JOIN cves c ON c.id = h.rowid
+    LEFT JOIN pred_dates pd ON pd.cve = c.cve
     {where_sql_c}
     ORDER BY h.rank, c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
@@ -531,8 +667,9 @@ else:
     where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
     count_sql_c = f"SELECT COUNT(*) FROM cves c {where_sql_c}"
     search_sql_c = f"""
-    SELECT c.*
+    SELECT c.*, pd.pred_date
     FROM cves c
+    LEFT JOIN pred_dates pd ON pd.cve = c.cve
     {where_sql_c}
     ORDER BY c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
@@ -559,22 +696,20 @@ if fts_params_p:
     """
     search_sql_p = f"""
     WITH hits AS (
-      SELECT rowid, bm5(preds2024_fts) AS rank
+      SELECT rowid, bm25(preds2024_fts) AS rank
       FROM preds2024_fts
       WHERE preds2024_fts MATCH ?
       ORDER BY rank
       LIMIT {HIT_CAP_PRED2024}
     )
-    SELECT h.rank, p.*
+    SELECT h.rank, p.*, pd.pred_date
     FROM hits h
     JOIN preds2024 p ON p.id = h.rowid
+    LEFT JOIN pred_dates pd ON pd.cve = p.cve
     {where_sql_p}
     ORDER BY h.rank, p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
     """
-    # NOTE: bm5 -> typo? Replace with bm25 in final version
-    # Fixing the typo:
-    search_sql_p = search_sql_p.replace("bm5(", "bm25(")
 
     count_params_p = fts_params_p
     search_params_p = fts_params_p + params_p
@@ -582,8 +717,9 @@ else:
     where_sql_p = ("WHERE " + " AND ".join(where_p)) if where_p else ""
     count_sql_p = f"SELECT COUNT(*) FROM preds2024 p {where_sql_p}"
     search_sql_p = f"""
-    SELECT p.*
+    SELECT p.*, pd.pred_date
     FROM preds2024 p
+    LEFT JOIN pred_dates pd ON pd.cve = p.cve
     {where_sql_p}
     ORDER BY p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
@@ -617,9 +753,10 @@ if fts_params_26:
       ORDER BY rank
       LIMIT {HIT_CAP_2026}
     )
-    SELECT h.rank, p.*
+    SELECT h.rank, p.*, pd.pred_date
     FROM hits h
     JOIN preds2026 p ON p.id = h.rowid
+    LEFT JOIN pred_dates pd ON pd.cve = p.cve
     {where_sql_26}
     ORDER BY h.rank, p.cve
     LIMIT {RESULT_LIMIT_2026}
@@ -630,8 +767,9 @@ else:
     where_sql_26 = ("WHERE " + " AND ".join(where_26)) if where_26 else ""
     count_sql_26 = f"SELECT COUNT(*) FROM preds2026 p {where_sql_26}"
     search_sql_26 = f"""
-    SELECT p.*
+    SELECT p.*, pd.pred_date
     FROM preds2026 p
+    LEFT JOIN pred_dates pd ON pd.cve = p.cve
     {where_sql_26}
     ORDER BY p.cve
     LIMIT {RESULT_LIMIT_2026}
@@ -878,100 +1016,284 @@ LOGGER.info(
     q, exact_cve, vendor, product, total_c_raw, total_p_raw, total_26_raw, total_c, total_p, total_26, len(rows_c), len(rows_p), len(rows_26)
 )
 
-# Top-of-page summary across all datasets
-st.markdown(
-    f"<p style='font-size:0.9rem; margin: -0.3rem 0 0.7rem 0;'><strong>Total Results:</strong> {(total_c + total_p + total_26):,}</p>",
-    unsafe_allow_html=True,
-)
-st.markdown(
-    f"<p style='font-size:0.9rem; margin: -0.3rem 0 0.7rem 0;'><strong>Product Values:</strong> {product_value_count:,}</p>",
-    unsafe_allow_html=True,
-)
-
 # -------- Render helpers --------
 def show_field(label: str, val: str):
     v = (val or "").strip()
     st.markdown(f"**{label}:** {v if v else '—'}")
 
-# -------- Render: 2026 section (shown first if data present) --------
-if total_26_raw > 0:
-    st.markdown(
-        f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2026 Ratings</strong> — showing {min(total_26, RESULT_LIMIT_2026):,} of {total_26:,} results</p>",
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f"<p style='font-size:0.9rem; margin: -0.2rem 0 0.7rem 0;'><a href='#results-2025'>2025 Ratings — {total_c:,} results</a> &nbsp;|&nbsp; <a href='#results-2024'>2024 Ratings — {total_p:,} results</a></p>",
-        unsafe_allow_html=True,
-    )
-    for r in rows_26:
-        with st.container(border=True):
-            sev = (r["rating"] or "UNKNOWN").upper()
-            st.markdown(f"**{r['cve']}**  —  {sev}")
-            if r["title"]:
-                st.markdown(f"_{r['title'].strip()}_")
-            cols = st.columns(2)
-            with cols[0]:
-                show_field("Vendor", r["vendor"])
-                show_field("Product", r["product"])
-            with cols[1]:
-                show_field("Rating", r["rating"])
-            st.markdown("**Description:**")
-            st.write((r["description"] or "").strip() or "—")
-    st.divider()
+def _compact_card_body(r, rating_field: str):
+    """Render card fields in two columns (left: vendor/product, right: rating/predicted) then description."""
+    left, right = [], []
+    for label, key in [("Vendor", "vendor"), ("Product", "product")]:
+        v = (r[key] or "").strip() if key in r.keys() else ""
+        if v:
+            left.append(f"**{label}:** {v}")
+    rating_val = (r[rating_field] or "").strip() if rating_field in r.keys() else ""
+    if rating_val:
+        right.append(f"**Rating:** {rating_val}")
+    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
+    if pred:
+        right.append(f"**Predicted:** {pred}")
+    cols = st.columns(2)
+    with cols[0]:
+        st.markdown("  \n".join(left) or "—")
+    with cols[1]:
+        st.markdown("  \n".join(right) or "—")
+    desc = (r["description"] or "").strip() if "description" in r.keys() else ""
+    if desc:
+        st.markdown(f"**Description:** {desc}")
 
-# -------- Render: Primary (2025) section --------
-st.markdown("<div id='results-2025'></div>", unsafe_allow_html=True)
-st.markdown(
-    f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2025 Ratings</strong> — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results</p>",
-    unsafe_allow_html=True,
-)
-st.markdown(
-    f"<p style='font-size:0.9rem; margin: -0.2rem 0 0.7rem 0;'><a href='#results-2024'>2024 Ratings — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results</a></p>",
-    unsafe_allow_html=True,
-)
-for r in rows_c:
-    with st.container(border=True):
-        sev = (r["rating"] or "UNKNOWN").upper()
-        st.markdown(f"**{r['cve']}**  —  {sev}")
-        if r["title"]:
-            st.markdown(f"_{r['title'].strip()}_")
-        cols = st.columns(2)
-        with cols[0]:
-            show_field("Vendor", r["vendor"])
-            show_field("Product", r["product"])
-        with cols[1]:
-            show_field("Rating", r["rating"])
-        st.markdown("**Description:**")
-        st.write((r["description"] or "").strip() or "—")
+def _ai_data(r, rating_field: str, year: str) -> dict:
+    d = {
+        "cve": r["cve"],
+        "year": year,
+        "rating": (r[rating_field] or "").strip(),
+        "vendor": (r["vendor"] or "").strip(),
+        "product": (r["product"] or "").strip(),
+        "description": (r["description"] or "").strip(),
+    }
+    if "title" in r.keys() and r["title"]:
+        d["title"] = r["title"].strip()
+    return d
 
-st.divider()
+def _card_text(r, rating_field: str, year: str) -> str:
+    lines = [f"{r['cve']} [{year}]", f"Rating: {(r[rating_field] or 'UNKNOWN').upper()}"]
+    for k, label in [("title","Title"),("vendor","Vendor"),("product","Product"),("description","Description")]:
+        v = (r[k] or "").strip() if k in r.keys() else ""
+        if v:
+            lines.append(f"{label}: {v}")
+    return "\n".join(lines)
 
-# -------- Render: 2024 predictions section --------
-st.markdown("<div id='results-2024'></div>", unsafe_allow_html=True)
-st.markdown(
-    f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2024 Ratings</strong> — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results</p>",
-    unsafe_allow_html=True,
-)
-for r in rows_p:
-    with st.container(border=True):
-        st.markdown(f"**{r['cve']}**  —  {(r['predicted_label'] or 'UNKNOWN').upper()}")
-        cols = st.columns(2)
-        with cols[0]:
-            show_field("Vendor", r["vendor"])
-            show_field("Product", r["product"])
-        with cols[1]:
-            show_field("Predicted Label", r["predicted_label"])
-        st.markdown("**Description:**")
-        st.write((r["description"] or "").strip() or "—")
+def _rows_to_text(rows, rating_field, year):
+    lines = []
+    keys = rows[0].keys() if rows else []
+    for r in rows:
+        lines.append(f"[{year}] {r['cve']} — {(r[rating_field] or 'UNKNOWN').upper()}")
+        if "title" in keys and r["title"]: lines.append(f"  {r['title']}")
+        if "vendor" in keys and r["vendor"]: lines.append(f"  Vendor: {r['vendor']}")
+        if "product" in keys and r["product"]: lines.append(f"  Product: {r['product']}")
+        if "description" in keys and r["description"]: lines.append(f"  {r['description']}")
+        lines.append("")
+    return "\n".join(lines)
 
-# -------- Tips --------
-with st.expander("Search syntax tips"):
-    st.markdown(
-        """
+
+_ai_request = None  # legacy; buttons now go through session_state["ai_running"]
+
+# -------- Main tabs --------
+ai_label = "🤖 AI Analysis" + (" ✦" if st.session_state.get("ai_result") else "")
+history = st.session_state.get("ai_history", [])
+history_label = f"📋 History ({len(history)})" if history else "📋 History"
+tab_results, tab_ai, tab_history = st.tabs([
+    f"Results — {(total_c + total_p + total_26):,} ({product_value_count:,} products)",
+    ai_label,
+    history_label,
+])
+
+with tab_results:
+    _results_txt = (
+        _rows_to_text(rows_26, "rating", "2026") +
+        _rows_to_text(rows_c, "rating", "2025") +
+        _rows_to_text(rows_p, "predicted_label", "2024")
+    ).strip()
+    _exp_col, _y26_col, _y25_col, _y24_col = st.columns([3, 1, 1, 1])
+    with _exp_col:
+        st.download_button("⬇ Export results (TXT)", data=_results_txt, file_name="cve_results.txt", mime="text/plain")
+    with _y26_col:
+        show_2026 = st.checkbox("2026", value=True)
+    with _y25_col:
+        show_2025 = st.checkbox("2025", value=True)
+    with _y24_col:
+        show_2024 = st.checkbox("2024", value=True)
+
+    # -------- Render: 2026 section --------
+    if show_2026 and total_26_raw > 0:
+        st.markdown(
+            f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2026 Ratings</strong> — showing {min(total_26, RESULT_LIMIT_2026):,} of {total_26:,} results</p>",
+            unsafe_allow_html=True,
+        )
+        for r in rows_26:
+            with st.container(border=True):
+                sev = (r["rating"] or "UNKNOWN").upper()
+                hcol1, hcol2 = st.columns([12, 1])
+                with hcol1:
+                    title_line = f"  \n_{r['title'].strip()}_" if r["title"] else ""
+                    st.markdown(f"**{r['cve']}**  —  {sev}{title_line}")
+                with hcol2:
+                    if st.button("🤖", key=f"ai_26_{r['id']}", help="Ask AI about this CVE"):
+                        st.session_state["ai_running"] = _ai_data(r, "rating", "2026")
+                        st.rerun()
+                _compact_card_body(r, "rating")
+                with st.expander("📋 copy"):
+                    st.code(_card_text(r, "rating", "2026"), language=None)
+        st.divider()
+
+    # -------- Render: 2025 section --------
+    if show_2025:
+        st.markdown(
+            f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2025 Ratings</strong> — showing {min(total_c, RESULT_LIMIT_PRIMARY):,} of {total_c:,} results</p>",
+            unsafe_allow_html=True,
+        )
+        for r in rows_c:
+            with st.container(border=True):
+                sev = (r["rating"] or "UNKNOWN").upper()
+                hcol1, hcol2 = st.columns([12, 1])
+                with hcol1:
+                    title_line = f"  \n_{r['title'].strip()}_" if r["title"] else ""
+                    st.markdown(f"**{r['cve']}**  —  {sev}{title_line}")
+                with hcol2:
+                    if st.button("🤖", key=f"ai_c_{r['id']}", help="Ask AI about this CVE"):
+                        st.session_state["ai_running"] = _ai_data(r, "rating", "2025")
+                        st.rerun()
+                _compact_card_body(r, "rating")
+                with st.expander("📋 copy"):
+                    st.code(_card_text(r, "rating", "2025"), language=None)
+        st.divider()
+
+    # -------- Render: 2024 section --------
+    if show_2024:
+        st.markdown(
+            f"<p style='font-size:0.95rem; margin: 0.1rem 0 0.5rem 0;'><strong>2024 Ratings</strong> — showing {min(total_p, RESULT_LIMIT_PRED2024):,} of {total_p:,} results</p>",
+            unsafe_allow_html=True,
+        )
+        for r in rows_p:
+            with st.container(border=True):
+                rating_p = (r["predicted_label"] or "UNKNOWN").upper()
+                hcol1, hcol2 = st.columns([12, 1])
+                with hcol1:
+                    st.markdown(f"**{r['cve']}**  —  {rating_p}")
+                with hcol2:
+                    if st.button("🤖", key=f"ai_p_{r['id']}", help="Ask AI about this CVE"):
+                        st.session_state["ai_running"] = _ai_data(r, "predicted_label", "2024")
+                        st.rerun()
+                _compact_card_body(r, "predicted_label")
+                with st.expander("📋 copy"):
+                    st.code(_card_text(r, "predicted_label", "2024"), language=None)
+
+    with st.expander("Search syntax tips"):
+        st.markdown(
+            """
 - Phrases: `"remote code execution"`
 - Prefix: `log4j*`
 - Field scoping: `vendor: apache  product: httpd`
 - Exact CVE (fastest): use the **Exact CVE** box (`CVE-2024-12345`)
 """
+        )
+
+    with st.expander("📋 copy results as text"):
+        st.code(_results_txt, language=None)
+
+with tab_ai:
+    _running = st.session_state.get("ai_running")
+    ar = st.session_state.get("ai_result")
+    if _running:
+        st.info(f"Running AI analysis for **{_running['cve']}**…")
+    elif not ar:
+        st.info("Click 🤖 on any CVE result to generate an AI analysis.")
+    else:
+        tcol1, tcol2 = st.columns([10, 1])
+        with tcol1:
+            st.markdown(f"**{ar['cve']}** &nbsp;<span style='font-size:0.8rem;color:#888;'>{ar['model']}</span>", unsafe_allow_html=True)
+        with tcol2:
+            if st.button("✕", key="ai_dismiss", help="Clear"):
+                del st.session_state["ai_result"]
+                st.rerun()
+        if ar.get("error"):
+            st.error(ar["error"])
+            if ar.get("detail"):
+                with st.expander("Error detail"):
+                    st.code(ar["detail"])
+        else:
+            with st.expander("Prompt used"):
+                st.text(ar["prompt"])
+            st.markdown(ar["response"])
+            with st.expander("📋 copy"):
+                st.code(ar["response"], language=None)
+
+    st.divider()
+    st.markdown("**Edit prompt**")
+    edited_prompt = st.text_area(
+        "Prompt template",
+        value=prompt_text,
+        height=180,
+        label_visibility="collapsed",
+        key="prompt_editor",
     )
+    if st.button("💾 Save prompt"):
+        prompt_path = _resolve_input_path(prompt_file)
+        pathlib.Path(prompt_path).write_text(edited_prompt, encoding="utf-8")
+        prompt_text = edited_prompt
+        st.toast("Prompt saved.", icon="✓")
+
+with tab_history:
+    if not history:
+        st.info("No AI queries yet. Use the 🤖 button on any CVE result.")
+    else:
+        hcol1, hcol2 = st.columns([1, 1])
+        with hcol1:
+            if st.button("Clear history"):
+                st.session_state["ai_history"] = []
+                st.rerun()
+        with hcol2:
+            def _build_history_txt(history) -> str:
+                sep = "=" * 60
+                parts = []
+                for hr in history:
+                    lines = [f"CVE: {hr['cve']}", f"Model: {hr['model']}", ""]
+                    if hr.get("error"):
+                        lines += [f"ERROR: {hr['error']}", ""]
+                        if hr.get("detail"):
+                            lines += [hr["detail"], ""]
+                    else:
+                        lines += ["Prompt:", hr.get("prompt", ""), "", "Response:", hr.get("response", ""), ""]
+                    parts.append("\n".join(lines))
+                return f"\n{sep}\n\n".join(parts)
+            st.download_button(
+                "⬇ Export history (TXT)",
+                data=_build_history_txt(history),
+                file_name="ai_history.txt",
+                mime="text/plain",
+            )
+        for i, hr in enumerate(reversed(history)):
+            label = f"{hr['cve']}  —  {hr['model']}"
+            if hr.get("error"):
+                label += "  ⚠️"
+            with st.expander(label):
+                if hr.get("error"):
+                    st.error(hr["error"])
+                    if hr.get("detail"):
+                        st.code(hr["detail"])
+                else:
+                    with st.expander("Prompt", expanded=False):
+                        st.text(hr["prompt"])
+                    st.markdown(hr["response"])
+
+# -------- AI request handler --------
+if st.session_state.get("ai_running"):
+    pending = st.session_state.pop("ai_running")
+    if not openrouter_api_key:
+        st.warning("Enter your OpenRouter API key in the **AI** sidebar tab to use AI analysis.")
+    else:
+        with st.spinner(f"Asking AI about {pending['cve']}…"):
+            try:
+                ai_response = _ask_perplexity(openrouter_api_key, _active_model, prompt_text, pending)
+                result = {
+                    "cve": pending["cve"],
+                    "model": _active_model,
+                    "prompt": prompt_text,
+                    "response": ai_response,
+                }
+                LOGGER.info("AI query: cve=%s model=%s", pending["cve"], _active_model)
+            except Exception as e:
+                import traceback
+                result = {
+                    "cve": pending["cve"],
+                    "model": _active_model,
+                    "prompt": prompt_text,
+                    "error": str(e),
+                    "detail": traceback.format_exc(),
+                }
+                LOGGER.error("AI request failed: cve=%s error=%s", pending.get("cve"), e)
+        st.session_state["ai_result"] = result
+        st.session_state.setdefault("ai_history", []).append(result)
+        st.rerun()
 

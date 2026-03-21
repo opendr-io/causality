@@ -1,0 +1,9 @@
+Search for information about this CVE and a answer these questions:
+
+- what product versions are affected?
+
+- what is needed for reachabiltiy and exploitability? is the service exposed on a port?
+
+- does the CVE apply to server versions or to client versions? 
+
+- what is the remediation? is there a mitigation or a patch? 
