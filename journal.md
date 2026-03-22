@@ -1,9 +1,29 @@
 
-### Provable predictions since January 2025 (total 203):
+### Provable predictions since January 2025 (total 211):
 
-Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns. I suspect that many of these rated vulns are also being exploited but we have yet to observe or measure the activity.
+Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns.
 
 2026:
+
+March 20: CVE-2025-32974 was added to the CISA KEV. It was predicted in August 2025. 
+
+March 19: CVE-2025-32974 was added to the VulnCheck KEV. It was predicted in December 2025. 
+
+March 18: CVE-2025-43520 was added to the VulnCheck KEV. It was predicted in January 2026. 
+
+March 11: CVE-2025-34117 was added to the VulnCheck KEV. It was predicted in August 2025. 
+
+March 11: CVE-2025-52089 was added to the VulnCheck KEV. It was predicted in December 2025. 
+
+March 11: CVE-2025-57296 was added to the VulnCheck KEV. It was predicted in December 2025. 
+
+March 11: CVE-2025-54068 was added to the VulnCheck KEV. It was predicted in January 2025. Ninth lead time over one year.
+
+March 10: CVE-2025-10353 was added to the VulnCheck KEV. It was predicted in December 2025. 
+
+March 10: CVE-2025-54068 was added to the VulnCheck KEV. It was predicted in December 2025.
+
+March 9: CVE-2025-26399 was added to the CISA KEV. It was predicted in December 2025. 
 
 Feb 23: CVE-2025-14155 was added to the VulnCheck KEV. It was predicted in the January 2026 run. 
 
@@ -115,8 +135,6 @@ December 21: CVE-2025-11953 was added to the VulnCheck KEV. It was predicted in 
 
 December 19: CVE-2024-3408 was added to the VulnCheck KEV. It was predicted in January. Fourth lead time over ten months.
 
-December 19: CVE-2025-55890 was added to the VulnCheck KEV. It was predicted in May. Lead time over seven months.
-
 December 15: CVE-2025-13315 was added to the VulnCheck KEV. It was predicted in the December 3 run.
 
 December 15: CVE-2025-11700 was added to the VulnCheck KEV. It was predicted in the December 3 run.
@@ -147,7 +165,7 @@ November 19: CVE-2024-12912 was added to the VulnCheck KEV. It was predicted in 
 
 November 19: CVE-2025-2492 was added to the VulnCheck KEV. It was predicted in May.
 
-November 12: CVE-2025-37393 was added to the VulnCheck KEV. It was predicted in January. This was the longest lead time in just under ten months.
+November 12: CVE-2024-37393 was added to the VulnCheck KEV. It was predicted in January. This was the longest lead time in just under ten months.
 
 November 10: CVE-2025-53118 was added to the VulnCheck KEV. It was predicted in August.
 
@@ -485,10 +503,6 @@ Jan22	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	"A sql injectio
 
 Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
 CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.
-
-Rated hot & added to the KEV Jan 8:
-
-CVE-2025-0282	Ivanti	Connect Secure	"A stack-based buffer overflow in Ivanti Connect Secure before version 22.7R2.5, Ivanti Policy Secure before version 22.7R1.2, and Ivanti Neurons for ZTA gateways before version 22.7R2.3 allows a remote unauthenticated attacker to achieve remote code execution."	hot
 
 Rated hot & added to the KEV Jan 7:
 
