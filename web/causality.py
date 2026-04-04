@@ -21,12 +21,12 @@ import streamlit as st
 
 # -------- Config --------env
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-DEFAULT_TSV_PRIMARY  = "../HEAD/2025-processed-clean.tsv"  # primary dataset
+DEFAULT_TSV_PRIMARY  = "../HEAD/2025-processed-clean.txt"  # primary dataset
 DEFAULT_TSV_PRED2024 = "../HEAD/2024-output-may-24.txt"    # secondary dataset
-DEFAULT_CSV_2026     = "../HEAD/2026-MARCH-RUN.csv"        # 2026 dataset (optional, CSV)
+DEFAULT_CSV_2026     = "../HEAD/2026-april-run.csv"        # 2026 dataset (optional, CSV)
 DEFAULT_PRED_DATES   = "pred_dates.csv"            # CVE -> earliest prediction date
 DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources change)
-LOG_PATH = str(BASE_DIR / "causality.log")  # app log output
+LOG_PATH = str(BASE_DIR / "log.log")  # app log output
 RESULT_LIMIT_PRIMARY  = 100         # top-N to display from primary
 RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
 RESULT_LIMIT_2026     = 100         # top-N to display from 2026
@@ -270,7 +270,10 @@ def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, pred_
         if p.exists() and p.is_file():
             try:
                 with open(tsv_primary, newline="", encoding="utf-8", errors="ignore") as f:
-                    rdr = csv.DictReader(f, delimiter="\t")
+                    sample = f.read(4096)
+                    f.seek(0)
+                    delim = "," if sample.count(",") > sample.count("\t") else "\t"
+                    rdr = csv.DictReader(f, delimiter=delim)
                     batch: List[Tuple] = []
                     for r in rdr:
                         cve = _get(r, "cve") or _get(r, "cveID") or _get(r, "cveid")
@@ -488,6 +491,9 @@ st.markdown(
 )
 
 # -------- Sidebar: paths, maintenance, and SEARCH INPUTS --------
+if "cve_id" in st.query_params and not st.session_state.get("exact_cve"):
+    st.session_state["exact_cve"] = st.query_params["cve_id"]
+
 if st.session_state.pop("_clear_search_pending", False):
     for k in ("q", "exact_cve", "vendor", "product"):
         st.session_state[k] = ""
@@ -577,11 +583,24 @@ if not has_input:
 
 
 # -------- Filter builders (prefix-only for speed) --------
+import re as _re
+
+_CVE_RE = _re.compile(r'^CVE-\d{4}-\d+$', _re.IGNORECASE)
+
+def _effective_cve() -> str:
+    """Return a CVE ID to match exactly — from the dedicated field, or from q if it looks like a CVE ID."""
+    if exact_cve.strip():
+        return exact_cve.strip()
+    if _CVE_RE.match(q.strip()):
+        return q.strip().upper()
+    return ""
+
 def build_filters_primary():
     where, params = [], []
-    if exact_cve.strip():
+    eff_cve = _effective_cve()
+    if eff_cve:
         where.append("c.cve = ?")
-        params.append(exact_cve.strip())
+        params.append(eff_cve)
     if vendor.strip():
         where.append("c.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -592,9 +611,10 @@ def build_filters_primary():
 
 def build_filters_p2024():
     where, params = [], []
-    if exact_cve.strip():
+    eff_cve = _effective_cve()
+    if eff_cve:
         where.append("p.cve = ?")
-        params.append(exact_cve.strip())
+        params.append(eff_cve)
     if vendor.strip():
         where.append("p.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -605,9 +625,10 @@ def build_filters_p2024():
 
 def build_filters_p2026():
     where, params = [], []
-    if exact_cve.strip():
+    eff_cve = _effective_cve()
+    if eff_cve:
         where.append("p.cve = ?")
-        params.append(exact_cve.strip())
+        params.append(eff_cve)
     if vendor.strip():
         where.append("p.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -621,16 +642,26 @@ where_p, params_p = build_filters_p2024()
 where_26, params_26 = build_filters_p2026()
 
 # -------- Two-phase FTS for each dataset (no pagination) --------
+def _fts5_escape(token: str) -> str:
+    """Wrap a token in double-quotes for FTS5 if it contains hyphens or other
+    special characters that FTS5 would otherwise interpret as operators."""
+    if _re.search(r'[-]', token):
+        return '"' + token.replace('"', '""') + '"'
+    return token
+
 def scope_query(qs: str, vendor_key: str, product_key: str):
-    return (qs.replace("vendor:", f"{vendor_key} ")
-              .replace("product:", f"{product_key} "))
+    qs = (qs.replace("vendor:", f"{vendor_key} ")
+            .replace("product:", f"{product_key} "))
+    # Escape individual tokens so hyphens (FTS5 NOT operator) don't break CVE IDs
+    tokens = qs.split()
+    return " ".join(_fts5_escape(t) for t in tokens)
 
 HIT_CAP_PRIMARY  = max(RESULT_LIMIT_PRIMARY  * 5, 500)
 HIT_CAP_PRED2024 = max(RESULT_LIMIT_PRED2024 * 5, 500)
 
 # --- Primary
 fts_params_c = []
-if q.strip():
+if q.strip() and not _CVE_RE.match(q.strip()):
     fts_params_c = [scope_query(q, "vendor", "product")]
 
 if fts_params_c:
@@ -679,7 +710,7 @@ else:
 
 # --- 2024 predictions
 fts_params_p = []
-if q.strip():
+if q.strip() and not _CVE_RE.match(q.strip()):
     fts_params_p = [scope_query(q, "vendor", "product")]  # same keys in preds2024_fts
 
 if fts_params_p:
@@ -730,7 +761,7 @@ else:
 # --- 2026
 HIT_CAP_2026 = max(RESULT_LIMIT_2026 * 5, 500)
 fts_params_26 = []
-if q.strip():
+if q.strip() and not _CVE_RE.match(q.strip()):
     fts_params_26 = [scope_query(q, "vendor", "product")]
 
 if fts_params_26:
