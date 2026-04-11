@@ -497,6 +497,7 @@ if "cve_id" in st.query_params and not st.session_state.get("exact_cve"):
 if st.session_state.pop("_clear_search_pending", False):
     for k in ("q", "exact_cve", "vendor", "product"):
         st.session_state[k] = ""
+    st.query_params.clear()
 
 with st.sidebar:
     if logo_bytes:
@@ -509,7 +510,12 @@ with st.sidebar:
             key="q",
             #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
         )
-        exact_cve = st.text_input("Exact CVE (eg CVE-2025-1234)", key="exact_cve")
+        exact_cve = st.text_area(
+            "Exact CVE(s) — one per line or comma-separated",
+            key="exact_cve",
+            height=80,
+            placeholder="CVE-2025-1234\nCVE-2025-5678",
+        )
         vendor = st.text_input("Vendor (prefix)", "", key="vendor")
         product = st.text_input("Product (prefix)", "", key="product")
         clear_search = st.button("Clear search options")
@@ -586,21 +592,28 @@ if not has_input:
 import re as _re
 
 _CVE_RE = _re.compile(r'^CVE-\d{4}-\d+$', _re.IGNORECASE)
+_CVE_FIND_RE = _re.compile(r'CVE-\d{4}-\d+', _re.IGNORECASE)
 
-def _effective_cve() -> str:
-    """Return a CVE ID to match exactly — from the dedicated field, or from q if it looks like a CVE ID."""
+def _effective_cves() -> List[str]:
+    """Return CVE IDs to match exactly — extracted from the dedicated field,
+    or from q if it looks like a single CVE ID."""
     if exact_cve.strip():
-        return exact_cve.strip()
+        return [m.upper() for m in _CVE_FIND_RE.findall(exact_cve)]
     if _CVE_RE.match(q.strip()):
-        return q.strip().upper()
-    return ""
+        return [q.strip().upper()]
+    return []
+
+def _cve_filter(alias: str, cves: List[str]) -> Tuple[List[str], List]:
+    if not cves:
+        return [], []
+    placeholders = ",".join("?" * len(cves))
+    return [f"{alias}.cve IN ({placeholders})"], list(cves)
 
 def build_filters_primary():
     where, params = [], []
-    eff_cve = _effective_cve()
-    if eff_cve:
-        where.append("c.cve = ?")
-        params.append(eff_cve)
+    cves = _effective_cves()
+    w, p = _cve_filter("c", cves)
+    where += w; params += p
     if vendor.strip():
         where.append("c.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -611,10 +624,9 @@ def build_filters_primary():
 
 def build_filters_p2024():
     where, params = [], []
-    eff_cve = _effective_cve()
-    if eff_cve:
-        where.append("p.cve = ?")
-        params.append(eff_cve)
+    cves = _effective_cves()
+    w, p = _cve_filter("p", cves)
+    where += w; params += p
     if vendor.strip():
         where.append("p.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -625,10 +637,9 @@ def build_filters_p2024():
 
 def build_filters_p2026():
     where, params = [], []
-    eff_cve = _effective_cve()
-    if eff_cve:
-        where.append("p.cve = ?")
-        params.append(eff_cve)
+    cves = _effective_cves()
+    w, p = _cve_filter("p", cves)
+    where += w; params += p
     if vendor.strip():
         where.append("p.vendor LIKE ?")
         params.append(vendor.strip() + "%")
@@ -643,15 +654,21 @@ where_26, params_26 = build_filters_p2026()
 
 # -------- Two-phase FTS for each dataset (no pagination) --------
 def _fts5_escape(token: str) -> str:
-    """Wrap a token in double-quotes for FTS5 if it contains hyphens or other
-    special characters that FTS5 would otherwise interpret as operators."""
-    if _re.search(r'[-]', token):
-        return '"' + token.replace('"', '""') + '"'
-    return token
+    """Wrap an FTS5 token in double-quotes if it contains hyphens.
+    Handles column-filter tokens like vendor:term so the prefix is preserved."""
+    col_prefix, term = "", token
+    if ":" in token:
+        col, _, rest = token.partition(":")
+        if col.isalpha() and rest:          # looks like a column filter
+            col_prefix, term = col + ":", rest
+    if _re.search(r"[-]", term):
+        return col_prefix + '"' + term.replace('"', '""') + '"'
+    return col_prefix + term
 
 def scope_query(qs: str, vendor_key: str, product_key: str):
-    qs = (qs.replace("vendor:", f"{vendor_key} ")
-            .replace("product:", f"{product_key} "))
+    # Normalise "vendor: term" (user-friendly) → "vendor:term" (FTS5 column filter)
+    qs = _re.sub(rf"{_re.escape(vendor_key)}:\s*", f"{vendor_key}:", qs)
+    qs = _re.sub(rf"{_re.escape(product_key)}:\s*", f"{product_key}:", qs)
     # Escape individual tokens so hyphens (FTS5 NOT operator) don't break CVE IDs
     tokens = qs.split()
     return " ".join(_fts5_escape(t) for t in tokens)
@@ -983,20 +1000,24 @@ if explain:
         st.write(plan)
 
 # -------- Execute --------
-total_c_raw = con.execute(count_sql_c, count_params_c).fetchone()[0]
-rows_c  = con.execute(search_sql_c,  search_params_c).fetchall()
-rating_rows_c = con.execute(rating_sql_c, rating_params_c).fetchall()
-product_rows_c = con.execute(product_sql_c, product_params_c).fetchall()
+try:
+    total_c_raw = con.execute(count_sql_c, count_params_c).fetchone()[0]
+    rows_c  = con.execute(search_sql_c,  search_params_c).fetchall()
+    rating_rows_c = con.execute(rating_sql_c, rating_params_c).fetchall()
+    product_rows_c = con.execute(product_sql_c, product_params_c).fetchall()
 
-total_p_raw = con.execute(count_sql_p, count_params_p).fetchone()[0]
-rows_p  = con.execute(search_sql_p,  search_params_p).fetchall()
-rating_rows_p = con.execute(rating_sql_p, rating_params_p).fetchall()
-product_rows_p = con.execute(product_sql_p, product_params_p).fetchall()
+    total_p_raw = con.execute(count_sql_p, count_params_p).fetchone()[0]
+    rows_p  = con.execute(search_sql_p,  search_params_p).fetchall()
+    rating_rows_p = con.execute(rating_sql_p, rating_params_p).fetchall()
+    product_rows_p = con.execute(product_sql_p, product_params_p).fetchall()
 
-total_26_raw = con.execute(count_sql_26, count_params_26).fetchone()[0]
-rows_26  = con.execute(search_sql_26,  search_params_26).fetchall()
-rating_rows_26 = con.execute(rating_sql_26, rating_params_26).fetchall()
-product_rows_26 = con.execute(product_sql_26, product_params_26).fetchall()
+    total_26_raw = con.execute(count_sql_26, count_params_26).fetchone()[0]
+    rows_26  = con.execute(search_sql_26,  search_params_26).fetchall()
+    rating_rows_26 = con.execute(rating_sql_26, rating_params_26).fetchall()
+    product_rows_26 = con.execute(product_sql_26, product_params_26).fetchall()
+except sqlite3.OperationalError as e:
+    st.error(f"Search query error — check your query syntax: {e}")
+    st.stop()
 
 rating_counter = Counter()
 for rr in rating_rows_c:
@@ -1006,11 +1027,16 @@ for rr in rating_rows_p:
 for rr in rating_rows_26:
     rating_counter[(rr["rating_value"] or "UNKNOWN").upper()] += int(rr["cnt"])
 rating_options = [k for k, _ in sorted(rating_counter.items(), key=lambda x: (-x[1], x[0]))]
+# Key changes whenever the available option set changes, so the widget resets to
+# all-selected instead of silently retaining stale session state from a previous
+# search (which would leave nothing selected and hide all results).
+_rating_key = "rating_filter_" + "_".join(rating_options)
 selected_ratings = st.multiselect(
     "Results by Rating",
     options=rating_options,
     default=rating_options,
     format_func=lambda k: f"{k}: {rating_counter[k]:,}",
+    key=_rating_key,
 )
 selected_rating_set = set(selected_ratings)
 
