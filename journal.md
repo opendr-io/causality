@@ -1,9 +1,39 @@
 
-### Provable predictions since January 2025 (total 220):
+### Provable predictions since January 2025 (total 235):
 
 Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns.
 
 2026:
+
+April 24: CVE-2024-57726 was added to the CISA KEV. It was predicted in May 2025.
+
+April 24: CVE-2024-57728 was added to the CISA KEV. It was predicted in May 2025.
+
+April 23: CVE-2025-49867 was added to the VulnCheck KEV. It was predicted in December.
+
+April 23: CVE-2025-31918 was added to the VulnCheck KEV. It was predicted in December.
+
+April 23: CVE-2024-52490 was added to the VulnCheck KEV. It was predicted in January 2025. Twelfth prediction over one year.
+
+April 22: CVE-2024-32114 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+April 21: CVE-2024-22927 was added to the VulnCheck KEV. It was predicted in January 2025. Eleventh prediction over one year.
+
+April 21: CVE-205-29635 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+April 20: CVE-2025-2749 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+April 15: CVE-2025-55184 was added to the VulnCheck KEV. It was predicted in January.
+
+April 15: CVE-2025-12548 was added to the VulnCheck KEV. It was predicted in January.
+
+April 13: CVE-2025-60710 was added to the VulnCheck KEV. It was predicted in December.
+
+April 10: CVE-2025-0520 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+April 10: CVE-2024-21833 was added to the VulnCheck KEV. It was predicted in January 2025. Tenth prediction over one year.
+
+April 10: CVE-2025-0520 was added to the VulnCheck KEV. It was predicted in May 2025.
 
 April 9: CVE-2025-71243 was added to the VulnCheck KEV. It was predicted in March.
 
