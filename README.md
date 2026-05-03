@@ -5,6 +5,7 @@
 
 More information is availabe at these posts:
 https://opendrio.blog/2025/11/11/show-and-tell-the-causality-project/
+
 https://opendrio.blog/2025/09/21/the-causality-project/
 
 ### Contents:]
