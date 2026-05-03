@@ -1,1 +1,7 @@
 streamlit==1.55.0
+pandas
+plotly
+beautifulsoup4
+playwright
+playwright-stealth
+nest_asyncio

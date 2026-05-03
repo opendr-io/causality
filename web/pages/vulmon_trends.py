@@ -1,10 +1,13 @@
 import asyncio
 import csv
+import html
 import os
 import pathlib
 import re
+import sqlite3
 from datetime import date, timedelta
 from html import unescape
+from urllib.parse import urljoin, urlparse
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -13,12 +16,138 @@ from bs4 import BeautifulSoup
 from plotly.subplots import make_subplots
 
 HEAD_DIR = pathlib.Path(__file__).resolve().parent.parent.parent / "HEAD"
+WEB_DIR = pathlib.Path(__file__).resolve().parent.parent
+APP_STATE_DIR = WEB_DIR.parent / "var" / "causality"
+DB_PATH = APP_STATE_DIR / "cve.db"
+VULMON_HTML_CACHE = APP_STATE_DIR / "vulmon_trends.html"
+VULMON_BROWSER_PROFILE = APP_STATE_DIR / "vulmon-browser-profile"
 
 RATING_COLOR = {"fire": "#ff0000", "hot": "#ff0000", "warm": "#ffd700", "cold": "#1f77b4", "sunspot": "#36454f"}
 LINE_COLORS = [
     "#e6194b", "#3cb44b", "#4363d8", "#f58231", "#911eb4",
     "#42d4f4", "#f032e6", "#bfef45", "#fabed4", "#469990",
 ]
+
+
+def _escape_html(value):
+    return html.escape(str(value or ""), quote=True)
+
+
+def _safe_vulmon_url(value):
+    if not value:
+        return ""
+    url = urljoin("https://vulmon.com", str(value))
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or parsed.netloc.lower() != "vulmon.com":
+        return ""
+    return url
+
+
+def _looks_like_cloudflare_challenge(html_text):
+    text = str(html_text or "").lower()
+    return "cloudflare" in text and ("security verification" in text or "verify you are not a bot" in text)
+
+
+def _load_cached_vulmon_html():
+    if VULMON_HTML_CACHE.exists() and VULMON_HTML_CACHE.is_file():
+        return VULMON_HTML_CACHE.read_text(encoding="utf-8", errors="replace")
+    return ""
+
+
+def _save_cached_vulmon_html(html_text):
+    if not html_text or _looks_like_cloudflare_challenge(html_text):
+        return
+    if parse_cves(html_text).empty:
+        return
+    APP_STATE_DIR.mkdir(parents=True, exist_ok=True)
+    VULMON_HTML_CACHE.write_text(html_text, encoding="utf-8")
+
+
+def _norm_cve(value):
+    return str(value or "").strip().upper()
+
+
+def _row_value(row, *keys):
+    for key in keys:
+        value = row.get(key)
+        if value not in (None, ""):
+            return value
+    return ""
+
+
+def _dict_rows(path):
+    with open(path, encoding="utf-8", errors="replace") as f:
+        sample = f.read(4096)
+        f.seek(0)
+        delimiter = "\t" if sample.count("\t") > sample.count(",") else ","
+        yield from csv.DictReader(f, delimiter=delimiter)
+
+
+def _set_rating(ratings, cve_id, rating, source):
+    ratings[cve_id] = {"rating": rating or "found", "source": source}
+
+
+def _load_2026_ratings(cve_ids):
+    ratings = {}
+    rows_seen = 0
+    if not cve_ids:
+        return ratings, rows_seen
+
+    rating_paths = sorted(
+        [p for pattern in ("2026-*.csv", "2026-*.txt") for p in HEAD_DIR.glob(pattern)],
+        key=lambda path: path.stat().st_mtime,
+    )
+    for csv_path in rating_paths:
+        for row in _dict_rows(csv_path):
+            rows_seen += 1
+            cve_id = _norm_cve(_row_value(row, "cveid", "cve", "cveID", "CVE", "CVE ID"))
+            if cve_id in cve_ids:
+                _set_rating(
+                    ratings,
+                    cve_id,
+                    _row_value(row, "rating", "Rating", "predicted_label", "Predicted_Label"),
+                    f"2026:{csv_path.name}",
+                )
+
+    # Fall back to the app's built SQLite index. This catches cases where the DB
+    # is current but the source CSV path glob misses what the main app indexed.
+    if DB_PATH.exists():
+        try:
+            con = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
+            for cve_id, rating in con.execute(
+                "SELECT cve, rating FROM preds2026 WHERE upper(trim(cve)) IN ({})".format(
+                    ",".join("?" * len(cve_ids))
+                ),
+                sorted(cve_ids),
+            ):
+                lookup_cve = _norm_cve(cve_id)
+                ratings.setdefault(lookup_cve, {"rating": rating or "found", "source": "2026:cve.db"})
+            con.close()
+        except sqlite3.Error:
+            pass
+
+    return ratings, rows_seen
+
+
+def _load_2024_ratings(cve_ids):
+    ratings = {}
+    rows_seen = 0
+    path_2024 = HEAD_DIR / "2024-output-may-24.txt"
+    if not cve_ids or not path_2024.exists():
+        return ratings, rows_seen
+
+    for row in _dict_rows(path_2024):
+        rows_seen += 1
+        cve_id = _norm_cve(_row_value(row, "cveID", "cveid", "cve", "CVE", "CVE ID"))
+        if cve_id in cve_ids:
+            _set_rating(
+                ratings,
+                cve_id,
+                _row_value(row, "Predicted_Label", "predicted_label", "rating", "Rating"),
+                "2024:2024-output-may-24.txt",
+            )
+
+    return ratings, rows_seen
 
 
 def _get_event_loop():
@@ -55,9 +184,13 @@ def fetch_vulmon_html():
 
 def parse_cves(html):
     soup = BeautifulSoup(html, "html.parser")
-    cve_table = soup.find("table", class_="ui small table")
+    cve_table = None
+    for table in soup.find_all("table"):
+        if table.find(string=re.compile(r"CVE-\d{4}-\d+", re.IGNORECASE)):
+            cve_table = table
+            break
     if not cve_table:
-        return pd.DataFrame()
+        return pd.DataFrame(columns=["cve_id", "description", "url"])
     cve_records = []
     for row in cve_table.find_all("tr"):
         cols = row.find_all("td")
@@ -88,28 +221,36 @@ def parse_activity(html):
 
 
 def cross_reference(df_cves, df_activity):
-    cve_ids = set(df_cves["cve_id"])
+    cve_ids = {_norm_cve(cve_id) for cve_id in df_cves["cve_id"]}
 
     clean_2025 = {}
+    rows_2025_seen = 0
     path_2025 = HEAD_DIR / "2025-processed-clean.txt"
     if path_2025.exists():
-        with open(path_2025, encoding="utf-8", errors="replace") as f:
-            for row in csv.reader(f):
-                if row and row[0] in cve_ids:
-                    rating = row[-3].strip() if len(row) >= 3 else None
-                    clean_2025[row[0]] = rating if rating in ("hot", "warm", "cold", "fire", "sunspot") else "found"
+        for row in _dict_rows(path_2025):
+            rows_2025_seen += 1
+            cve_id = _norm_cve(_row_value(row, "cveid", "cve", "cveID", "CVE", "CVE ID"))
+            if cve_id in cve_ids:
+                rating = _row_value(row, "rating", "Rating", "Predicted_Label", "predicted_label")
+                _set_rating(
+                    clean_2025,
+                    cve_id,
+                    rating if rating in ("hot", "warm", "cold", "fire", "sunspot") else "found",
+                    "2025:2025-processed-clean.txt",
+                )
 
-    csvs_2026 = {}
-    for csv_path in sorted(HEAD_DIR.glob("2026-*.csv")):
-        with open(csv_path, encoding="utf-8", errors="replace") as f:
-            for row in csv.DictReader(f):
-                if row.get("cveid") in cve_ids:
-                    csvs_2026[row["cveid"]] = row.get("rating", "found")
+    preds_2024, rows_2024_seen = _load_2024_ratings(cve_ids)
+    csvs_2026, rows_2026_seen = _load_2026_ratings(cve_ids)
 
     results = []
     for cve_id in df_cves["cve_id"]:
-        rating = clean_2025.get(cve_id) or csvs_2026.get(cve_id)
-        results.append({"cve_id": cve_id, "rating": rating})
+        lookup_cve = _norm_cve(cve_id)
+        match = csvs_2026.get(lookup_cve) or clean_2025.get(lookup_cve) or preds_2024.get(lookup_cve)
+        results.append({
+            "cve_id": lookup_cve,
+            "rating": match["rating"] if match else None,
+            "match_source": match["source"] if match else "",
+        })
 
     df_xref = pd.DataFrame(results)
 
@@ -138,12 +279,19 @@ def cross_reference(df_cves, df_activity):
     for col in ("first_active", "peak_date", "last_active"):
         df_xref.loc[in_matched & df_xref[col].isna(), col] = today
     df_xref.loc[in_matched & df_xref["total_activity"].isna(), "total_activity"] = 1
+    df_xref.attrs["rows_2024_seen"] = rows_2024_seen
+    df_xref.attrs["matches_2024"] = len(preds_2024)
+    df_xref.attrs["rows_2025_seen"] = rows_2025_seen
+    df_xref.attrs["matches_2025"] = len(clean_2025)
+    df_xref.attrs["rows_2026_seen"] = rows_2026_seen
+    df_xref.attrs["matches_2026"] = len(csvs_2026)
 
     return df_xref
 
 
 def build_chart(df_xref, df_activity):
     matched = df_xref[df_xref["rating"].notna()]
+    unmatched = df_xref[df_xref["rating"].isna()]
     matched_ids = matched["cve_id"].tolist()
     activity_matched = df_activity[df_activity["cve_id"].isin(matched_ids)]
 
@@ -189,7 +337,7 @@ def build_chart(df_xref, df_activity):
     n_bars = len(matched)
     fig.update_layout(
         height=max(700, n_bars * 60 + 400),
-        title=dict(text="Trending CVEs by Activity Count", font=dict(size=18)),
+        margin=dict(t=30),
         showlegend=True,
         legend=dict(x=0, y=-0.15, yanchor="top", orientation="h", font=dict(size=14)),
         font=dict(size=24),
@@ -202,31 +350,83 @@ def build_chart(df_xref, df_activity):
 
 
 def render():
-    st.title("CAUSALITY Rated CVEs Trending on Vulmon")
+    logo_path = WEB_DIR / "img" / "causality-3.png"
+    with st.sidebar:
+        #st.markdown("**CAUSALITY Rated CVEs Trending on Vulmon**")
+        st.markdown(
+    "<span style='font-size:28px; font-weight:bold;'>CAUSALITY Rated CVEs Trending on Vulmon</span>",
+    unsafe_allow_html=True)
+        if logo_path.exists():
+            st.image(str(logo_path), width=230)
+        if st.button("Refresh data"):
+            st.cache_data.clear()
+        with st.expander("Manual Vulmon HTML", expanded=False):
+            st.caption(
+                "Use this only when Vulmon blocks the automated fetch. "
+                "Open https://vulmon.com/trends in your browser, pass verification, then paste the rendered page HTML."
+            )
+            manual_html = st.text_area("Page HTML", height=160, label_visibility="collapsed")
 
-    if st.button("Refresh data"):
-        st.cache_data.clear()
-
-    html = fetch_vulmon_html()
+    html_source = "live"
+    html = manual_html.strip() if manual_html.strip() else fetch_vulmon_html()
+    if manual_html.strip():
+        html_source = "manual"
     df_cves = parse_cves(html)
+    if not df_cves.empty:
+        _save_cached_vulmon_html(html)
+
+    if df_cves.empty:
+        cached_html = _load_cached_vulmon_html()
+        cached_cves = parse_cves(cached_html) if cached_html else pd.DataFrame(columns=["cve_id", "description", "url"])
+        if not cached_cves.empty:
+            st.warning("Vulmon live fetch did not return a parseable table. Using the last cached successful snapshot.")
+            html = cached_html
+            html_source = "cached"
+            df_cves = cached_cves
+        else:
+            reason = "Cloudflare bot verification" if _looks_like_cloudflare_challenge(html) else "changed or unavailable markup"
+            st.warning(
+                f"Vulmon did not return a parseable trending CVE table ({reason}). "
+                "Paste verified page HTML above to run the page manually."
+            )
+            with st.expander("Fetched page preview", expanded=False):
+                st.text(BeautifulSoup(html or "", "html.parser").get_text("\n", strip=True)[:4000])
+            st.stop()
+
+    if html_source != "live":
+        st.caption(f"Vulmon source: {html_source}")
+
     df_activity = parse_activity(html)
     df_xref = cross_reference(df_cves, df_activity)
 
     matched = df_xref[df_xref["rating"].notna()]
-    col1, col2 = st.columns(2)
-    col1.metric("Trending CVE Count", len(df_cves))
-    col2.metric("Matched in CAUSALITY Ratings", len(matched))
+    unmatched = df_xref[df_xref["rating"].isna()]
+    with st.sidebar:
+        col1, col2 = st.columns(2)
+        col1.metric("Trending CVEs", len(df_cves))
+        col2.metric("Matched", len(matched))
+        st.caption(
+            f"2024: {df_xref.attrs.get('rows_2024_seen', 0):,} rows, {df_xref.attrs.get('matches_2024', 0):,} matches  \n"
+            f"2025: {df_xref.attrs.get('rows_2025_seen', 0):,} rows, {df_xref.attrs.get('matches_2025', 0):,} matches  \n"
+            f"2026: {df_xref.attrs.get('rows_2026_seen', 0):,} rows, {df_xref.attrs.get('matches_2026', 0):,} matches"
+        )
+    st.plotly_chart(build_chart(df_xref, df_activity), width='stretch')
 
-    st.plotly_chart(build_chart(df_xref, df_activity), use_container_width=True)
-
-    st.subheader("Trending CVEs with CAUSALITY Ratings")
+    st.markdown("Trending CVEs with CAUSALITY Ratings:")
     df_linked = matched.reset_index(drop=True).copy()
-    df_linked["cve_id"] = df_linked["cve_id"].apply(
-        lambda cid: f'<a href="/?cve_id={cid}" target="_blank">{cid}</a>'
+    df_linked["search_url"] = df_linked["cve_id"].apply(
+        lambda cid: f"/?cve_id={cid}"
     )
-    st.markdown(df_linked.to_html(index=False, escape=False), unsafe_allow_html=True)
+    st.dataframe(
+        df_linked,
+        width='stretch',
+        hide_index=True,
+        column_config={
+            "search_url": st.column_config.LinkColumn("Search", display_text="Open"),
+        },
+    )
 
-    st.subheader("All Trending CVEs")
+    st.markdown("All Trending CVEs: From Vulmon")
     st.markdown("""
     <style>
     .cve-list, .cve-list * { overflow: visible !important; white-space: normal !important; }
@@ -235,15 +435,29 @@ def render():
     """, unsafe_allow_html=True)
     cards = []
     for _, row in df_cves.iterrows():
-        url = row.get("url") or ""
-        link = f'<a href="{url}" target="_blank">{row["cve_id"]}</a>' if url else f'<strong>{row["cve_id"]}</strong>'
+        url = _safe_vulmon_url(row.get("url"))
+        cve_id = _escape_html(row["cve_id"])
+        description = _escape_html(row["description"])
+        link = (
+            f'<a href="{_escape_html(url)}" target="_blank" rel="noopener noreferrer">{cve_id}</a>'
+            if url else f"<strong>{cve_id}</strong>"
+        )
         cards.append(
             f'<div style="padding:10px 0;border-bottom:1px solid #ddd">'
             f'<div style="font-weight:bold;margin-bottom:4px">{link}</div>'
-            f'<div style="font-size:0.9em;line-height:1.5;white-space:normal;overflow:visible">{row["description"]}</div>'
+            f'<div style="font-size:0.9em;line-height:1.5;white-space:normal;overflow:visible">{description}</div>'
             f'</div>'
         )
     st.markdown(f'<div class="cve-list">{"".join(cards)}</div>', unsafe_allow_html=True)
+
+    with st.expander("Match diagnostics", expanded=False):
+        st.dataframe(
+            df_xref[["cve_id", "rating", "match_source"]],
+            width='stretch',
+            hide_index=True,
+        )
+        if not unmatched.empty:
+            st.caption(f"Unmatched CVEs: {', '.join(unmatched['cve_id'].tolist())}")
 
 
 if __name__ == "__main__":
