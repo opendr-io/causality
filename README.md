@@ -3,11 +3,9 @@
 
 ### CAUSALITY is an intrusion prediction model that is successfully predicting CVEs being watchlisted with lead times ranging from days to months. Every incident response we turn into incident avoidance allows us to actually get "left of boom" and live our best lives. Risk avoidance gives time back to busy DevOPS teams, in addition to security teams, while producing greater CVE risk reduction velocity than conventional or manual processes. This project has been presented at THREATCON1, RSAC 2026, BASC OWASP 2025, and some BSides Security conferences.
 
-More information is availabe at these posts:
-
-https://opendrio.blog/2025/11/11/show-and-tell-the-causality-project/
-
-https://opendrio.blog/2025/09/21/the-causality-project/
+More information is availabe at these posts:\n
+https://opendrio.blog/2025/11/11/show-and-tell-the-causality-project/\n
+https://opendrio.blog/2025/09/21/the-causality-project/\n
 
 ### Contents:]
 
