@@ -1272,7 +1272,11 @@ def show_field(label: str, val: str):
     v = (val or "").strip()
     st.markdown(f"**{_md_escape(label)}:** {_md_escape(v) if v else '—'}")
 
-def _compact_card_body(r, rating_field: str):
+def _predicted_value(r, fallback: str = "") -> str:
+    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
+    return pred or fallback or "Not available"
+
+def _compact_card_body(r, rating_field: str, pred_fallback: str = ""):
     """Render card fields in two columns (left: vendor/product, right: rating/predicted) then description."""
     left, right = [], []
     for label, key in [("Vendor", "vendor"), ("Product", "product")]:
@@ -1282,9 +1286,7 @@ def _compact_card_body(r, rating_field: str):
     rating_val = (r[rating_field] or "").strip() if rating_field in r.keys() else ""
     if rating_val:
         right.append(f"**Rating:** {_md_escape(rating_val)}")
-    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
-    if pred:
-        right.append(f"**Predicted:** {_md_escape(pred)}")
+    right.append(f"**Predicted:** {_md_escape(_predicted_value(r, pred_fallback))}")
     cols = st.columns(2)
     with cols[0]:
         st.markdown("  \n".join(left) or "—")
@@ -1299,10 +1301,6 @@ def _predicted_label(r) -> str:
     pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
     return f"  \nPredicted: {_md_escape(pred)}" if pred else ""
 
-def _predicted_value(r, fallback: str = "") -> str:
-    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
-    return pred or fallback or "Not available"
-
 def _ai_data(r, rating_field: str, year: str) -> dict:
     d = {
         "cve": r["cve"],
@@ -1316,11 +1314,9 @@ def _ai_data(r, rating_field: str, year: str) -> dict:
         d["title"] = r["title"].strip()
     return d
 
-def _card_text(r, rating_field: str, year: str) -> str:
+def _card_text(r, rating_field: str, year: str, pred_fallback: str = "") -> str:
     lines = [f"{r['cve']} [{year}]", f"Rating: {(r[rating_field] or 'UNKNOWN').upper()}"]
-    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
-    if pred:
-        lines.append(f"Predicted: {pred}")
+    lines.append(f"Predicted: {_predicted_value(r, pred_fallback)}")
     for k, label in [("title","Title"),("vendor","Vendor"),("product","Product"),("description","Description")]:
         v = (r[k] or "").strip() if k in r.keys() else ""
         if v:
@@ -1367,9 +1363,9 @@ with tab_results:
                     if st.button("🤖", key=f"ai_26_{r['id']}", help="Ask AI about this CVE"):
                         st.session_state["ai_running"] = _ai_data(r, "rating", "2026")
                         st.rerun()
-                _compact_card_body(r, "rating")
+                _compact_card_body(r, "rating", _fallback_pred_date_2026)
                 with st.expander("📋 copy"):
-                    st.code(_card_text(r, "rating", "2026"), language=None)
+                    st.code(_card_text(r, "rating", "2026", _fallback_pred_date_2026), language=None)
         st.divider()
 
     # -------- Render: 2025 section --------
