@@ -1,17 +1,43 @@
 
-### Provable predictions since January 2025 (total 239):
+### Provable predictions since January 2025 (total 252):
 
 Provable meaning the prediction was publshed here some time - days or months - before the CVE was added to a watch-list of exploited vulns.
 
 2026:
 
+May 5: CVE-2024-11350 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 5: CVE-2024-13365 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 4: CVE-2025-15403 was added to the VulnCheck KEV. It was predicted in January 2026.
+
+May 4: CVE-2025-7340 was added to the VulnCheck KEV. It was predicted December 2, 2025.
+
+May 4: CVE-2025-4606 was added to the VulnCheck KEV. It was predicted December 2, 2025.
+
+May 4: CVE-2025-3278 was added to the VulnCheck KEV. It was predicted December 2, 2025.
+
+May 4: CVE-2025-5339 was added to the VulnCheck KEV. It was predicted December 2, 2025.
+
+May 4: CVE-2024-12281 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 4: CVE-2024-13421 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 4: CVE-2024-2879 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 4: CVE-2024-13744 was added to the VulnCheck KEV. It was predicted in May 2025.
+
+May 4: CVE-2024-4346 was added to the VulnCheck KEV. It was predicted in January 2025. Fourteenth lead time over one year.
+
+May 1: CVE-2025-60021 was added to the VulnCheck KEV. It was predicted in January 2026.
+
 May 1 : CVE-2025-40554 was added to the VulnCheck KEV. It was predicted in January 2026.
 
-April 30: CVE-2026-33478 was added to the VulnCheck KEV. It was predicted April 1.
-
-April 28: CVE-2024-1708 was added to the CISA KEV. It was predicted in January 2025. Thirteenth prediction over one year.
+April 30: CVE-2026-33478 was added to the VulnCheck KEV. It was predicted April 25.
 
 April 30: CVE-2025-53558 was added to the VulnCheck KEV. It was predicted in August 2025.
+
+April 28: CVE-2024-1708 was added to the CISA KEV. It was predicted in January 2025. Thirteenth prediction over one year.
 
 April 24: CVE-2024-57726 was added to the CISA KEV. It was predicted in May 2025.
 
