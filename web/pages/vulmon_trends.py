@@ -17,10 +17,7 @@ from plotly.subplots import make_subplots
 
 HEAD_DIR = pathlib.Path(__file__).resolve().parent.parent.parent / "HEAD"
 WEB_DIR = pathlib.Path(__file__).resolve().parent.parent
-APP_STATE_DIR = WEB_DIR.parent / "var" / "causality"
-DB_PATH = APP_STATE_DIR / "cve.db"
-VULMON_HTML_CACHE = APP_STATE_DIR / "vulmon_trends.html"
-VULMON_BROWSER_PROFILE = APP_STATE_DIR / "vulmon-browser-profile"
+DB_PATH = WEB_DIR / "cve.db"
 
 RATING_COLOR = {"fire": "#ff0000", "hot": "#ff0000", "warm": "#ffd700", "cold": "#1f77b4", "sunspot": "#36454f"}
 LINE_COLORS = [
@@ -41,26 +38,6 @@ def _safe_vulmon_url(value):
     if parsed.scheme != "https" or parsed.netloc.lower() != "vulmon.com":
         return ""
     return url
-
-
-def _looks_like_cloudflare_challenge(html_text):
-    text = str(html_text or "").lower()
-    return "cloudflare" in text and ("security verification" in text or "verify you are not a bot" in text)
-
-
-def _load_cached_vulmon_html():
-    if VULMON_HTML_CACHE.exists() and VULMON_HTML_CACHE.is_file():
-        return VULMON_HTML_CACHE.read_text(encoding="utf-8", errors="replace")
-    return ""
-
-
-def _save_cached_vulmon_html(html_text):
-    if not html_text or _looks_like_cloudflare_challenge(html_text):
-        return
-    if parse_cves(html_text).empty:
-        return
-    APP_STATE_DIR.mkdir(parents=True, exist_ok=True)
-    VULMON_HTML_CACHE.write_text(html_text, encoding="utf-8")
 
 
 def _norm_cve(value):
@@ -184,13 +161,9 @@ def fetch_vulmon_html():
 
 def parse_cves(html):
     soup = BeautifulSoup(html, "html.parser")
-    cve_table = None
-    for table in soup.find_all("table"):
-        if table.find(string=re.compile(r"CVE-\d{4}-\d+", re.IGNORECASE)):
-            cve_table = table
-            break
+    cve_table = soup.find("table", class_="ui small table")
     if not cve_table:
-        return pd.DataFrame(columns=["cve_id", "description", "url"])
+        return pd.DataFrame()
     cve_records = []
     for row in cve_table.find_all("tr"):
         cols = row.find_all("td")
@@ -337,7 +310,7 @@ def build_chart(df_xref, df_activity):
     n_bars = len(matched)
     fig.update_layout(
         height=max(700, n_bars * 60 + 400),
-        margin=dict(t=30),
+        title=dict(text="Trending CVEs by Activity Count", font=dict(size=18)),
         showlegend=True,
         legend=dict(x=0, y=-0.15, yanchor="top", orientation="h", font=dict(size=14)),
         font=dict(size=24),
@@ -350,83 +323,55 @@ def build_chart(df_xref, df_activity):
 
 
 def render():
-    logo_path = WEB_DIR / "img" / "causality-3.png"
-    with st.sidebar:
-        #st.markdown("**CAUSALITY Rated CVEs Trending on Vulmon**")
-        st.markdown(
-    "<span style='font-size:28px; font-weight:bold;'>CAUSALITY Rated CVEs Trending on Vulmon</span>",
-    unsafe_allow_html=True)
-        if logo_path.exists():
-            st.image(str(logo_path), width=230)
-        if st.button("Refresh data"):
-            st.cache_data.clear()
-        with st.expander("Manual Vulmon HTML", expanded=False):
-            st.caption(
-                "Use this only when Vulmon blocks the automated fetch. "
-                "Open https://vulmon.com/trends in your browser, pass verification, then paste the rendered page HTML."
-            )
-            manual_html = st.text_area("Page HTML", height=160, label_visibility="collapsed")
+    st.title("CAUSALITY Rated CVEs Trending on Vulmon")
 
-    html_source = "live"
-    html = manual_html.strip() if manual_html.strip() else fetch_vulmon_html()
-    if manual_html.strip():
-        html_source = "manual"
+    if st.button("Refresh data"):
+        st.cache_data.clear()
+
+    html = fetch_vulmon_html()
     df_cves = parse_cves(html)
-    if not df_cves.empty:
-        _save_cached_vulmon_html(html)
-
-    if df_cves.empty:
-        cached_html = _load_cached_vulmon_html()
-        cached_cves = parse_cves(cached_html) if cached_html else pd.DataFrame(columns=["cve_id", "description", "url"])
-        if not cached_cves.empty:
-            st.warning("Vulmon live fetch did not return a parseable table. Using the last cached successful snapshot.")
-            html = cached_html
-            html_source = "cached"
-            df_cves = cached_cves
-        else:
-            reason = "Cloudflare bot verification" if _looks_like_cloudflare_challenge(html) else "changed or unavailable markup"
-            st.warning(
-                f"Vulmon did not return a parseable trending CVE table ({reason}). "
-                "Paste verified page HTML above to run the page manually."
-            )
-            with st.expander("Fetched page preview", expanded=False):
-                st.text(BeautifulSoup(html or "", "html.parser").get_text("\n", strip=True)[:4000])
-            st.stop()
-
-    if html_source != "live":
-        st.caption(f"Vulmon source: {html_source}")
-
     df_activity = parse_activity(html)
     df_xref = cross_reference(df_cves, df_activity)
 
     matched = df_xref[df_xref["rating"].notna()]
     unmatched = df_xref[df_xref["rating"].isna()]
-    with st.sidebar:
-        col1, col2 = st.columns(2)
-        col1.metric("Trending CVEs", len(df_cves))
-        col2.metric("Matched", len(matched))
-        st.caption(
-            f"2024: {df_xref.attrs.get('rows_2024_seen', 0):,} rows, {df_xref.attrs.get('matches_2024', 0):,} matches  \n"
-            f"2025: {df_xref.attrs.get('rows_2025_seen', 0):,} rows, {df_xref.attrs.get('matches_2025', 0):,} matches  \n"
-            f"2026: {df_xref.attrs.get('rows_2026_seen', 0):,} rows, {df_xref.attrs.get('matches_2026', 0):,} matches"
+    col1, col2 = st.columns(2)
+    col1.metric("Trending CVE Count", len(df_cves))
+    col2.metric("Matched in CAUSALITY Ratings", len(matched))
+    st.caption(
+        f"2024 rating rows checked: {df_xref.attrs.get('rows_2024_seen', 0):,}; "
+        f"2024 Vulmon matches: {df_xref.attrs.get('matches_2024', 0):,}. "
+        f"2025 rating rows checked: {df_xref.attrs.get('rows_2025_seen', 0):,}; "
+        f"2025 Vulmon matches: {df_xref.attrs.get('matches_2025', 0):,}. "
+        f"2026 rating rows checked: {df_xref.attrs.get('rows_2026_seen', 0):,}; "
+        f"2026 Vulmon matches: {df_xref.attrs.get('matches_2026', 0):,}"
+    )
+    with st.expander("Match diagnostics", expanded=False):
+        st.dataframe(
+            df_xref[["cve_id", "rating", "match_source"]],
+            use_container_width=True,
+            hide_index=True,
         )
-    st.plotly_chart(build_chart(df_xref, df_activity), width='stretch')
+        if not unmatched.empty:
+            st.caption(f"Unmatched CVEs: {', '.join(unmatched['cve_id'].tolist())}")
 
-    st.markdown("Trending CVEs with CAUSALITY Ratings:")
+    st.plotly_chart(build_chart(df_xref, df_activity), use_container_width=True)
+
+    st.subheader("Trending CVEs with CAUSALITY Ratings")
     df_linked = matched.reset_index(drop=True).copy()
     df_linked["search_url"] = df_linked["cve_id"].apply(
         lambda cid: f"/?cve_id={cid}"
     )
     st.dataframe(
         df_linked,
-        width='stretch',
+        use_container_width=True,
         hide_index=True,
         column_config={
             "search_url": st.column_config.LinkColumn("Search", display_text="Open"),
         },
     )
 
-    st.markdown("All Trending CVEs: From Vulmon")
+    st.subheader("All Trending CVEs")
     st.markdown("""
     <style>
     .cve-list, .cve-list * { overflow: visible !important; white-space: normal !important; }
@@ -449,15 +394,6 @@ def render():
             f'</div>'
         )
     st.markdown(f'<div class="cve-list">{"".join(cards)}</div>', unsafe_allow_html=True)
-
-    with st.expander("Match diagnostics", expanded=False):
-        st.dataframe(
-            df_xref[["cve_id", "rating", "match_source"]],
-            width='stretch',
-            hide_index=True,
-        )
-        if not unmatched.empty:
-            st.caption(f"Unmatched CVEs: {', '.join(unmatched['cve_id'].tolist())}")
 
 
 if __name__ == "__main__":
