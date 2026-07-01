@@ -7,7 +7,7 @@ Provable meaning the prediction was publshed and timestamped here some time - da
 
 June 29: CVE-2026-46817 was added to the VulnCheck KEV. It was predicted on June 1.
 
-June 25: CVE-2024-41700 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Nth over one year.
+June 25: CVE-2024-41700 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Seventeenth lead time over one year.
 
 June 24: CVE-2026-0769 was added to the VulnCheck KEV. It was predicted on April 25.
 
@@ -21,7 +21,7 @@ June 23: CVE-2025-12352 was added to the VulnCheck KEV. It was predicted It was 
 
 June 23: CVE-2025-7443 was added to the VulnCheck KEV. It was predicted in December 2025.
 
-June 23: CVE-2024-6648 was added to the VulnCheck KEV. It was predicted on May 24, 2025. Nth over one year.
+June 23: CVE-2024-6648 was added to the VulnCheck KEV. It was predicted on May 24, 2025. Sixteenth laed time over one year.
 
 June 17: CVE-2025-11837 was added to the VulnCheck KEV. It was predicted in March 2026.
 
