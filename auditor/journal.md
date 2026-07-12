@@ -1,9 +1,17 @@
 
-### Provable predictions since January 2025 (total 278):
+### Provable predictions since January 2025 (total 277):
 
 Provable meaning the prediction was publshed and timestamped here some time - days or months - before the CVE was added to a watch-list of exploited vulns.
 
 2026:
+
+July 9: CVE-2026-31843 was added to the VulnCheck KEV. It was predicted on June 1.
+
+July 8: CVE-2026-4631 was added to the VulnCheck KEV. It was predicted on June 1.
+
+July 9: CVE-2025-7852 was added to the VulnCheck KEV. It was predicted in December 2025.
+
+July 1: CVE-2026-45659 was added to the CISA and VulnCheck KEVs. It was predicted on June  1.
 
 June 29: CVE-2026-46817 was added to the VulnCheck KEV. It was predicted on June 1.
 
@@ -555,7 +563,7 @@ March 10: CVE-2024-13160 was added to the KEV. It was rated hot in the Jan 17 ru
 
 ```CVE-2024-13160	hot	Ivanti	Endpoint Manager	Absolute path traversal in Ivanti EPM before the 2024 January-2025 Security Update and 2022 SU6 January-2025 Security Update allows a remote unauthenticated attacker to leak sensitive information.```
 
-March 10: 	CVE-2024-13151 was added to the KEV. It was rated hot in the Jan 17 run.
+March 10: 	CVE-2024-13161 was added to the KEV. It was rated hot in the Jan 17 run.
 
 ```CVE-2024-13161	hot	Ivanti	Endpoint Manager Absolute path traversal in Ivanti EPM before the 2024 January-2025 Security Update and 2022 SU6 January-2025 Security Update allows a remote unauthenticated attacker to leak sensitive information.```
 

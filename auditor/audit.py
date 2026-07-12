@@ -1,30 +1,34 @@
 """
 CVE Prediction Audit
-For each CVE in journal.md, finds the earliest prediction file where it was
+For each CVE in README.md, finds the earliest prediction file where it was
 rated and quotes that exact line.
 
 Usage:
     python audit.py                          # hardcoded dates
     python audit.py --github-dates           # fetch first-commit dates from GitHub
     python audit.py --github-token ghp_xxx  # same, with auth token
-    python audit.py --journal path/to/journal.md
+    python audit.py --journal path/to/README.md
+    python audit.py --data-root ..                 # prediction data folders
 """
 
 import argparse
 import csv
 import re
 import sys
+import time
 import urllib.request
 import urllib.error
+import urllib.parse
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
-# ── Prediction files in chronological order (earliest first) ──────────────────
+# Prediction files in chronological order (earliest first)
 # Add new runs here. When --github-dates is used the date is replaced with the
 # actual first-commit timestamp from the repo.
 # NOTE: a "January 31 2025" run is referenced in the journal but no matching
-#       file was found in this repo — may exist in a newer version of the data.
+#       file was found in this repo - may exist in a newer version of the data.
 PREDICTION_FILES = [
     {"date": "2025-01-03", "label": "Jan 3 2025 run (2024 CVEs)",  "path": r"2024\2024-predictions.txt"},
     {"date": "2025-01-07", "label": "Jan 7 2025 run (2024 CVEs)",  "path": r"2024\predictions-jan-7-run.txt"},
@@ -39,14 +43,14 @@ PREDICTION_FILES = [
     {"date": "2025-08-01", "label": "August 2025 run",             "path": r"2025\August\august-2025-combined-ratings.txt"},
     {"date": "2025-09-14", "label": "Sep 14 2025 run",             "path": r"2025\September\2025-ratings-sep-14.txt"},
     {"date": "2025-12-02", "label": "Dec 2 2025 run",              "path": r"2025\November\december-2-ratings.txt"},
-    {"date": "2026-01-01", "label": "Jan 2026 run",                "path": r"2025\Final run Jan 2026\2025-ratings-final.txt"},
+    {"date": "2026-01-01", "label": "Jan 2026 run",                "path": r"2025\2025-ratings-final.txt"},
     {"date": "2026-01-15", "label": "2025 processed-clean (HEAD)", "path": r"HEAD\2025-processed-clean.txt"},
-    {"date": "2026-03-01", "label": "March 2026 run",              "path": r"HEAD\2026-MARCH-RUN.csv"},
-    {"date": "2026-04-01", "label": "April 2026 run",              "path": r"HEAD\2026-april-run.csv"},
+    {"date": "2026-03-01", "label": "March 2026 run",              "path": r"2026\2026-march-run.txt"},
+    {"date": "2026-04-01", "label": "April 2026 run",              "path": r"HEAD\2026-april-1-for-sharing.txt"},
     {"date": "2026-06-01", "label": "June 1 2026 run",             "path": r"HEAD\2026-june-1.txt"},
 ]
 
-GITHUB_REPO = "cyberdyne-ventures/predictions"
+GITHUB_REPO = "opendr-io/causality"
 
 MONTH_MAP = {
     "january": "01", "february": "02", "march": "03",    "april": "04",
@@ -57,7 +61,8 @@ MONTH_MAP = {
     "oct": "10", "nov": "11", "dec": "12",
 }
 
-CVE_RE   = re.compile(r"CVE-\d{4}-\d+")
+CVE_RE   = re.compile(r"\bCVE\s*[-\u2013\u2014 ]\s*(\d{4})\s*[-\u2013\u2014 ]\s*(\d{3,})\b", re.IGNORECASE)
+BARE_CVE_RE = re.compile(r"\b(20\d{2})-(\d{3,})\b")
 YEAR_RE  = re.compile(r"^\s*(\d{4})\s*:?\s*$")
 DATE_RE  = re.compile(
     r"^\s*(January|February|March|April|May|June|July|August|September|"
@@ -69,6 +74,25 @@ DATE_COMPACT_RE = re.compile(
     r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)(\d{1,2})\s",
     re.IGNORECASE,
 )
+
+
+def extract_cves_from_line(line: str) -> list[str]:
+    """Return normalized CVE IDs from canonical and README prose forms."""
+    cves = [f"CVE-{m.group(1)}-{m.group(2)}" for m in CVE_RE.finditer(line)]
+    if re.search(r"\bCVEs?\b", line, re.IGNORECASE):
+        for m in BARE_CVE_RE.finditer(line):
+            prefix = line[max(0, m.start() - 10):m.start()].upper()
+            if re.search(r"(?:CVE|GHSL)\s*[-\u2013\u2014 ]\s*$", prefix, re.IGNORECASE):
+                continue
+            cves.append(f"CVE-{m.group(1)}-{m.group(2)}")
+    return list(dict.fromkeys(cves))
+
+
+def extract_cves_from_text(text: str) -> list[str]:
+    cves = []
+    for line in text.splitlines():
+        cves.extend(extract_cves_from_line(line))
+    return cves
 
 
 def get_journal_dates(journal_path: Path) -> dict:
@@ -102,15 +126,15 @@ def get_journal_dates(journal_path: Path) -> dict:
                 current_date = f"{current_year}-{month}-{day}"
 
         if current_date:
-            for cve in CVE_RE.findall(line):
+            for cve in extract_cves_from_line(line):
                 cve_dates[cve] = current_date   # overwrite keeps earliest
 
     return cve_dates
 
 
-def get_first_commit_date(repo: str, file_path: str, token: str = "") -> str | None:
+def get_first_commit_date(repo: str, file_path: str, token: str = "", delay_seconds: float = 1.0) -> str | None:
     """Return the date of the first commit that touched file_path in repo."""
-    api_path = file_path.replace("\\", "/")
+    api_path = urllib.parse.quote(file_path.replace("\\", "/"), safe="/")
     headers  = {"User-Agent": "cve-audit-script"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
@@ -128,11 +152,20 @@ def get_first_commit_date(repo: str, file_path: str, token: str = "") -> str | N
             with urllib.request.urlopen(req, timeout=15) as resp:
                 batch = json.loads(resp.read())
         except urllib.error.HTTPError as e:
-            print(f"  WARNING: GitHub API {e.code} for {file_path} (page {page})", file=sys.stderr)
-            break
+            remaining = e.headers.get("X-RateLimit-Remaining", "unknown")
+            reset = e.headers.get("X-RateLimit-Reset", "unknown")
+            detail = e.read().decode("utf-8", errors="replace").strip()
+            msg = (
+                f"GitHub API {e.code} for {file_path} (page {page}); "
+                f"rate-limit remaining={remaining}, reset={reset}. "
+                "Unauthenticated GitHub API use is supported but limited; "
+                "retry after reset, omit --github-dates, or optionally pass a token."
+            )
+            if detail:
+                msg += f"; response={detail}"
+            raise RuntimeError(msg) from e
         except Exception as e:
-            print(f"  WARNING: GitHub API error for {file_path}: {e}", file=sys.stderr)
-            break
+            raise RuntimeError(f"GitHub API error for {file_path}: {e}") from e
 
         if not batch:
             break
@@ -141,6 +174,8 @@ def get_first_commit_date(repo: str, file_path: str, token: str = "") -> str | N
         if len(batch) < 100:
             break
         page += 1
+        if delay_seconds > 0:
+            time.sleep(delay_seconds)
 
     if oldest:
         return oldest["commit"]["committer"]["date"][:10]
@@ -153,75 +188,106 @@ def search_file(path: Path, cve: str) -> str | None:
         for line in path.open(encoding="utf-8", errors="replace"):
             if cve in line:
                 return line.rstrip()
-    except OSError:
-        pass
+    except OSError as e:
+        raise RuntimeError(f"Could not read prediction data file {path}: {e}") from e
     return None
 
 
 def main():
     parser = argparse.ArgumentParser(description="CVE prediction audit")
     parser.add_argument("--root",          default=str(Path(__file__).parent))
-    parser.add_argument("--journal",       default="")
+    parser.add_argument("--data-root",     default="",
+                        help="Directory containing 2024, 2025, and HEAD data folders")
+    parser.add_argument("--journal",       default="",
+                        help="CVE source file; defaults to README.md beside the data folders")
     parser.add_argument("--out-csv",       default="")
     parser.add_argument("--out-txt",       default="")
     parser.add_argument("--github-dates",  action="store_true",
                         help="Fetch first-commit dates from GitHub API")
-    parser.add_argument("--github-token",  default="",
-                        help="GitHub personal access token (raises rate limit)")
+    parser.add_argument("--github-token",  default=os.environ.get("GITHUB_TOKEN", ""),
+                        help="Optional GitHub token; defaults to GITHUB_TOKEN env var and only avoids unauthenticated rate limits")
     parser.add_argument("--github-repo",   default=GITHUB_REPO)
+    parser.add_argument("--github-delay",  type=float, default=0.0,
+                        help="Seconds to wait between GitHub API calls")
     args = parser.parse_args()
 
     root        = Path(args.root)
-    journal     = Path(args.journal) if args.journal else root / "journal.md"
+    default_data_root = root.parent if root.name.lower() == "auditor" else root
+    data_root   = Path(args.data_root) if args.data_root else default_data_root
+    journal     = Path(args.journal) if args.journal else data_root / "README.md"
     out_csv     = Path(args.out_csv) if args.out_csv else root / "audit-results.csv"
     out_txt     = Path(args.out_txt) if args.out_txt else root / "audit-results.txt"
 
     files = [dict(f) for f in PREDICTION_FILES]   # shallow copy so we can mutate dates
 
-    # ── Optionally fetch GitHub first-commit dates ────────────────────────────
+    # Optionally fetch GitHub first-commit dates
     if args.github_dates:
         print(f"Fetching first-commit dates from github.com/{args.github_repo} ...")
+        print(f"GitHub API delay: {args.github_delay} seconds")
+        print(f"GitHub auth: {'token' if args.github_token else 'none'}")
         for f in files:
-            date = get_first_commit_date(args.github_repo, f["path"], args.github_token)
+            try:
+                date = get_first_commit_date(args.github_repo, f["path"], args.github_token, args.github_delay)
+            except RuntimeError as e:
+                raise SystemExit(f"ERROR: {e}") from e
             if date:
                 f["date"] = date
                 print(f"  {f['path']} -> {date}")
             else:
-                print(f"  {f['path']} -> could not fetch, keeping estimate ({f['date']})")
+                raise SystemExit(f"ERROR: GitHub returned no commits for {f['path']}")
+            if args.github_delay > 0:
+                time.sleep(args.github_delay)
         files.sort(key=lambda f: f["date"])
         print()
 
-    # ── Parse journal ─────────────────────────────────────────────────────────
+    # Parse CVE source
     journal_text = journal.read_text(encoding="utf-8")
-    cve_ids      = sorted(set(CVE_RE.findall(journal_text)))
+    cve_mentions = extract_cves_from_text(journal_text)
+    cve_ids      = sorted(set(cve_mentions))
     journal_dates = get_journal_dates(journal)
 
-    print(f"Journal  : {journal}")
-    print(f"CVEs     : {len(cve_ids)} unique IDs extracted")
+    print(f"Source   : {journal}")
+    print(f"Data root: {data_root}")
+    print(f"CVEs     : {len(cve_mentions)} mentions, {len(cve_ids)} unique IDs extracted")
     print()
 
-    # ── Search prediction files ───────────────────────────────────────────────
-    results  = []
+    for f in files:
+        full = data_root / f["path"]
+        if not full.is_file():
+            raise SystemExit(f"ERROR: prediction data file not found: {full}")
+
+    # Search prediction files once in chronological order
+    hits_by_cve = {}
+    remaining = set(cve_ids)
+
+    for f in files:
+        if not remaining:
+            break
+        full = data_root / f["path"]
+        try:
+            with full.open(encoding="utf-8", errors="replace") as fh:
+                for raw_line in fh:
+                    if not remaining:
+                        break
+                    line = raw_line.rstrip()
+                    for cve in extract_cves_from_line(line):
+                        if cve in remaining:
+                            hits_by_cve[cve] = {
+                                "CVE":              cve,
+                                "KEV Date":         journal_dates.get(cve, ""),
+                                "Github Timestamp": f["date"],
+                                "RunLabel":         f["label"],
+                                "File":             f["path"],
+                                "Line":             line,
+                            }
+                            remaining.remove(cve)
+        except OSError as e:
+            raise SystemExit(f"ERROR: could not read prediction data file {full}: {e}") from e
+
+    results = []
     not_found = 0
-
     for cve in cve_ids:
-        hit = None
-        for f in files:
-            full = root / f["path"]
-            if not full.exists():
-                continue
-            line = search_file(full, cve)
-            if line is not None:
-                hit = {
-                    "CVE":              cve,
-                    "KEV Date":         journal_dates.get(cve, ""),
-                    "Github Timestamp": f["date"],
-                    "RunLabel":         f["label"],
-                    "File":             f["path"],
-                    "Line":             line,
-                }
-                break
-
+        hit = hits_by_cve.get(cve)
         if hit:
             print(f"  [FOUND]     {cve}  ->  {hit['RunLabel']}")
         else:
@@ -235,12 +301,11 @@ def main():
             }
             print(f"  [NOT FOUND] {cve}", file=sys.stderr)
             not_found += 1
-
         results.append(hit)
 
     found = len(results) - not_found
 
-    # ── CSV output ────────────────────────────────────────────────────────────
+    # CSV output
     fieldnames = ["CVE", "KEV Date", "Github Timestamp", "RunLabel", "File", "Line"]
     with out_csv.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=fieldnames)
@@ -248,7 +313,7 @@ def main():
         writer.writerows(results)
     print(f"\nCSV  -> {out_csv}")
 
-    # ── Plain-text output ─────────────────────────────────────────────────────
+    # Plain-text output
     sep        = "-" * 80
     date_source = (
         f"from GitHub commit history ({args.github_repo})"
@@ -258,7 +323,8 @@ def main():
     lines = [
         "CVE PREDICTION AUDIT REPORT",
         f"Generated  : {datetime.now().strftime('%Y-%m-%d %H:%M')}",
-        f"Journal    : {journal}",
+        f"Source     : {journal}",
+        f"Data root  : {data_root}",
         f"Dates      : {date_source}",
         f"Total CVEs : {len(results)}  |  Found: {found}  |  Not found: {not_found}",
         sep,
