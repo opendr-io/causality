@@ -15,10 +15,28 @@ DEFAULT_DB = ROOT_DIR / "var" / "causality" / "cve.db"
 DEFAULT_SOURCES = {
     "2025": HEAD_DIR / "2025-processed-clean.txt",
     "2024": HEAD_DIR / "2024-output-may-24.txt",
-    "2026": HEAD_DIR / "2026-april-1-for-sharing.txt",
+    "2026": HEAD_DIR / "2026-june-1.txt",
 }
 
+DEFAULT_PRED_DATES = BASE_DIR / "pred_dates.csv"
+
+PREDICTION_DATE_ARTIFACTS = [
+    (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2024-01-07"),
+    (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2024-01-17"),
+    (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2024-05-24"),
+    (ROOT_DIR / "2025" / "output-jan-8.txt", "2025-01-08"),
+    (ROOT_DIR / "2025" / "jan-15-run.txt", "2025-01-15"),
+    (ROOT_DIR / "2025" / "jan-17-run.txt", "2025-01-17"),
+    (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-15"),
+    (ROOT_DIR / "2025" / "may-8-run.txt", "2025-05-08"),
+    (ROOT_DIR / "2025" / "August" / "august-2025-combined-ratings.txt", "2025-08-31"),
+    (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-02"),
+    (ROOT_DIR / "2025" / "2025-ratings-final.txt", "2026-03-21"),
+    (ROOT_DIR / "2026" / "2026-april-1-for-sharing.txt", "2026-04-25"),
+    (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-01"),
+]
 CVE_RE = re.compile(r"^CVE-\d{4}-\d+$", re.IGNORECASE)
+LINE_START_CVE_RE = re.compile(r"^(?:\d+[,\t])?(CVE-\d{4}-\d+)(?=[,\t])", re.IGNORECASE)
 RATING_VALUES = {"fire", "hot", "warm", "cold", "sunspot"}
 
 
@@ -131,9 +149,62 @@ def source_cves(year, path):
                 continue
         else:
             cve = get(row, "cve") or get(row, "cveID") or get(row, "cveid")
-        if cve:
-            counts[cve.upper()] += 1
+        cve = cve.upper()
+        if CVE_RE.match(cve):
+            counts[cve] += 1
     return counts
+
+
+def load_prediction_dates(path=DEFAULT_PRED_DATES):
+    dates = {}
+    with open(path, encoding="utf-8", errors="ignore", newline="") as f:
+        for row in csv.DictReader(f):
+            cve = get(row, "cve").upper()
+            pred_date = get(row, "pred_date")
+            if cve:
+                dates[cve] = pred_date
+    return dates
+
+
+def verify_prediction_date_coverage(source_paths=DEFAULT_SOURCES, pred_dates_path=DEFAULT_PRED_DATES):
+    dates = load_prediction_dates(pred_dates_path)
+    missing_by_year = {}
+    for year, path in source_paths.items():
+        missing = sorted(cve for cve in source_cves(year, path) if not dates.get(cve))
+        missing_by_year[year] = missing
+    return missing_by_year
+
+
+def line_start_cves(path):
+    cves = set()
+    with open(path, encoding="utf-8", errors="ignore", newline="") as f:
+        for line in f:
+            match = LINE_START_CVE_RE.search(line.lstrip("\ufeff").strip())
+            if match:
+                cves.add(match.group(1).upper())
+    return cves
+
+
+def expected_prediction_dates_from_artifacts(artifacts=PREDICTION_DATE_ARTIFACTS):
+    expected = {}
+    for path, pred_date in artifacts:
+        if not path.exists():
+            raise FileNotFoundError(path)
+        for cve in line_start_cves(path):
+            if cve not in expected or pred_date < expected[cve]:
+                expected[cve] = pred_date
+    return expected
+
+
+def verify_prediction_date_accuracy(pred_dates_path=DEFAULT_PRED_DATES, artifacts=PREDICTION_DATE_ARTIFACTS):
+    dates = load_prediction_dates(pred_dates_path)
+    expected = expected_prediction_dates_from_artifacts(artifacts)
+    mismatches = {
+        cve: {"expected": expected_date, "actual": dates.get(cve, "")}
+        for cve, expected_date in sorted(expected.items())
+        if dates.get(cve, "") != expected_date
+    }
+    return {"checked": len(expected), "mismatches": mismatches}
 
 
 def db_cves(con, table):

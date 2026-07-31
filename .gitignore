@@ -1,0 +1,75 @@
+*.log
+*.txt
+*.cer
+*.crt
+*.crl
+*.pfx
+*.p12
+*.pml
+*.db
+*.db.sig
+
+# API keys and credentials
+*.env
+.env
+.env.local
+.env.production
+.env.development
+*.secret
+*.credentials
+config/secrets.yml
+
+# SSH keys
+*.pem
+*.key
+*.pub
+id_rsa
+id_rsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+.ssh/
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs (PyCharm, IntelliJ, etc.)
+.idea/
+
+# Sublime
+*.sublime-workspace
+*.sublime-project
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyc
+
+# Virtual environments
+venv/
+.env/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store           # macOS
+Thumbs.db           # Windows
+
+# Environment files
+.env
+.env.*
+!.env.template
+
+*.conf
+*.ini
+
+# Claude Code personal settings
+.claude/settings.local.json
+protostar-ai-dev-flask-api/logs/
+smoke-tests/test-results/
+smoke-tests/playwright-report/
+protostar-ai-dev-flask-api/agentconfig.ini

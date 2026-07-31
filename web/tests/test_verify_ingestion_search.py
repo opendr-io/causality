@@ -74,3 +74,15 @@ def test_verify_prediction_dates_requires_2026_join():
 
     assert verify.verify_prediction_dates(con) == {"total_dates": 1, "joined_2026": 1}
     con.close()
+
+def test_pred_dates_cover_all_indexed_source_cves():
+    missing = verify.verify_prediction_date_coverage()
+
+    assert missing == {"2025": [], "2024": [], "2026": []}
+
+
+def test_pred_dates_match_dated_prediction_artifacts():
+    result = verify.verify_prediction_date_accuracy()
+
+    assert result["checked"] > 100_000
+    assert result["mismatches"] == {}
