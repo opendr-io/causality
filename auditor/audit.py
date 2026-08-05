@@ -29,26 +29,30 @@ from pathlib import Path
 # actual first-commit timestamp from the repo.
 # NOTE: a "January 31 2025" run is referenced in the journal but no matching
 #       file was found in this repo - may exist in a newer version of the data.
+
+BASE_DIR = Path(__file__).resolve().parent
+ROOT_DIR = BASE_DIR.parent
+HEAD_DIR = ROOT_DIR / "HEAD"
+
 PREDICTION_FILES = [
-    {"date": "2025-01-03", "label": "Jan 3 2025 run (2024 CVEs)",  "path": r"2024\2024-predictions.txt"},
-    {"date": "2025-01-07", "label": "Jan 7 2025 run (2024 CVEs)",  "path": r"2024\predictions-jan-7-run.txt"},
+    {"date": "2024-01-07", "label": "Jan 7 2025 run (2024 CVEs)",  "path": r"2024\predictions-jan-7-run.txt"},
+    {"date": "2024-01-17", "label": "Jan 17 2025 run (2024 CVEs)", "path": r"2024\2024-predictions-jan-17-run.txt"},
+    {"date": "2024-05-24", "label": "May 24 2025 run (2024 CVEs)", "path": r"2024\2024-output-may-24.txt"},
     {"date": "2025-01-08", "label": "Jan 8 2025 run (2025 CVEs)",  "path": r"2025\output-jan-8.txt"},
     {"date": "2025-01-15", "label": "Jan 15 2025 run",             "path": r"2025\jan-15-run.txt"},
-    {"date": "2025-01-17", "label": "Jan 17 2025 run (2024 CVEs)", "path": r"2024\2024-predictions-jan-17-run.txt"},
     {"date": "2025-01-17", "label": "Jan 17 2025 run (2025 CVEs)", "path": r"2025\jan-17-run.txt"},
     {"date": "2025-02-15", "label": "Feb 15 2025 run",             "path": r"2025\feb-15-run.txt"},
     {"date": "2025-05-08", "label": "May 8 2025 run",              "path": r"2025\may-8-run.txt"},
-    {"date": "2025-05-13", "label": "May 13 2025 run",             "path": r"2025\may-13-o4.txt"},
-    {"date": "2025-05-24", "label": "May 24 2025 run (2024 CVEs)", "path": r"2024\2024-output-may-24.txt"},
-    {"date": "2025-08-01", "label": "August 2025 run",             "path": r"2025\August\august-2025-combined-ratings.txt"},
-    {"date": "2025-09-14", "label": "Sep 14 2025 run",             "path": r"2025\September\2025-ratings-sep-14.txt"},
+    {"date": "2025-08-31", "label": "August 2025 run",             "path": r"2025\August\august-2025-combined-ratings.txt"},
     {"date": "2025-12-02", "label": "Dec 2 2025 run",              "path": r"2025\November\december-2-ratings.txt"},
-    {"date": "2026-01-01", "label": "Jan 2026 run",                "path": r"2025\2025-ratings-final.txt"},
-    {"date": "2026-01-15", "label": "2025 processed-clean (HEAD)", "path": r"HEAD\2025-processed-clean.txt"},
-    {"date": "2026-03-01", "label": "March 2026 run",              "path": r"2026\2026-march-run.txt"},
-    {"date": "2026-04-01", "label": "April 2026 run",              "path": r"HEAD\2026-april-1-for-sharing.txt"},
-    {"date": "2026-06-01", "label": "June 1 2026 run",             "path": r"HEAD\2026-june-1.txt"},
+    {"date": "2026-03-21", "label": "2025 ratings final",          "path": r"2025\2025-ratings-final.txt"},
+    {"date": "2026-03-21", "label": "2025 processed-clean",        "path": r"HEAD\2025-processed-clean.txt"},
+    {"date": "2026-04-25", "label": "April 2026 run",              "path": r"2026\2026-april-1-for-sharing.txt"},
+    {"date": "2026-06-01", "label": "June 1 2026 run",             "path": r"2026\2026-june-1.txt"},
+    {"date": "2026-08-05", "label": "August 5 2026 run",           "path": r"HEAD\2026-august-5.txt"},
 ]
+
+
 
 GITHUB_REPO = "opendr-io/causality"
 
@@ -195,9 +199,9 @@ def search_file(path: Path, cve: str) -> str | None:
 
 def main():
     parser = argparse.ArgumentParser(description="CVE prediction audit")
-    parser.add_argument("--root",          default=str(Path(__file__).parent))
     parser.add_argument("--data-root",     default="",
-                        help="Directory containing 2024, 2025, and HEAD data folders")
+                        help="Directory containing 2024, 2025, and HEAD data folders; "
+                             "defaults to the auditor folder's parent (ROOT_DIR)")
     parser.add_argument("--journal",       default="",
                         help="CVE source file; defaults to README.md beside the data folders")
     parser.add_argument("--out-csv",       default="")
@@ -207,18 +211,18 @@ def main():
     parser.add_argument("--github-token",  default=os.environ.get("GITHUB_TOKEN", ""),
                         help="Optional GitHub token; defaults to GITHUB_TOKEN env var and only avoids unauthenticated rate limits")
     parser.add_argument("--github-repo",   default=GITHUB_REPO)
-    parser.add_argument("--github-delay",  type=float, default=0.0,
+    parser.add_argument("--github-delay",  type=float, default=1.0,
                         help="Seconds to wait between GitHub API calls")
     args = parser.parse_args()
 
-    root        = Path(args.root)
-    default_data_root = root.parent if root.name.lower() == "auditor" else root
-    data_root   = Path(args.data_root) if args.data_root else default_data_root
+    data_root   = Path(args.data_root) if args.data_root else ROOT_DIR
     journal     = Path(args.journal) if args.journal else data_root / "README.md"
-    out_csv     = Path(args.out_csv) if args.out_csv else root / "audit-results.csv"
-    out_txt     = Path(args.out_txt) if args.out_txt else root / "audit-results.txt"
+    out_csv     = Path(args.out_csv) if args.out_csv else BASE_DIR / "audit-results.csv"
+    out_txt     = Path(args.out_txt) if args.out_txt else BASE_DIR / "audit-results.txt"
 
     files = [dict(f) for f in PREDICTION_FILES]   # shallow copy so we can mutate dates
+    for f in files:
+        f["estimated_date"] = f["date"]   # hardcoded estimate, kept only for ordering below
 
     # Optionally fetch GitHub first-commit dates
     if args.github_dates:
@@ -234,10 +238,17 @@ def main():
                 f["date"] = date
                 print(f"  {f['path']} -> {date}")
             else:
-                raise SystemExit(f"ERROR: GitHub returned no commits for {f['path']}")
+                # Not yet pushed to GitHub -- this script exists to show provable,
+                # third-party-verifiable dates, so we do NOT fall back to the
+                # hardcoded estimate here. Leave it unverified rather than crash.
+                f["date"] = ""
+                print(f"  {f['path']} -> NOT ON GITHUB YET (no provable first-commit date)")
             if args.github_delay > 0:
                 time.sleep(args.github_delay)
-        files.sort(key=lambda f: f["date"])
+        # Sort by the verified date when we have one; fall back to the hardcoded
+        # estimate only to keep unverified files in a sensible position, never as
+        # a stand-in for the (unproven) date itself.
+        files.sort(key=lambda f: f["date"] or f["estimated_date"])
         print()
 
     # Parse CVE source
@@ -337,7 +348,8 @@ def main():
         if r["RunLabel"] == "NOT FOUND":
             lines.append("Github Timestamp : NOT FOUND in any prediction file")
         else:
-            lines.append(f"Github Timestamp : {r['Github Timestamp']}  ({r['RunLabel']})")
+            gh_ts = r["Github Timestamp"] or "NOT ON GITHUB YET (no provable first-commit date)"
+            lines.append(f"Github Timestamp : {gh_ts}  ({r['RunLabel']})")
             lines.append(f"File             : {r['File']}")
             lines.append(f"Line             : {r['Line']}")
 
