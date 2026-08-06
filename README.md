@@ -19,7 +19,7 @@ Colab instance: https://colab.research.google.com/github/opendr-io/causality/blo
 ### Provable public predictions since January 2025 (total 288)
 ### 2026:
 
-August 4: CVE-2026-28049 was added to the VulnCheck KEV. It was predicted in April.
+August 4: CVE-2026-28409 was added to the VulnCheck KEV. It was predicted in April.
 
 August 3: CVE-2026-38992 was added to the VulnCheck KEV. It was predicted in April.
 
