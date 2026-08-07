@@ -15,13 +15,13 @@ DEFAULT_DB = BASE_DIR / "cve.db"
 DEFAULT_SOURCES = {
     "2025": HEAD_DIR / "2025-processed-clean.txt",
     "2024": HEAD_DIR / "2024-output-may-24.txt",
-    "2026": HEAD_DIR / "2026-august-5.txt",
+    "2026": HEAD_DIR / "2026-august.txt",
 }
 
 DEFAULT_PRED_DATES = BASE_DIR / "pred_dates.csv"
 
 PREDICTION_DATE_ARTIFACTS = [
-    (ROOT_DIR / "2024" / "2024-predictions.txt", "2025-01-03"),
+    (ROOT_DIR / "2024" / "2024-predictions.txt", "2025-01-04"),
     (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2025-01-07"),
     (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2025-01-17"),
     (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2026-02-08"),
