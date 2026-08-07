@@ -60,7 +60,7 @@ June 23: CVE-2025-12352 was added to the VulnCheck KEV. It was predicted in Dece
 
 June 23: CVE-2025-7443 was added to the VulnCheck KEV. It was predicted in December 2025.
 
-June 23: CVE-2024-6648 was added to the VulnCheck KEV. It was predicted in February..
+June 23: CVE-2024-6648 was added to the VulnCheck KEV. It was predicted in February.
 
 June 17: CVE-2025-11837 was added to the VulnCheck KEV. It was predicted in March 2026.
 
@@ -426,7 +426,7 @@ August 19: Shadowserver Reported Exploitation of these, rated hot earlier this y
 
 ```CVE-2024-1561	hot	gradio-app	gradio-app/gradio	"An issue was discovered in gradio-app/gradio, where the `/component_server` endpoint improperly allows the invocation of any method on a `Component` class with attacker-controlled arguments. Specifically, by exploiting the `move_resource_to_block_cache()` method of the `Block` class, an attacker can copy any file on the filesystem to a temporary directory and subsequently retrieve it. This vulnerability enables unauthorized local file read access, posing a significant risk especially when the application is exposed to the internet via `launch(share=True)`, thereby allowing remote attackers to read files on the host machine. Furthermore, gradio apps hosted on `huggingface.co` are also affected, potentially leading to the exposure of sensitive information such as API keys and credentials stored in environment variables."		```
 
-```CVE-2024-25852	hot			"Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the ""AccessControlList"" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights."	```e
+```CVE-2024-25852	hot			"Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the ""AccessControlList"" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights."	```
 
 ```9832	CVE-2025-0674	Elber	Cleber/3 Broadcast Multi-Purpose Platform; ESE DVB-S/S2 Satellite Receiver; Reble610 M/ODU XPIC IP-ASI-SDH; Signum DVB-S/S2 IRD; Wayber Analog/Digital Audio STL	"Multiple Elber products are affected by an authentication bypass ```
 
