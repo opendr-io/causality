@@ -21,21 +21,21 @@ DEFAULT_SOURCES = {
 DEFAULT_PRED_DATES = BASE_DIR / "pred_dates.csv"
 
 PREDICTION_DATE_ARTIFACTS = [
-    (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2024-01-07"),
-    (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2024-01-17"),
-    (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2024-05-24"),
-    (ROOT_DIR / "2025" / "output-jan-8.txt", "2025-01-08"),
+    (ROOT_DIR / "2024" / "2024-predictions.txt", "2025-01-03"),
+    (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2025-01-07"),
+    (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2025-01-17"),
+    (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2026-02-08"),
     (ROOT_DIR / "2025" / "jan-15-run.txt", "2025-01-15"),
     (ROOT_DIR / "2025" / "jan-17-run.txt", "2025-01-17"),
-    (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-15"),
+    (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-17"),
     (ROOT_DIR / "2025" / "may-8-run.txt", "2025-05-08"),
     (ROOT_DIR / "2025" / "August" / "august-2025-combined-ratings.txt", "2025-08-31"),
     (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-02"),
     (ROOT_DIR / "2025" / "2025-ratings-final.txt", "2026-03-21"),
     (ROOT_DIR / "HEAD" / "2025-processed-clean.txt", "2026-03-21"),
     (ROOT_DIR / "2026" / "2026-april-1-for-sharing.txt", "2026-04-25"),
-    (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-01"),
-    (ROOT_DIR / "HEAD" / "2026-august-5.txt", "2026-08-05"),
+    (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-02"),
+    (ROOT_DIR / "HEAD" / "2026-august.txt", "2026-08-07"),
 ]
 CVE_RE = re.compile(r"^CVE-\d{4}-\d+$", re.IGNORECASE)
 LINE_START_CVE_RE = re.compile(r"^(?:\d+[,\t])?(CVE-\d{4}-\d+)(?=[,\t])", re.IGNORECASE)
