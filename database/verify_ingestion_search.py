@@ -30,7 +30,7 @@ PREDICTION_DATE_ARTIFACTS = [
     (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-17"),
     (ROOT_DIR / "2025" / "may-8-run.txt", "2025-05-08"),
     (ROOT_DIR / "2025" / "August" / "august-2025-combined-ratings.txt", "2025-08-31"),
-    (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-02"),
+    (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-03"),
     (ROOT_DIR / "2025" / "2025-ratings-final.txt", "2026-03-21"),
     (ROOT_DIR / "HEAD" / "2025-processed-clean.txt", "2026-03-21"),
     (ROOT_DIR / "2026" / "2026-april-1-for-sharing.txt", "2026-04-25"),
