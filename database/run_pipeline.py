@@ -9,7 +9,7 @@ Steps:
     3. database/build_cve_db.py                     -> database/cve.db
     4. database/verify_ingestion_search.py           (sanity check against cve.db)
 
-Usage:
+Usage (run from the database/ directory, where this script lives):
     python run_pipeline.py
     python run_pipeline.py --skip-audit    # reuse the existing audit-results.csv
 """
@@ -20,9 +20,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT_DIR = Path(__file__).resolve().parent
+DATABASE_DIR = Path(__file__).resolve().parent
+ROOT_DIR = DATABASE_DIR.parent
 AUDITOR_DIR = ROOT_DIR / "auditor"
-DATABASE_DIR = ROOT_DIR / "database"
 
 
 def run_step(description: str, cmd: list[str], cwd: Path) -> None:
