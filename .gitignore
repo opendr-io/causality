@@ -1,13 +1,10 @@
 *.log
-*.txt
 *.cer
 *.crt
 *.crl
 *.pfx
 *.p12
 *.pml
-*.db
-*.db.sig
 
 # API keys and credentials
 *.env
