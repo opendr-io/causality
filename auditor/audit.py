@@ -35,21 +35,24 @@ ROOT_DIR = BASE_DIR.parent
 HEAD_DIR = ROOT_DIR / "HEAD"
 
 PREDICTION_FILES = [
-    {"date": "2024-01-07", "label": "Jan 7 2025 run (2024 CVEs)",  "path": r"2024\predictions-jan-7-run.txt"},
-    {"date": "2024-01-17", "label": "Jan 17 2025 run (2024 CVEs)", "path": r"2024\2024-predictions-jan-17-run.txt"},
-    {"date": "2024-05-24", "label": "May 24 2025 run (2024 CVEs)", "path": r"2024\2024-output-may-24.txt"},
+    {"date": "2025-01-03", "label": "Jan 3 2025 run (2024 CVEs)",  "path": r"2024\2024-predictions.txt"},
+    {"date": "2025-01-07", "label": "Jan 7 2025 run (2024 CVEs)",  "path": r"2024\predictions-jan-7-run.txt"},
+    {"date": "2025-01-17", "label": "Jan 17 2025 run (2024 CVEs)", "path": r"2024\2024-predictions-jan-17-run.txt"},
+    {"date": "2026-02-08", "label": "May 24 2025 run (2024 CVEs)", "path": r"2024\2024-output-may-24.txt"},
+
     {"date": "2025-01-08", "label": "Jan 8 2025 run (2025 CVEs)",  "path": r"2025\output-jan-8.txt"},
     {"date": "2025-01-15", "label": "Jan 15 2025 run",             "path": r"2025\jan-15-run.txt"},
     {"date": "2025-01-17", "label": "Jan 17 2025 run (2025 CVEs)", "path": r"2025\jan-17-run.txt"},
-    {"date": "2025-02-15", "label": "Feb 15 2025 run",             "path": r"2025\feb-15-run.txt"},
-    {"date": "2025-05-08", "label": "May 8 2025 run",              "path": r"2025\may-8-run.txt"},
-    {"date": "2025-08-31", "label": "August 2025 run",             "path": r"2025\August\august-2025-combined-ratings.txt"},
-    {"date": "2025-12-02", "label": "Dec 2 2025 run",              "path": r"2025\November\december-2-ratings.txt"},
+    {"date": "2025-02-15", "label": "Feb 2025 run",             "path": r"2025\feb-15-run.txt"},
+    {"date": "2025-05-08", "label": "May 2025 run",              "path": r"2025\may-8-run.txt"},
+    {"date": "2025-08-31", "label": "August 2025 run",           "path": r"2025\August\august-2025-combined-ratings.txt"},
+    {"date": "2025-12-02", "label": "December 2025 run",              "path": r"2025\November\december-2-ratings.txt"},
     {"date": "2026-03-21", "label": "2025 ratings final",          "path": r"2025\2025-ratings-final.txt"},
     {"date": "2026-03-21", "label": "2025 processed-clean",        "path": r"HEAD\2025-processed-clean.txt"},
+
     {"date": "2026-04-25", "label": "April 2026 run",              "path": r"2026\2026-april-1-for-sharing.txt"},
-    {"date": "2026-06-01", "label": "June 1 2026 run",             "path": r"2026\2026-june-1.txt"},
-    {"date": "2026-08-05", "label": "August 5 2026 run",           "path": r"HEAD\2026-august-5.txt"},
+    {"date": "2026-06-01", "label": "June 2026 run",             "path": r"2026\2026-june-1.txt"},
+    {"date": "2026-08-07", "label": "August 2026 run",           "path": r"HEAD\2026-august.txt"},
 ]
 
 
@@ -90,6 +93,40 @@ def extract_cves_from_line(line: str) -> list[str]:
                 continue
             cves.append(f"CVE-{m.group(1)}-{m.group(2)}")
     return list(dict.fromkeys(cves))
+
+
+def detect_delimiter(path: Path) -> str:
+    """Detect a prediction file's delimiter from its header line only.
+
+    Must not be re-detected per data row: a data row's free-text description
+    can contain more literal commas than the row has real tab-delimiters
+    (long descriptions routinely do), which would fool a per-line count into
+    picking the wrong delimiter. The header has no prose in it, so counting
+    there is reliable.
+    """
+    with path.open(encoding="utf-8", errors="replace") as f:
+        header = f.readline()
+    return "\t" if header.count("\t") >= header.count(",") else ","
+
+
+def extract_row_cve(line: str, delimiter: str) -> str | None:
+    """Return the CVE ID from this row's own ID field only.
+
+    Prediction files are TSV/CSV rows where one field is the CVE ID and
+    another is free-text description; that description can incidentally
+    mention unrelated CVE IDs (e.g. "see also CVE-2020-6950"). Unlike
+    extract_cves_from_line (used for README prose, where scanning the whole
+    line is correct), this only accepts a field that IS a CVE ID on its own,
+    so incidental mentions elsewhere in the row are ignored.
+
+    delimiter must come from detect_delimiter(path) (once per file), not be
+    re-guessed per line -- see detect_delimiter for why.
+    """
+    for field in line.split(delimiter):
+        m = CVE_RE.fullmatch(field.strip().strip('"'))
+        if m:
+            return f"CVE-{m.group(1)}-{m.group(2)}"
+    return None
 
 
 def extract_cves_from_text(text: str) -> list[str]:
@@ -267,54 +304,61 @@ def main():
         if not full.is_file():
             raise SystemExit(f"ERROR: prediction data file not found: {full}")
 
-    # Search prediction files once in chronological order
-    hits_by_cve = {}
+    # Search prediction files once in chronological order -- each CVE is
+    # attributed to the first (earliest) file it appears in.
     remaining = set(cve_ids)
+    hits_by_cve = {}
 
     for f in files:
         if not remaining:
             break
         full = data_root / f["path"]
+        delimiter = detect_delimiter(full)
         try:
             with full.open(encoding="utf-8", errors="replace") as fh:
                 for raw_line in fh:
                     if not remaining:
                         break
                     line = raw_line.rstrip()
-                    for cve in extract_cves_from_line(line):
-                        if cve in remaining:
-                            hits_by_cve[cve] = {
-                                "CVE":              cve,
-                                "KEV Date":         journal_dates.get(cve, ""),
-                                "Github Timestamp": f["date"],
-                                "RunLabel":         f["label"],
-                                "File":             f["path"],
-                                "Line":             line,
-                            }
-                            remaining.remove(cve)
+                    cve = extract_row_cve(line, delimiter)
+                    if cve and cve in remaining:
+                        hits_by_cve[cve] = {
+                            "CVE":              cve,
+                            "KEV Date":         journal_dates.get(cve, ""),
+                            "Github Timestamp": f["date"],
+                            "RunLabel":         f["label"],
+                            "File":             f["path"],
+                            "Line":             line,
+                        }
+                        remaining.remove(cve)
         except OSError as e:
             raise SystemExit(f"ERROR: could not read prediction data file {full}: {e}") from e
 
     results = []
-    not_found = 0
+    not_found_cves = []
     for cve in cve_ids:
         hit = hits_by_cve.get(cve)
         if hit:
-            print(f"  [FOUND]     {cve}  ->  {hit['RunLabel']}")
+            results.append(hit)
         else:
-            hit = {
+            results.append({
                 "CVE":              cve,
                 "KEV Date":         journal_dates.get(cve, ""),
                 "Github Timestamp": "",
                 "RunLabel":         "NOT FOUND",
                 "File":             "",
                 "Line":             "",
-            }
-            print(f"  [NOT FOUND] {cve}", file=sys.stderr)
-            not_found += 1
-        results.append(hit)
+            })
+            not_found_cves.append(cve)
 
+    not_found = len(not_found_cves)
     found = len(results) - not_found
+
+    print(f"Found: {found:,}  |  Not found: {not_found:,}")
+    if not_found_cves:
+        print("Not found:", file=sys.stderr)
+        for cve in not_found_cves:
+            print(f"  {cve}", file=sys.stderr)
 
     # CSV output
     fieldnames = ["CVE", "KEV Date", "Github Timestamp", "RunLabel", "File", "Line"]

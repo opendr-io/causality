@@ -1,5 +1,4 @@
 *.log
-*.txt
 *.cer
 *.crt
 *.crl
@@ -58,11 +57,6 @@ venv/
 # OS-specific files
 .DS_Store           # macOS
 Thumbs.db           # Windows
-
-# Environment files
-.env
-.env.*
-!.env.template
 
 *.conf
 *.ini

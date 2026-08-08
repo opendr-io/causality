@@ -14,7 +14,7 @@ import verify_ingestion_search as verify_ingestion
 BASE_DIR = pathlib.Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
 DEFAULT_HEAD_DIR = "../HEAD"
-DEFAULT_PRED_DATES = "pred_dates.csv"   # full-coverage snapshot written by verify_ingestion_search.py --generate-pred-dates
+DEFAULT_RATING_DATES = "rating_dates.csv"   # full-coverage snapshot written by verify_ingestion_search.py --generate-rating-dates
 DEFAULT_AUDIT_PY = "../auditor/audit-results.csv"   # provable subset only (CVEs mentioned in the journal)
 DEFAULT_DB = "cve.db"
 BATCH_SIZE = 5000
@@ -158,7 +158,7 @@ def validate_rows(
     row_number_key: str | None = None,
     require_rating: bool = True,
     require_kev: bool = False,
-    require_pred_date: bool = False,
+    require_rating_date: bool = False,
 ) -> List[str]:
     errors = []
     with path.open(newline="", encoding="utf-8", errors="ignore") as f:
@@ -179,14 +179,14 @@ def validate_rows(
                 errors.append(f"{name} {path} record {record_number}: missing rating for cveid={preview(cve)}")
             if require_kev and not get(row, "kev"):
                 errors.append(f"{name} {path} record {record_number}: missing kev for cveid={preview(cve)}")
-            if require_pred_date and not get(row, "pred_date"):
+            if require_rating_date and not get(row, "rating_date"):
                 errors.append(
-                    f"{name} {path} record {record_number}: missing pred_date for cve={preview(cve)}"
+                    f"{name} {path} record {record_number}: missing rating_date for cve={preview(cve)}"
                 )
     return errors
 
 
-def preflight_sources(sources: List[SourceFile], pred_dates_path: pathlib.Path) -> List[str]:
+def preflight_sources(sources: List[SourceFile], rating_dates_path: pathlib.Path) -> List[str]:
     errors = []
     for source in sources:
         errors.extend(
@@ -198,7 +198,7 @@ def preflight_sources(sources: List[SourceFile], pred_dates_path: pathlib.Path) 
                 require_kev=source.year != "2024",
             )
         )
-    errors.extend(validate_rows("pred_dates", pred_dates_path, ",", require_rating=False, require_pred_date=True))
+    errors.extend(validate_rows("rating_dates", rating_dates_path, ",", require_rating=True, require_rating_date=True))
     return errors
 
 
@@ -252,44 +252,58 @@ def null_field_profile(source: SourceFile) -> Tuple[int, List[Tuple[str, int, fl
     return rows, profile
 
 
-def verify_prediction_dates_before_insert(
+def verify_rating_dates_before_insert(
     sources: List[SourceFile],
-    pred_dates_path: pathlib.Path,
+    rating_dates_path: pathlib.Path,
 ) -> Tuple[List[str], dict, dict]:
     errors = []
-    generated = verify_ingestion.generated_prediction_dates(
+    generated = verify_ingestion.generated_rating_dates(
         source_paths={source.year: source.path for source in sources}
     )
     generated_dates = generated["dates"]
+    never_seen_in_artifacts = generated["never_seen_in_artifacts"]
+    never_rated_in_artifacts = generated["never_rated_in_artifacts"]
     stats = {
         "coverage_checked": 0,
         "generated": len(generated_dates),
         "artifact_generated": generated["artifact_count"],
         "csv_checked": 0,
-        "missing": 0,
+        "cold_final": 0,
+        "never_seen": 0,
+        "never_rated": [],
         "csv_mismatches": 0,
     }
 
     for source in sources:
         source_counts = verify_ingestion.source_cves(source.year, source.path)
         stats["coverage_checked"] += len(source_counts)
-        missing = sorted(cve for cve in source_counts if not generated_dates.get(cve))
-        stats["missing"] += len(missing)
-        for cve in missing:
-            errors.append(f"prediction dates artifacts: missing pred_date for {cve} from {source.path}")
+        stats["cold_final"] += sum(
+            1 for cve in source_counts
+            if generated_dates.get(cve, {}).get("rating") == "cold"
+        )
+        never_seen = never_seen_in_artifacts.get(source.year, [])
+        stats["never_seen"] += len(never_seen)
+        for cve in never_seen:
+            errors.append(
+                f"rating dates artifacts: {cve} from {source.path} was never rated "
+                f"in any RATING_DATE_ARTIFACTS file"
+            )
+        # seen in an artifact but with no recognizable rating at all -- a real
+        # gap, but not fatal; just report the CVE ids.
+        stats["never_rated"].extend(never_rated_in_artifacts.get(source.year, []))
 
-    if pred_dates_path.exists():
-        csv_dates = verify_ingestion.load_prediction_dates(pred_dates_path)
+    if rating_dates_path.exists():
+        csv_dates = verify_ingestion.load_rating_dates(rating_dates_path)
         stats["csv_checked"] = len(generated_dates)
         mismatches = {
-            cve: {"expected": pred_date, "actual": csv_dates.get(cve, "")}
-            for cve, pred_date in sorted(generated_dates.items())
-            if csv_dates.get(cve, "") != pred_date
+            cve: {"expected": info, "actual": csv_dates.get(cve, {})}
+            for cve, info in sorted(generated_dates.items())
+            if csv_dates.get(cve, {}) != info
         }
         stats["csv_mismatches"] = len(mismatches)
         for cve, mismatch in mismatches.items():
             errors.append(
-                f"prediction dates {pred_dates_path}: {cve} expected={mismatch['expected']} actual={mismatch['actual']}"
+                f"rating dates {rating_dates_path}: {cve} expected={mismatch['expected']} actual={mismatch['actual']}"
             )
 
     return errors, stats, generated_dates
@@ -311,7 +325,7 @@ def exec_schema(cur: sqlite3.Cursor) -> None:
         DROP TABLE IF EXISTS preds2026;
         DROP TABLE IF EXISTS preds2026_fts;
 
-        DROP TABLE IF EXISTS pred_dates;
+        DROP TABLE IF EXISTS rating_dates;
         DROP TABLE IF EXISTS audit_py;
 
         VACUUM;
@@ -390,9 +404,10 @@ def exec_schema(cur: sqlite3.Cursor) -> None:
         CREATE INDEX IF NOT EXISTS idx_p26_kev ON preds2026(kev);
         CREATE INDEX IF NOT EXISTS idx_p26_rating ON preds2026(rating);
 
-        CREATE TABLE pred_dates (
+        CREATE TABLE rating_dates (
           cve TEXT PRIMARY KEY,
-          pred_date TEXT
+          rating_date TEXT,
+          rating TEXT
         );
 
         CREATE TABLE audit_py (
@@ -493,25 +508,26 @@ def iter_2026_rows(source: SourceFile):
             )
 
 
-def iter_pred_date_rows(path: pathlib.Path):
+def iter_rating_date_rows(path: pathlib.Path):
     with path.open(newline="", encoding="utf-8", errors="ignore") as f:
         for row in csv.DictReader(f):
             cve = row_cve(row)
-            pred_date = get(row, "pred_date")
+            rating_date = get(row, "rating_date")
+            rating = get(row, "rating")
             if not CVE_RE.match(cve):
-                raise ValueError(f"{path}: invalid pred_dates CVE id: {preview(cve)}")
-            if not pred_date:
-                raise ValueError(f"{path}: missing pred_date for CVE id: {preview(cve)}")
-            yield cve, pred_date
+                raise ValueError(f"{path}: invalid rating_dates CVE id: {preview(cve)}")
+            if not rating_date:
+                raise ValueError(f"{path}: missing rating_date for CVE id: {preview(cve)}")
+            yield cve, rating_date, rating
 
 
-def iter_generated_pred_date_rows(generated_dates: dict):
-    for cve, pred_date in sorted(generated_dates.items()):
+def iter_generated_rating_date_rows(generated_dates: dict):
+    for cve, info in sorted(generated_dates.items()):
         if not CVE_RE.match(cve):
-            raise ValueError(f"generated prediction dates: invalid CVE id: {preview(cve)}")
-        if not pred_date:
-            raise ValueError(f"generated prediction dates: missing pred_date for CVE id: {preview(cve)}")
-        yield cve, pred_date
+            raise ValueError(f"generated rating dates: invalid CVE id: {preview(cve)}")
+        if not info["rating_date"]:
+            raise ValueError(f"generated rating dates: missing rating_date for CVE id: {preview(cve)}")
+        yield cve, info["rating_date"], info["rating"]
 
 
 def iter_audit_py_rows(path: pathlib.Path):
@@ -551,8 +567,8 @@ def build_database(
     db_path: pathlib.Path,
     force: bool = False,
 ) -> Tuple[bool, dict]:
-    input_paths = [source.path for source in sources] + [path for path, _ in verify_ingestion.PREDICTION_DATE_ARTIFACTS] + [audit_py_path]
-    sig = source_signature(input_paths) + "|generated_pred_dates=" + str(len(generated_dates))
+    input_paths = [source.path for source in sources] + [path for path, _ in verify_ingestion.RATING_DATE_ARTIFACTS] + [audit_py_path]
+    sig = source_signature(input_paths) + "|generated_rating_dates=" + str(len(generated_dates))
     sig_path = pathlib.Path(str(db_path) + ".sig")
     if not force and db_path.exists() and sig_path.exists() and sig_path.read_text() == sig:
         return False, count_tables(db_path)
@@ -600,10 +616,10 @@ def build_database(
     )
     cur.execute("INSERT INTO preds2026_fts(preds2026_fts) VALUES('rebuild');")
 
-    counts["pred_dates"] = insert_batches(
+    counts["rating_dates"] = insert_batches(
         cur,
-        "INSERT OR REPLACE INTO pred_dates (cve, pred_date) VALUES (?,?)",
-        iter_generated_pred_date_rows(generated_dates),
+        "INSERT OR REPLACE INTO rating_dates (cve, rating_date, rating) VALUES (?,?,?)",
+        iter_generated_rating_date_rows(generated_dates),
     )
 
     counts["audit_py"] = insert_batches(
@@ -629,7 +645,7 @@ def count_tables(db_path: pathlib.Path) -> dict:
             "preds2025": con.execute("SELECT COUNT(*) FROM preds2025").fetchone()[0],
             "preds2024": con.execute("SELECT COUNT(*) FROM preds2024").fetchone()[0],
             "preds2026": con.execute("SELECT COUNT(*) FROM preds2026").fetchone()[0],
-            "pred_dates": con.execute("SELECT COUNT(*) FROM pred_dates").fetchone()[0],
+            "rating_dates": con.execute("SELECT COUNT(*) FROM rating_dates").fetchone()[0],
             "audit_py": con.execute("SELECT COUNT(*) FROM audit_py").fetchone()[0],
         }
     finally:
@@ -637,7 +653,7 @@ def count_tables(db_path: pathlib.Path) -> dict:
 
 
 def database_null_field_profile(db_path: pathlib.Path) -> dict:
-    tables = ("preds2025", "preds2024", "preds2026", "pred_dates", "audit_py")
+    tables = ("preds2025", "preds2024", "preds2026", "rating_dates", "audit_py")
     con = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         profiles = {}
@@ -663,14 +679,14 @@ def validate_database(db_path: pathlib.Path) -> dict:
         integrity = con.execute("PRAGMA integrity_check").fetchone()[0]
         target = con.execute(
             """
-            SELECT p.cve, p.rating, pd.pred_date
+            SELECT p.cve, p.rating, pd.rating_date
             FROM preds2026 p
-            LEFT JOIN pred_dates pd ON pd.cve = p.cve
+            LEFT JOIN rating_dates pd ON pd.cve = p.cve
             WHERE p.cve = 'CVE-2026-9198'
             """
         ).fetchone()
         joined_2026 = con.execute(
-            "SELECT COUNT(*) FROM preds2026 p JOIN pred_dates pd ON pd.cve = p.cve"
+            "SELECT COUNT(*) FROM preds2026 p JOIN rating_dates pd ON pd.cve = p.cve"
         ).fetchone()[0]
         audit_joined = con.execute(
             """
@@ -694,15 +710,15 @@ def validate_database(db_path: pathlib.Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build the CAUSALITY SQLite FTS database without Streamlit.")
     parser.add_argument("--head-dir", default=DEFAULT_HEAD_DIR, help="directory containing HEAD source files")
-    parser.add_argument("--pred-dates", default=DEFAULT_PRED_DATES, help="CVE prediction-date CSV path")
+    parser.add_argument("--rating-dates", default=DEFAULT_RATING_DATES, help="CVE rating-date CSV path")
     parser.add_argument("--audit-py", default=DEFAULT_AUDIT_PY, help="Python auditor CSV path")
     parser.add_argument("--db", default=DEFAULT_DB, help="output SQLite database path")
     parser.add_argument("--force", action="store_true", help="rebuild even if source signatures match")
-    parser.add_argument("--validate", action="store_true", help="run integrity and pred-date join checks")
+    parser.add_argument("--validate", action="store_true", help="run integrity and rating-date join checks")
     args = parser.parse_args()
 
     head_dir = resolve_input_path(args.head_dir)
-    pred_dates_path = resolve_input_path(args.pred_dates)
+    rating_dates_path = resolve_input_path(args.rating_dates)
     audit_py_path = resolve_input_path(args.audit_py)
     db_path = resolve_input_path(args.db)
 
@@ -728,31 +744,39 @@ def main() -> int:
                 require_kev=source.year != "2024",
             )
         )
-    if pred_dates_path.exists():
-        source_errors.extend(validate_rows("pred_dates", pred_dates_path, ",", require_rating=False, require_pred_date=True))
+    if rating_dates_path.exists():
+        source_errors.extend(validate_rows("rating_dates", rating_dates_path, ",", require_rating=True, require_rating_date=True))
 
-    pred_date_errors, pred_date_stats, generated_dates = verify_prediction_dates_before_insert(sources, pred_dates_path)
+    rating_date_errors, rating_date_stats, generated_dates = verify_rating_dates_before_insert(sources, rating_dates_path)
     print(
-        "prediction-date verification: "
-        f"coverage_checked={pred_date_stats['coverage_checked']:,}; "
-        f"artifact_generated={pred_date_stats['artifact_generated']:,}; "
-        f"generated={pred_date_stats['generated']:,}; "
-        f"missing={pred_date_stats['missing']:,}; "
-        f"csv_checked={pred_date_stats['csv_checked']:,}; "
-        f"csv_mismatches={pred_date_stats['csv_mismatches']:,}"
+        "rating-date verification: "
+        f"coverage_checked={rating_date_stats['coverage_checked']:,}; "
+        f"artifact_generated={rating_date_stats['artifact_generated']:,}; "
+        f"generated={rating_date_stats['generated']:,}; "
+        f"cold_final={rating_date_stats['cold_final']:,}; "
+        f"never_seen={rating_date_stats['never_seen']:,}; "
+        f"never_rated={len(rating_date_stats['never_rated']):,}; "
+        f"csv_checked={rating_date_stats['csv_checked']:,}; "
+        f"csv_mismatches={rating_date_stats['csv_mismatches']:,}"
     )
-    if pred_date_errors:
-        for error in pred_date_errors:
+    if rating_date_stats["never_rated"]:
+        print(
+            f"WARNING: {len(rating_date_stats['never_rated']):,} CVE(s) seen in an artifact but never rated "
+            f"(no rating_date entry): {', '.join(rating_date_stats['never_rated'])}",
+            file=sys.stderr,
+        )
+    if rating_date_errors:
+        for error in rating_date_errors:
             print(f"ERROR: {error}", file=sys.stderr)
         print(
-            f"ERROR: refusing to build database; {len(pred_date_errors)} prediction-date error(s) found",
+            f"ERROR: refusing to build database; {len(rating_date_errors)} rating-date error(s) found",
             file=sys.stderr,
         )
     if source_errors:
         for error in source_errors:
             print(f"ERROR: {error}", file=sys.stderr)
         print(f"ERROR: refusing to build database; {len(source_errors)} source error(s) found", file=sys.stderr)
-    if source_errors or pred_date_errors:
+    if source_errors or rating_date_errors:
         return 1
 
     audit_errors = validate_audit_py(audit_py_path)
@@ -776,7 +800,7 @@ def main() -> int:
         f"2025={counts['preds2025']:,}; "
         f"2024={counts['preds2024']:,}; "
         f"2026={counts['preds2026']:,}; "
-        f"pred_dates={counts['pred_dates']:,}; "
+        f"rating_dates={counts['rating_dates']:,}; "
         f"audit_py={counts['audit_py']:,}"
     )
     print("database null fields:")
@@ -789,10 +813,10 @@ def main() -> int:
         result = validate_database(db_path)
         target = result["cve_2026_9198"]
         print(f"integrity: {result['integrity']}")
-        print(f"prediction-date joins for 2026: {result['joined_2026']:,}")
+        print(f"rating-date joins for 2026: {result['joined_2026']:,}")
         print(f"audit_py CVEs joined to CVE tables: {result['audit_joined']:,}")
         if target:
-            print(f"CVE-2026-9198: rating={target[1]} pred_date={target[2]}")
+            print(f"CVE-2026-9198: rating={target[1]} rating_date={target[2]}")
         else:
             print("CVE-2026-9198: not found")
         return 0 if result["integrity"] == "ok" else 1
