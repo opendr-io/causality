@@ -77,11 +77,15 @@ APP_CONFIG = _load_app_config()
 
 
 def _sha256_file(path: str) -> str:
-    p = pathlib.Path(path)
+    try:
+        safe_path = _resolve_safe_path(path)
+    except ValueError:
+        return "REJECTED:" + str(path)
+    p = pathlib.Path(safe_path)
     if not p.exists() or not p.is_file():
         return "MISSING:" + str(p.resolve())
     h = hashlib.sha256()
-    with open(path, "rb") as f:
+    with open(safe_path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
@@ -163,8 +167,12 @@ def _ask_perplexity(api_key: str, model: str, prompt: str, cve_data: dict) -> st
 @st.cache_resource(show_spinner=False)
 def sync_database_copy(canonical_db: str, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
     """Refresh web/cve.db from database/cve.db without modifying the source DB."""
+    try:
+        safe_canonical_db = _resolve_safe_path(canonical_db)
+    except ValueError as e:
+        return db_path, [str(e)]
     sig_file = pathlib.Path(db_path + ".sig")
-    source = pathlib.Path(canonical_db)
+    source = pathlib.Path(safe_canonical_db)
     dest = pathlib.Path(db_path)
     load_errors: List[str] = []
 

@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(/c/Python314/python -c ' *)"
+      "Bash(python -c ' *)"
     ]
   }
 }
