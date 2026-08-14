@@ -147,7 +147,7 @@ March 31: CVE-2025-11368 was added to the VulnCheck KEV. It was predicted in Dec
 
 March 31: CVE-2025-54726 was added to the VulnCheck KEV. It was predicted in December 2025.
 
-March 31: CVE-2025-48281 was added to the VulnCheck KEV. It was predicted March 21.
+March 31: CVE-2025-48281 was added to the VulnCheck KEV. It was predicted in December 2025.
 
 March 27: CVE-2025-53521 was added to the CISA KEV. It was predicted in December 2025.
 
