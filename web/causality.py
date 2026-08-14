@@ -32,6 +32,8 @@ RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
 RESULT_LIMIT_2026     = 100         # top-N to display from 2026
 DEFAULT_LOGO = str(BASE_DIR / "img/causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
 DEFAULT_PROMPT_FILE = "prompt.txt"                     # AI prompt template
+DEFAULT_PROMPT_PATH = str((BASE_DIR / DEFAULT_PROMPT_FILE).resolve())  # AI prompt is never user-path-controlled
+_ALLOWED_DATA_ROOTS = (BASE_DIR, BASE_DIR.parent / "database", BASE_DIR.parent / "HEAD")  # sandbox for user-supplied paths
 OPENROUTER_MODELS = [
     "anthropic/claude-opus-4",
     "anthropic/claude-sonnet-4-5",
@@ -90,6 +92,8 @@ def _load_logo_bytes(path: str, logo_sig: str):
     p = pathlib.Path(path)
     if not p.exists() or not p.is_file():
         return None, None
+    if p.suffix.lower() == ".svg":
+        return None, None  # SVGs can carry <script>; only raster formats are rendered
     data = p.read_bytes()
     return data, p.suffix.lower()
 
@@ -98,22 +102,27 @@ def _source_signature(canonical_db: str) -> str:
     wal_path = canonical_db + "-wal"
     return DB_SCHEMA_VERSION + "|canonical_db=" + _sha256_file(canonical_db) + "|wal=" + _sha256_file(wal_path)
 
-def _resolve_input_path(path_text: str) -> str:
+def _resolve_safe_path(path_text: str) -> str:
+    """Resolve path_text and ensure it stays within _ALLOWED_DATA_ROOTS.
+
+    Prevents user-supplied path text (sidebar inputs) from reading or
+    writing files outside a small allow-list of directories.
+    """
     p = pathlib.Path(path_text)
-    return str(p if p.is_absolute() else (BASE_DIR / p))
+    candidate = (p if p.is_absolute() else (BASE_DIR / p)).resolve()
+    for root in _ALLOWED_DATA_ROOTS:
+        try:
+            candidate.relative_to(root.resolve())
+            return str(candidate)
+        except ValueError:
+            continue
+    raise ValueError(f"Path '{path_text}' resolves outside the allowed directories")
 
 def _render_logo(logo_bytes: bytes, ext: str, width_px: int = 180):
     if not logo_bytes:
         return
-    if ext == ".svg":
-        svg_text = logo_bytes.decode("utf-8", errors="ignore")
-        data_uri = "data:image/svg+xml;charset=utf-8," + urllib.parse.quote(svg_text)
-        st.markdown(
-            f"<img src='{data_uri}' alt='logo' style='width:{width_px}px;height:auto;max-width:100%;'>",
-            unsafe_allow_html=True,
-        )
-    else:
-        st.image(logo_bytes, caption=None, width=width_px)
+    _ = ext  # only raster formats reach here now; see _load_logo_bytes
+    st.image(logo_bytes, caption=None, width=width_px)
 
 # -------- AI helpers --------
 def _load_prompt(path: str) -> str:
@@ -309,13 +318,16 @@ with st.sidebar:
         )
         ai_model = st.selectbox("Model", options=OPENROUTER_MODELS, key="ai_model")
         ai_custom_model = st.text_input("Or enter a custom model ID", key="ai_custom_model")
-        prompt_file = st.text_input("Prompt file", value=DEFAULT_PROMPT_FILE, key="prompt_file")
 
 if clear_search:
     st.session_state["_clear_search_pending"] = True
     st.rerun()
 
-canonical_db_path = _resolve_input_path(canonical_db)
+try:
+    canonical_db_path = _resolve_safe_path(canonical_db)
+except ValueError as e:
+    st.sidebar.error(str(e))
+    canonical_db_path = _resolve_safe_path(DEFAULT_CANONICAL_DB)
 
 if force_rebuild:
     try:
@@ -328,7 +340,7 @@ if force_rebuild:
         st.warning(f"Could not delete DB: {e}")
 
 _active_model = ai_custom_model.strip() if ai_custom_model.strip() else ai_model
-prompt_text = _load_prompt(_resolve_input_path(prompt_file))
+prompt_text = _load_prompt(DEFAULT_PROMPT_PATH)
 
 source_sig = _source_signature(canonical_db_path)
 if pathlib.Path(DB_PATH).exists() and pathlib.Path(DB_PATH + ".sig").exists():
@@ -1099,7 +1111,7 @@ with tab_ai:
         key="prompt_editor",
     )
     if st.button("💾 Save prompt"):
-        prompt_path = _resolve_input_path(prompt_file)
+        prompt_path = DEFAULT_PROMPT_PATH
         pathlib.Path(prompt_path).write_text(edited_prompt, encoding="utf-8")
         prompt_text = edited_prompt
         st.toast("Prompt saved.", icon="✓")
