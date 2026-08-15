@@ -383,8 +383,38 @@ import re as _re
 _CVE_RE = _re.compile(r'^CVE-\d{4}-\d+$', _re.IGNORECASE)
 _CVE_FIND_RE = _re.compile(r'CVE-\d{4}-\d+', _re.IGNORECASE)
 
+def _md_escape(value) -> str:
+    return str(value).replace("\\", "\\\\").replace("*", r"\*").replace("_", r"\_")
+
+
+def _predicted_value(row) -> str:
+    for key in ("rating_date", "pred_date"):
+        if key in row.keys():
+            value = (row[key] or "").strip()
+            if value:
+                return value
+    return ""
+
+
+def _predicted_label(row) -> str:
+    pred = _predicted_value(row)
+    return f"Predicted: {pred}" if pred else ""
+
+
+def _missing_requested_cves(con, requested_cves):
+    unique = list(dict.fromkeys(cve.upper() for cve in requested_cves if cve))
+    if not unique:
+        return []
+    placeholders = ",".join("?" * len(unique))
+    found = set()
+    for table in ("cves", "preds2024", "preds2026"):
+        rows = con.execute(f"SELECT cve FROM {table} WHERE cve IN ({placeholders})", unique).fetchall()
+        found.update(row["cve"].upper() for row in rows)
+    return [cve for cve in unique if cve not in found]
+
+
 def _effective_cves() -> List[str]:
-    """Return CVE IDs to match exactly — extracted from the dedicated field,
+    """Return CVE IDs to match exactly - extracted from the dedicated field,
     or from q if it looks like a single CVE ID."""
     if exact_cve.strip():
         return [m.upper() for m in _CVE_FIND_RE.findall(exact_cve)]
@@ -908,9 +938,9 @@ def _compact_card_body(r, rating_field: str):
     rating_val = (r[rating_field] or "").strip() if rating_field in r.keys() else ""
     if rating_val:
         right.append(f"**Rating:** {rating_val}")
-    pred = (r["rating_date"] or r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
-    if pred:
-        right.append(f"**Predicted:** {pred}")
+    predicted_text = _predicted_value(r)
+    if predicted_text:
+        st.markdown(f"**Predicted:** {_md_escape(predicted_text)}")
     for label, key in [
         ("Audit timestamp", "audit_github_timestamp"),
         ("Audit run", "audit_run_label"),
@@ -922,9 +952,9 @@ def _compact_card_body(r, rating_field: str):
             right.append(f"**{label}:** {v}")
     cols = st.columns(2)
     with cols[0]:
-        st.markdown("  \n".join(left) or "â€”")
+        st.markdown("  \n".join(left) or "-")
     with cols[1]:
-        st.markdown("  \n".join(right) or "â€”")
+        st.markdown("  \n".join(right) or "-")
     desc = (r["description"] or "").strip() if "description" in r.keys() else ""
     if desc:
         st.markdown(f"**Description:** {desc}")
@@ -962,7 +992,7 @@ def _rows_to_text(rows, rating_field, year):
     lines = []
     keys = rows[0].keys() if rows else []
     for r in rows:
-        lines.append(f"[{year}] {r['cve']} â€” {(r[rating_field] or 'UNKNOWN').upper()}")
+        lines.append(f"[{year}] {r['cve']} - {(r[rating_field] or 'UNKNOWN').upper()}")
         if "title" in keys and r["title"]: lines.append(f"  {r['title']}")
         if "vendor" in keys and r["vendor"]: lines.append(f"  Vendor: {r['vendor']}")
         if "product" in keys and r["product"]: lines.append(f"  Product: {r['product']}")
@@ -975,6 +1005,8 @@ def _rows_to_text(rows, rating_field, year):
             ("audit_line", "Audit line"),
         ]:
             if k in keys and r[k]: lines.append(f"  {label}: {r[k]}")
+        pred = _predicted_value(r)
+        if pred: lines.append(f"Predicted: {pred}")
         lines.append("")
     return "\n".join(lines)
 

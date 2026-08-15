@@ -67,3 +67,5 @@ protostar-ai-dev-flask-api/logs/
 smoke-tests/test-results/
 smoke-tests/playwright-report/
 protostar-ai-dev-flask-api/agentconfig.ini
+*.db-wal
+*.db-shm

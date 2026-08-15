@@ -10,30 +10,34 @@ from collections import Counter
 BASE_DIR = pathlib.Path(__file__).resolve().parent
 ROOT_DIR = BASE_DIR.parent
 HEAD_DIR = ROOT_DIR / "HEAD"
-DEFAULT_DB = ROOT_DIR / "var" / "causality" / "cve.db"
+DEFAULT_DB = ROOT_DIR / "database" / "cve.db"
 
 DEFAULT_SOURCES = {
     "2025": HEAD_DIR / "2025-processed-clean.txt",
     "2024": HEAD_DIR / "2024-output-may-24.txt",
-    "2026": HEAD_DIR / "2026-june-1.txt",
+    "2026": HEAD_DIR / "2026-august.txt",
 }
 
-DEFAULT_PRED_DATES = BASE_DIR / "pred_dates.csv"
+DEFAULT_PRED_DATES = DEFAULT_DB
 
 PREDICTION_DATE_ARTIFACTS = [
-    (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2024-01-07"),
-    (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2024-01-17"),
-    (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2024-05-24"),
-    (ROOT_DIR / "2025" / "output-jan-8.txt", "2025-01-08"),
+    (ROOT_DIR / "2024" / "2024-predictions.txt", "2025-01-04"),
+    (ROOT_DIR / "2024" / "predictions-jan-7-run.txt", "2025-01-07"),
+    (ROOT_DIR / "2024" / "2024-predictions-jan-17-run.txt", "2025-01-17"),
+    (ROOT_DIR / "2024" / "2024-output-may-24.txt", "2026-02-08"),
+
     (ROOT_DIR / "2025" / "jan-15-run.txt", "2025-01-15"),
-    (ROOT_DIR / "2025" / "jan-17-run.txt", "2025-01-17"),
-    (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-15"),
+    (ROOT_DIR / "2025" / "jan-17-run.txt", "2025-01-18"),
+    (ROOT_DIR / "2025" / "feb-15-run.txt", "2025-02-17"),
     (ROOT_DIR / "2025" / "may-8-run.txt", "2025-05-08"),
     (ROOT_DIR / "2025" / "August" / "august-2025-combined-ratings.txt", "2025-08-31"),
-    (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-02"),
+    (ROOT_DIR / "2025" / "November" / "december-2-ratings.txt", "2025-12-03"),
     (ROOT_DIR / "2025" / "2025-ratings-final.txt", "2026-03-21"),
+    (ROOT_DIR / "HEAD" / "2025-processed-clean.txt", "2026-03-21"),
+
     (ROOT_DIR / "2026" / "2026-april-1-for-sharing.txt", "2026-04-25"),
-    (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-01"),
+    (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-02"),
+    (ROOT_DIR / "HEAD" / "2026-august.txt", "2026-08-07"),
 ]
 CVE_RE = re.compile(r"^CVE-\d{4}-\d+$", re.IGNORECASE)
 LINE_START_CVE_RE = re.compile(r"^(?:\d+[,\t])?(CVE-\d{4}-\d+)(?=[,\t])", re.IGNORECASE)
@@ -156,15 +160,30 @@ def source_cves(year, path):
 
 
 def load_prediction_dates(path=DEFAULT_PRED_DATES):
+    path = pathlib.Path(path)
     dates = {}
+    if path.suffix.lower() in {".db", ".sqlite", ".sqlite3"}:
+        con = sqlite3.connect(path)
+        try:
+            if con.execute("SELECT 1 FROM sqlite_master WHERE name = 'rating_dates'").fetchone():
+                rows = con.execute("SELECT cve, rating_date FROM rating_dates")
+            else:
+                rows = con.execute("SELECT cve, pred_date FROM pred_dates")
+            for cve, pred_date in rows:
+                cve = nz(cve).upper()
+                if cve:
+                    dates[cve] = nz(pred_date)
+        finally:
+            con.close()
+        return dates
+
     with open(path, encoding="utf-8", errors="ignore", newline="") as f:
         for row in csv.DictReader(f):
             cve = get(row, "cve").upper()
-            pred_date = get(row, "pred_date")
+            pred_date = get(row, "pred_date") or get(row, "rating_date")
             if cve:
                 dates[cve] = pred_date
     return dates
-
 
 def verify_prediction_date_coverage(source_paths=DEFAULT_SOURCES, pred_dates_path=DEFAULT_PRED_DATES):
     dates = load_prediction_dates(pred_dates_path)
@@ -176,23 +195,62 @@ def verify_prediction_date_coverage(source_paths=DEFAULT_SOURCES, pred_dates_pat
 
 
 def line_start_cves(path):
-    cves = set()
+    return {cve for cve, _rating in line_start_cve_ratings(path)}
+
+
+def line_start_cve_ratings(path):
+    delimiter = detect_delimiter(path)
+    hits = []
     with open(path, encoding="utf-8", errors="ignore", newline="") as f:
-        for line in f:
-            match = LINE_START_CVE_RE.search(line.lstrip("\ufeff").strip())
-            if match:
-                cves.add(match.group(1).upper())
-    return cves
+        reader = csv.reader(f, delimiter=delimiter)
+        next(reader, None)
+        for row in reader:
+            if not row:
+                continue
+            first = row[0].strip().strip('"').lstrip("\ufeff")
+            if CVE_RE.match(first):
+                cve = first.upper()
+            elif len(row) > 1 and CVE_RE.match(row[1].strip().strip('"')):
+                cve = row[1].strip().strip('"').upper()
+            else:
+                continue
+            rating = ""
+            for field in row:
+                val = field.strip().strip('"').lower()
+                if val in RATING_VALUES:
+                    rating = val
+                    break
+            hits.append((cve, rating))
+    return hits
+
+
+def rating_date_summary(artifacts=PREDICTION_DATE_ARTIFACTS):
+    observations = []
+    for path, pred_date in artifacts:
+        if not path.exists():
+            raise FileNotFoundError(path)
+        for cve, rating in line_start_cve_ratings(path):
+            observations.append((cve, pred_date, rating))
+
+    by_cve = {}
+    for cve, pred_date, rating in sorted(observations, key=lambda item: (item[0], item[1])):
+        info = by_cve.setdefault(cve, {"last_date": "", "last_rating": "", "first_non_cold": ""})
+        info["last_date"] = pred_date
+        info["last_rating"] = rating
+        if rating not in {"", "cold"} and (not info["first_non_cold"] or pred_date < info["first_non_cold"]):
+            info["first_non_cold"] = pred_date
+    return by_cve
 
 
 def expected_prediction_dates_from_artifacts(artifacts=PREDICTION_DATE_ARTIFACTS):
     expected = {}
-    for path, pred_date in artifacts:
-        if not path.exists():
-            raise FileNotFoundError(path)
-        for cve in line_start_cves(path):
-            if cve not in expected or pred_date < expected[cve]:
-                expected[cve] = pred_date
+    for cve, info in rating_date_summary(artifacts).items():
+        if info["last_rating"] == "cold":
+            rating_date = info["last_date"]
+        else:
+            rating_date = info["first_non_cold"]
+        if rating_date:
+            expected[cve] = rating_date
     return expected
 
 
