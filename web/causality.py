@@ -22,7 +22,7 @@ except ModuleNotFoundError:  # pragma: no cover - Python < 3.11 fallback
 
 # -------- Config --------env
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-DEFAULT_CANONICAL_DB = "../database/cve.db"       # canonical SQLite database copied into web/
+CANONICAL_DB_PATH = (BASE_DIR.parent / "database" / "cve.db").resolve()  # canonical SQLite database copied into web/
 DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources change)
 DB_SCHEMA_VERSION = "2026-08-11.3"  # bump when loader/schema semantics change
 LOG_PATH = str(BASE_DIR / "log.log")  # app log output
@@ -33,7 +33,7 @@ RESULT_LIMIT_2026     = 100         # top-N to display from 2026
 DEFAULT_LOGO = str(BASE_DIR / "img/causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
 DEFAULT_PROMPT_FILE = "prompt.txt"                     # AI prompt template
 DEFAULT_PROMPT_PATH = str((BASE_DIR / DEFAULT_PROMPT_FILE).resolve())  # AI prompt is never user-path-controlled
-_ALLOWED_DATA_ROOTS = (BASE_DIR, BASE_DIR.parent / "database", BASE_DIR.parent / "HEAD")  # sandbox for user-supplied paths
+_ALLOWED_DATA_ROOTS = (BASE_DIR, BASE_DIR.parent / "database", BASE_DIR.parent / "HEAD")
 OPENROUTER_MODELS = [
     "anthropic/claude-opus-4",
     "anthropic/claude-sonnet-4-5",
@@ -76,16 +76,12 @@ def _load_app_config() -> dict:
 APP_CONFIG = _load_app_config()
 
 
-def _sha256_file(path: str) -> str:
-    try:
-        safe_path = _resolve_safe_path(path)
-    except ValueError:
-        return "REJECTED:" + str(path)
-    p = pathlib.Path(safe_path)
+def _sha256_file(path: pathlib.Path) -> str:
+    p = path.resolve()
     if not p.exists() or not p.is_file():
-        return "MISSING:" + str(p.resolve())
+        return "MISSING:" + str(p)
     h = hashlib.sha256()
-    with open(safe_path, "rb") as f:
+    with p.open("rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
@@ -101,17 +97,12 @@ def _load_logo_bytes(path: str, logo_sig: str):
     data = p.read_bytes()
     return data, p.suffix.lower()
 
-def _source_signature(canonical_db: str) -> str:
+def _source_signature(canonical_db: pathlib.Path) -> str:
     # Use the canonical DB content hash so the web copy refreshes when it changes.
-    wal_path = canonical_db + "-wal"
-    return DB_SCHEMA_VERSION + "|canonical_db=" + _sha256_file(canonical_db) + "|wal=" + _sha256_file(wal_path)
+    return DB_SCHEMA_VERSION + "|canonical_db=" + _sha256_file(canonical_db)
 
 def _resolve_safe_path(path_text: str) -> str:
-    """Resolve path_text and ensure it stays within _ALLOWED_DATA_ROOTS.
-
-    Prevents user-supplied path text (sidebar inputs) from reading or
-    writing files outside a small allow-list of directories.
-    """
+    """Resolve path_text and ensure it stays within _ALLOWED_DATA_ROOTS."""
     p = pathlib.Path(path_text)
     candidate = (p if p.is_absolute() else (BASE_DIR / p)).resolve()
     for root in _ALLOWED_DATA_ROOTS:
@@ -165,14 +156,10 @@ def _ask_perplexity(api_key: str, model: str, prompt: str, cve_data: dict) -> st
 
 
 @st.cache_resource(show_spinner=False)
-def sync_database_copy(canonical_db: str, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
+def sync_database_copy(canonical_db: pathlib.Path, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
     """Refresh web/cve.db from database/cve.db without modifying the source DB."""
-    try:
-        safe_canonical_db = _resolve_safe_path(canonical_db)
-    except ValueError as e:
-        return db_path, [str(e)]
     sig_file = pathlib.Path(db_path + ".sig")
-    source = pathlib.Path(safe_canonical_db)
+    source = canonical_db.resolve()
     dest = pathlib.Path(db_path)
     load_errors: List[str] = []
 
@@ -301,8 +288,8 @@ with st.sidebar:
 
     with data_tab:
         st.subheader("Data source")
-        canonical_db = st.text_input("Canonical SQLite DB path", value=DEFAULT_CANONICAL_DB)
-        st.caption("The app copies this database into web/cve.db and never writes to the original.")
+        st.code(str(CANONICAL_DB_PATH), language=None)
+        st.caption("The app copies this canonical database into web/cve.db and never writes to the original.")
         counts_placeholder = st.empty()
 
         col1, col2 = st.columns(2)
@@ -331,11 +318,7 @@ if clear_search:
     st.session_state["_clear_search_pending"] = True
     st.rerun()
 
-try:
-    canonical_db_path = _resolve_safe_path(canonical_db)
-except ValueError as e:
-    st.sidebar.error(str(e))
-    canonical_db_path = _resolve_safe_path(DEFAULT_CANONICAL_DB)
+canonical_db_path = CANONICAL_DB_PATH
 
 if force_rebuild:
     try:
