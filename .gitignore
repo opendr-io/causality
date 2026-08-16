@@ -62,7 +62,8 @@ Thumbs.db           # Windows
 *.ini
 
 # Claude Code personal settings
-.claude/settings.local.json
+settings.local.json
+settings.json
 protostar-ai-dev-flask-api/logs/
 smoke-tests/test-results/
 smoke-tests/playwright-report/
