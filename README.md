@@ -1,7 +1,7 @@
 
 ![Alt text](img/causality-small.png)
 
-### CAUSALITY is an intrusion prediction model that is successfully predicting CVE exploitationn watch-listing with lead times ranging from days to months to over a year. The project has been presented at THREATCON1, RSAC 2026, BASC OWASP 2025, and BSidesSW 2025. The audit tools contain what is needed to verify the prediction proofs.  
+### CAUSALITY is an intrusion prediction model that is successfully predicting CVE exploitation watch-listing with lead times ranging from days to months to over a year. The project has been presented at THREATCON1, RSAC 2026, BASC OWASP 2025, and BSidesSW 2025. The audit tools contain what is needed to verify the prediction proofs.  
 
 ### Contents:
 
