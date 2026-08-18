@@ -18,6 +18,8 @@ from plotly.subplots import make_subplots
 HEAD_DIR = pathlib.Path(__file__).resolve().parent.parent.parent / "HEAD"
 WEB_DIR = pathlib.Path(__file__).resolve().parent.parent
 DB_PATH = WEB_DIR / "cve.db"
+APP_STATE_DIR = WEB_DIR.parent / "var" / "causality"
+VULMON_HTML_CACHE = APP_STATE_DIR / "vulmon_trends.html"
 
 RATING_COLOR = {"fire": "#ff0000", "hot": "#ff0000", "warm": "#ffd700", "cold": "#1f77b4", "sunspot": "#36454f"}
 LINE_COLORS = [
@@ -128,7 +130,7 @@ def _load_2024_ratings(cve_ids):
 
 
 def _get_event_loop():
-    """Set up a ProactorEventLoop with nest_asyncio — deferred to first call."""
+    """Set up a ProactorEventLoop with nest_asyncio - deferred to first call."""
     import nest_asyncio
     from playwright.async_api import async_playwright  # noqa: F401 — ensure installed
 
@@ -140,8 +142,39 @@ def _get_event_loop():
     return loop
 
 
+
+def _looks_like_cloudflare_challenge(page_html):
+    text = BeautifulSoup(page_html or "", "html.parser").get_text(" ", strip=True).lower()
+    challenge_markers = (
+        "just a moment",
+        "security verification",
+        "verify you are not a bot",
+        "performance and security by cloudflare",
+    )
+    return any(marker in text for marker in challenge_markers)
+
+
+def _load_cached_vulmon_html():
+    if not VULMON_HTML_CACHE.exists():
+        return ""
+    html_text = VULMON_HTML_CACHE.read_text(encoding="utf-8", errors="replace")
+    return "" if _looks_like_cloudflare_challenge(html_text) else html_text
+
+
+def _save_cached_vulmon_html(page_html):
+    if _looks_like_cloudflare_challenge(page_html):
+        return
+    if parse_cves(page_html).empty:
+        return
+    APP_STATE_DIR.mkdir(parents=True, exist_ok=True)
+    VULMON_HTML_CACHE.write_text(page_html, encoding="utf-8")
+
 @st.cache_data(show_spinner="Fetching Vulmon trends...")
-def fetch_vulmon_html():
+def fetch_vulmon_html(force_refresh=False):
+    if not force_refresh:
+        cached = _load_cached_vulmon_html()
+        if cached:
+            return cached
     from playwright.async_api import async_playwright
 
     loop = _get_event_loop()
@@ -156,14 +189,22 @@ def fetch_vulmon_html():
             await browser.close()
             return html
 
-    return loop.run_until_complete(_fetch())
+    page_html = loop.run_until_complete(_fetch())
+    _save_cached_vulmon_html(page_html)
+    return page_html
 
 
 def parse_cves(html):
+    columns = ["cve_id", "description", "url"]
     soup = BeautifulSoup(html, "html.parser")
-    cve_table = soup.find("table", class_="ui small table")
+    cve_table = None
+    for table in soup.find_all("table"):
+        if table.find(string=re.compile(r"CVE-\d{4}-\d+", re.IGNORECASE)):
+            cve_table = table
+            break
     if not cve_table:
-        return pd.DataFrame()
+        return pd.DataFrame(columns=columns)
+
     cve_records = []
     for row in cve_table.find_all("tr"):
         cols = row.find_all("td")
@@ -171,11 +212,12 @@ def parse_cves(html):
             continue
         link_tag = cols[0].find("a")
         cve_id = link_tag.get_text(strip=True) if link_tag else cols[0].get_text(strip=True)
-        url = "https://vulmon.com" + link_tag["href"] if link_tag and link_tag.get("href") else None
+        if not re.fullmatch(r"CVE-\d{4}-\d+", cve_id, re.IGNORECASE):
+            continue
+        url = _safe_vulmon_url(link_tag.get("href")) if link_tag and link_tag.get("href") else None
         description = unescape(cols[1].get_text(strip=True))
-        cve_records.append({"cve_id": cve_id, "description": description, "url": url})
-    return pd.DataFrame(cve_records)
-
+        cve_records.append({"cve_id": cve_id.upper(), "description": description, "url": url})
+    return pd.DataFrame(cve_records, columns=columns)
 
 def parse_activity(html):
     today = date.today()
@@ -275,6 +317,8 @@ def build_chart(df_xref, df_activity):
         vertical_spacing=0.2,
     )
 
+    if fig is None:
+        return None
     bar_df = matched.sort_values("total_activity")
     fig.add_trace(
         go.Bar(

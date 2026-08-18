@@ -2,13 +2,8 @@
 # A search page for the CAUSALITY ratings data
 # Search inputs should live in the LEFT SIDEBAR; results should render in the main page.
 #
-# 2025 TSV (2025.tsv) headers (nulls allowed):
-#   cve, assigner, published, title, description, vendor, product, "affected versions", rating
-#
-# 2024 TSV (2024.tsv) headers (nulls allowed):
-#   cveID, Predicted_Label, vendorProject, product, description
+# Uses database/cve.db as the canonical SQLite source and keeps a local copy in web/cve.db.
 
-import csv
 import hashlib
 import logging
 import pathlib
@@ -27,11 +22,9 @@ except ModuleNotFoundError:  # pragma: no cover - Python < 3.11 fallback
 
 # -------- Config --------env
 BASE_DIR = pathlib.Path(__file__).resolve().parent
-DEFAULT_TSV_PRIMARY  = "../HEAD/2025-processed-clean.txt"  # primary dataset
-DEFAULT_TSV_PRED2024 = "../HEAD/2024-output-may-24.txt"    # secondary dataset
-DEFAULT_CSV_2026     = "../HEAD/2026-june-1.txt"            # 2026 dataset (optional, CSV)
-DEFAULT_PRED_DATES   = "pred_dates.csv"            # CVE -> earliest prediction date
+CANONICAL_DB_PATH = (BASE_DIR.parent / "database" / "cve.db").resolve()  # canonical SQLite database copied into web/
 DB_PATH = str(BASE_DIR / "cve.db")  # on-disk cache (rebuilt only if sources change)
+DB_SCHEMA_VERSION = "2026-08-11.3"  # bump when loader/schema semantics change
 LOG_PATH = str(BASE_DIR / "log.log")  # app log output
 APP_CONFIG_PATH = BASE_DIR / "app_config.toml"
 RESULT_LIMIT_PRIMARY  = 100         # top-N to display from primary
@@ -39,6 +32,8 @@ RESULT_LIMIT_PRED2024 = 100         # top-N to display from 2024
 RESULT_LIMIT_2026     = 100         # top-N to display from 2026
 DEFAULT_LOGO = str(BASE_DIR / "img/causality-3.png")   # fixed logo path (PNG/JPG/WEBP/SVG)
 DEFAULT_PROMPT_FILE = "prompt.txt"                     # AI prompt template
+DEFAULT_PROMPT_PATH = str((BASE_DIR / DEFAULT_PROMPT_FILE).resolve())  # AI prompt is never user-path-controlled
+_ALLOWED_DATA_ROOTS = (BASE_DIR, BASE_DIR.parent / "database", BASE_DIR.parent / "HEAD")
 OPENROUTER_MODELS = [
     "anthropic/claude-opus-4",
     "anthropic/claude-sonnet-4-5",
@@ -80,21 +75,13 @@ def _load_app_config() -> dict:
 
 APP_CONFIG = _load_app_config()
 
-def _nz(x):
-    if x is None:
-        return ""
-    x = str(x).strip()
-    return "" if x.lower() in {"null", "none", "nan"} else x
 
-def _get(row, k):
-    return _nz(row.get(k))
-
-def _sha256_file(path: str) -> str:
-    p = pathlib.Path(path)
+def _sha256_file(path: pathlib.Path) -> str:
+    p = path.resolve()
     if not p.exists() or not p.is_file():
-        return "MISSING:" + str(p.resolve())
+        return "MISSING:" + str(p)
     h = hashlib.sha256()
-    with open(path, "rb") as f:
+    with p.open("rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
@@ -105,30 +92,32 @@ def _load_logo_bytes(path: str, logo_sig: str):
     p = pathlib.Path(path)
     if not p.exists() or not p.is_file():
         return None, None
+    if p.suffix.lower() == ".svg":
+        return None, None  # SVGs can carry <script>; only raster formats are rendered
     data = p.read_bytes()
     return data, p.suffix.lower()
 
-def _source_signature(tsv_primary: str, tsv_pred2024: str, csv_2026: str, pred_dates: str) -> str:
-    # Use content hashes so cache invalidates when any source file changes.
-    return (_sha256_file(tsv_primary) + "|" + _sha256_file(tsv_pred2024) +
-            "|" + _sha256_file(csv_2026) + "|" + _sha256_file(pred_dates))
+def _source_signature(canonical_db: pathlib.Path) -> str:
+    # Use the canonical DB content hash so the web copy refreshes when it changes.
+    return DB_SCHEMA_VERSION + "|canonical_db=" + _sha256_file(canonical_db)
 
-def _resolve_input_path(path_text: str) -> str:
+def _resolve_safe_path(path_text: str) -> str:
+    """Resolve path_text and ensure it stays within _ALLOWED_DATA_ROOTS."""
     p = pathlib.Path(path_text)
-    return str(p if p.is_absolute() else (BASE_DIR / p))
+    candidate = (p if p.is_absolute() else (BASE_DIR / p)).resolve()
+    for root in _ALLOWED_DATA_ROOTS:
+        try:
+            candidate.relative_to(root.resolve())
+            return str(candidate)
+        except ValueError:
+            continue
+    raise ValueError(f"Path '{path_text}' resolves outside the allowed directories")
 
 def _render_logo(logo_bytes: bytes, ext: str, width_px: int = 180):
     if not logo_bytes:
         return
-    if ext == ".svg":
-        svg_text = logo_bytes.decode("utf-8", errors="ignore")
-        data_uri = "data:image/svg+xml;charset=utf-8," + urllib.parse.quote(svg_text)
-        st.markdown(
-            f"<img src='{data_uri}' alt='logo' style='width:{width_px}px;height:auto;max-width:100%;'>",
-            unsafe_allow_html=True,
-        )
-    else:
-        st.image(logo_bytes, caption=None, width=width_px)
+    _ = ext  # only raster formats reach here now; see _load_logo_bytes
+    st.image(logo_bytes, caption=None, width=width_px)
 
 # -------- AI helpers --------
 def _load_prompt(path: str) -> str:
@@ -166,318 +155,72 @@ def _ask_perplexity(api_key: str, model: str, prompt: str, cve_data: dict) -> st
     return resp.json()["choices"][0]["message"]["content"]
 
 
-# -------- Build/refresh on-disk DB if any TSV changed --------
 @st.cache_resource(show_spinner=False)
-def build_or_open_disk(tsv_primary: str, tsv_pred2024: str, csv_2026: str, pred_dates: str, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
-    sig = source_sig
+def sync_database_copy(canonical_db: pathlib.Path, db_path: str, source_sig: str) -> Tuple[str, List[str]]:
+    """Refresh web/cve.db from database/cve.db without modifying the source DB."""
     sig_file = pathlib.Path(db_path + ".sig")
+    source = canonical_db.resolve()
+    dest = pathlib.Path(db_path)
     load_errors: List[str] = []
-    need_build = True
-    if pathlib.Path(db_path).exists() and sig_file.exists():
-        need_build = (sig_file.read_text() != sig)
-    LOGGER.info(
-        "DB check: primary=%s secondary=%s db=%s rebuild=%s",
-        tsv_primary, tsv_pred2024, db_path, need_build
-    )
 
-    con = sqlite3.connect(db_path, check_same_thread=False)
-    con.row_factory = sqlite3.Row
-    cur = con.cursor()
+    if not source.exists() or not source.is_file():
+        return db_path, [f"Canonical database not found: {canonical_db}"]
 
-    cur.execute("PRAGMA journal_mode=WAL;")
-    cur.execute("PRAGMA temp_store=MEMORY;")
-    cur.execute("PRAGMA cache_size=-200000;")
+    if dest.exists() and sig_file.exists() and sig_file.read_text() == source_sig:
+        return db_path, load_errors
 
-    if need_build:
-        LOGGER.info("Rebuilding SQLite index from source files")
-        cur.executescript("""
-        DROP TABLE IF EXISTS cves;
-        DROP TABLE IF EXISTS cve_fts;
+    LOGGER.info("Refreshing web database copy: source=%s dest=%s", canonical_db, db_path)
+    tmp_path = dest.with_name(dest.name + ".tmp")
+    for path in (tmp_path, pathlib.Path(str(tmp_path) + "-wal"), pathlib.Path(str(tmp_path) + "-shm")):
+        try:
+            path.unlink(missing_ok=True)
+        except Exception:
+            pass
 
-        DROP TABLE IF EXISTS preds2024;
-        DROP TABLE IF EXISTS preds2024_fts;
+    try:
+        src = sqlite3.connect(str(source))
+        src.execute("PRAGMA query_only=ON;")
+        dst = sqlite3.connect(str(tmp_path))
+        src.backup(dst)
+        src.close()
 
-        VACUUM;
+        dst.executescript("""
+        DROP VIEW IF EXISTS cves;
+        CREATE VIEW cves AS
+          SELECT id, cve, assigner, published, title, description, vendor, product, affected_versions, rating
+          FROM preds2025;
 
-        -- Primary dataset
-        CREATE TABLE cves (
-          id INTEGER PRIMARY KEY,
-          cve TEXT NOT NULL,
-          assigner TEXT,
-          published TEXT,               -- YYYY-MM-DD if present
-          title TEXT,
-          description TEXT,
-          vendor TEXT,
-          product TEXT,
-          affected_versions TEXT,
-          rating TEXT
-        );
-
-        CREATE VIRTUAL TABLE cve_fts USING fts5(
-          title, description, vendor, product, affected_versions,
-          content='cves', content_rowid='id',
-          tokenize='porter unicode61',
-          prefix='2 3'
-        );
-
-        CREATE INDEX IF NOT EXISTS idx_cves_cve        ON cves(cve);
-        CREATE INDEX IF NOT EXISTS idx_cves_vendor     ON cves(vendor);
-        CREATE INDEX IF NOT EXISTS idx_cves_product    ON cves(product);
-        CREATE INDEX IF NOT EXISTS idx_cves_published  ON cves(published);
-        CREATE INDEX IF NOT EXISTS idx_cves_rating     ON cves(rating);
-
-        -- Secondary dataset (2024.tsv)
-        CREATE TABLE preds2024 (
-          id INTEGER PRIMARY KEY,
-          cve TEXT NOT NULL,              -- from cveID
-          predicted_label TEXT,           -- from Predicted_Label
-          vendor TEXT,                    -- from vendorProject
-          product TEXT,
-          description TEXT
-        );
-
-        CREATE VIRTUAL TABLE preds2024_fts USING fts5(
-          description, vendor, product,
-          content='preds2024', content_rowid='id',
-          tokenize='porter unicode61',
-          prefix='2 3'
-        );
-
-        CREATE INDEX IF NOT EXISTS idx_p24_cve     ON preds2024(cve);
-        CREATE INDEX IF NOT EXISTS idx_p24_vendor  ON preds2024(vendor);
-        CREATE INDEX IF NOT EXISTS idx_p24_product ON preds2024(product);
-
-        -- 2026 dataset (optional CSV)
-        DROP TABLE IF EXISTS preds2026;
-        DROP TABLE IF EXISTS preds2026_fts;
-
-        CREATE TABLE preds2026 (
-          id INTEGER PRIMARY KEY,
-          cve TEXT NOT NULL,
-          assigner TEXT,
-          published TEXT,
-          title TEXT,
-          description TEXT,
-          vendor TEXT,
-          product TEXT,
-          rating TEXT
-        );
-
-        CREATE VIRTUAL TABLE preds2026_fts USING fts5(
-          title, description, vendor, product,
-          content='preds2026', content_rowid='id',
-          tokenize='porter unicode61',
-          prefix='2 3'
-        );
-
-        CREATE INDEX IF NOT EXISTS idx_p26_cve     ON preds2026(cve);
-        CREATE INDEX IF NOT EXISTS idx_p26_vendor  ON preds2026(vendor);
-        CREATE INDEX IF NOT EXISTS idx_p26_product ON preds2026(product);
-        CREATE INDEX IF NOT EXISTS idx_p26_rating  ON preds2026(rating);
-
-        -- Prediction dates lookup (CVE -> earliest pred date)
-        DROP TABLE IF EXISTS pred_dates;
-        CREATE TABLE pred_dates (
-          cve TEXT PRIMARY KEY,
-          pred_date TEXT        -- YYYY-MM-DD
-        );
+        DROP VIEW IF EXISTS pred_dates;
+        CREATE VIEW pred_dates AS
+          SELECT cve, rating_date AS pred_date, rating_date
+          FROM rating_dates;
         """)
+        required = ("preds2025", "preds2025_fts", "preds2024", "preds2024_fts", "preds2026", "preds2026_fts", "rating_dates", "audit_py")
+        missing = [name for name in required if dst.execute("SELECT 1 FROM sqlite_master WHERE name = ?", (name,)).fetchone() is None]
+        if missing:
+            raise RuntimeError("Copied database is missing required objects: " + ", ".join(missing))
+        dst.commit()
+        dst.close()
 
-        # Load primary TSV
-        p = pathlib.Path(tsv_primary)
-        primary_loaded = 0
-        if p.exists() and p.is_file():
-            try:
-                with open(tsv_primary, newline="", encoding="utf-8", errors="ignore") as f:
-                    sample = f.read(4096)
-                    f.seek(0)
-                    delim = "," if sample.count(",") > sample.count("\t") else "\t"
-                    rdr = csv.DictReader(f, delimiter=delim)
-                    batch: List[Tuple] = []
-                    for r in rdr:
-                        cve = _get(r, "cve") or _get(r, "cveID") or _get(r, "cveid")
-                        if not cve:
-                            continue
-                        batch.append((
-                            cve,
-                            _get(r, "assigner"),
-                            _get(r, "published")[:10],
-                            (_get(r, "title") or _get(r, "vulnerabilityName") or _get(r, "vulnerabilityname")),
-                            (_get(r, "description") or _get(r, "shortDescription") or _get(r, "shortdescription")),
-                            (_get(r, "vendor") or _get(r, "vendorProject") or _get(r, "vendorproject")),
-                            _get(r, "product"),
-                            (_get(r, "affected versions") or _get(r, "affected_versions")),
-                            _get(r, "rating"),
-                        ))
-                        if len(batch) >= 5000:
-                            primary_loaded += len(batch)
-                            cur.executemany(
-                                """INSERT INTO cves
-                                   (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
-                                   VALUES (?,?,?,?,?,?,?,?,?)""",
-                                batch
-                            )
-                            batch.clear()
-                    if batch:
-                        primary_loaded += len(batch)
-                        cur.executemany(
-                            """INSERT INTO cves
-                               (cve,assigner,published,title,description,vendor,product,affected_versions,rating)
-                               VALUES (?,?,?,?,?,?,?,?,?)""",
-                            batch
-                        )
-                cur.execute("INSERT INTO cve_fts(cve_fts) VALUES('rebuild');")
-                LOGGER.info("Primary dataset loaded: rows=%s file=%s", primary_loaded, tsv_primary)
-            except Exception as e:
-                msg = f"Error reading primary file {tsv_primary}: {e}"
-                LOGGER.error(msg)
-                load_errors.append(msg)
-        else:
-            msg = f"Primary file not found: {tsv_primary}"
-            LOGGER.warning(msg)
-            load_errors.append(msg)
+        for suffix in ("", "-wal", "-shm"):
+            pathlib.Path(db_path + suffix).unlink(missing_ok=True)
+        os.replace(tmp_path, dest)
+        sig_file.write_text(source_sig)
+        LOGGER.info("Web database copy refreshed: source=%s dest=%s", canonical_db, db_path)
+    except Exception as e:
+        load_errors.append(f"Error copying canonical database {canonical_db} to {db_path}: {e}")
+        LOGGER.error(load_errors[-1])
+        try:
+            tmp_path.unlink(missing_ok=True)
+        except Exception:
+            pass
 
-        # Load 2024 TSV
-        p2 = pathlib.Path(tsv_pred2024)
-        pred_loaded = 0
-        if p2.exists() and p2.is_file():
-            try:
-                with open(tsv_pred2024, newline="", encoding="utf-8", errors="ignore") as f:
-                    rdr = csv.DictReader(f, delimiter="\t")
-                    batch2: List[Tuple] = []
-                    for r in rdr:
-                        cve = _get(r, "cveID") or _get(r, "cve")
-                        if not cve or cve.lower() == "cveid":
-                            continue
-                        batch2.append((
-                            cve,
-                            (_get(r, "Predicted_Label") or _get(r, "rating")),
-                            (_get(r, "vendorProject") or _get(r, "vendor")),
-                            _get(r, "product"),
-                            (_get(r, "description") or _get(r, "shortDescription")),
-                        ))
-                        if len(batch2) >= 5000:
-                            pred_loaded += len(batch2)
-                            cur.executemany(
-                                """INSERT INTO preds2024
-                                   (cve,predicted_label,vendor,product,description)
-                                   VALUES (?,?,?,?,?)""",
-                                batch2
-                            )
-                            batch2.clear()
-                    if batch2:
-                        pred_loaded += len(batch2)
-                        cur.executemany(
-                            """INSERT INTO preds2024
-                               (cve,predicted_label,vendor,product,description)
-                               VALUES (?,?,?,?,?)""",
-                            batch2
-                        )
-                cur.execute("INSERT INTO preds2024_fts(preds2024_fts) VALUES('rebuild');")
-                LOGGER.info("2024 dataset loaded: rows=%s file=%s", pred_loaded, tsv_pred2024)
-            except Exception as e:
-                msg = f"Error reading 2024 file {tsv_pred2024}: {e}"
-                LOGGER.error(msg)
-                load_errors.append(msg)
-        else:
-            msg = f"2024 file not found: {tsv_pred2024}"
-            LOGGER.warning(msg)
-            load_errors.append(msg)
-
-        # Load 2026 CSV (optional, comma-delimited)
-        p3 = pathlib.Path(csv_2026)
-        pred2026_loaded = 0
-        if p3.exists() and p3.is_file():
-            try:
-                with open(csv_2026, newline="", encoding="utf-8", errors="ignore") as f:
-                    sample = f.read(4096)
-                    f.seek(0)
-                    delim = "," if sample.count(",") > sample.count("\t") else "\t"
-                    rdr = csv.DictReader(f, delimiter=delim)
-                    batch3: List[Tuple] = []
-                    for r in rdr:
-                        cve = _get(r, "cveid") or _get(r, "cve") or _get(r, "cveID")
-                        if not cve:
-                            continue
-                        pub = _get(r, "published")
-                        batch3.append((
-                            cve,
-                            _get(r, "assigner"),
-                            pub[:10] if pub else "",
-                            (_get(r, "vulnerabilityname") or _get(r, "title")),
-                            (_get(r, "shortdescription") or _get(r, "description")),
-                            (_get(r, "vendorproject") or _get(r, "vendor")),
-                            _get(r, "product"),
-                            _get(r, "rating"),
-                        ))
-                        if len(batch3) >= 5000:
-                            pred2026_loaded += len(batch3)
-                            cur.executemany(
-                                """INSERT INTO preds2026
-                                   (cve,assigner,published,title,description,vendor,product,rating)
-                                   VALUES (?,?,?,?,?,?,?,?)""",
-                                batch3
-                            )
-                            batch3.clear()
-                    if batch3:
-                        pred2026_loaded += len(batch3)
-                        cur.executemany(
-                            """INSERT INTO preds2026
-                               (cve,assigner,published,title,description,vendor,product,rating)
-                               VALUES (?,?,?,?,?,?,?,?)""",
-                            batch3
-                        )
-                cur.execute("INSERT INTO preds2026_fts(preds2026_fts) VALUES('rebuild');")
-                LOGGER.info("2026 dataset loaded: rows=%s file=%s", pred2026_loaded, csv_2026)
-            except Exception as e:
-                msg = f"Error reading 2026 file {csv_2026}: {e}"
-                LOGGER.error(msg)
-                load_errors.append(msg)
-        else:
-            LOGGER.info("2026 dataset not present, skipping: file=%s", csv_2026)
-
-        # Load pred_dates CSV
-        p4 = pathlib.Path(pred_dates)
-        pred_dates_loaded = 0
-        if p4.exists() and p4.is_file():
-            try:
-                with open(pred_dates, newline="", encoding="utf-8", errors="ignore") as f:
-                    rdr = csv.DictReader(f)
-                    batch4: List[Tuple] = []
-                    for r in rdr:
-                        cve = _get(r, "cve")
-                        pd = _get(r, "pred_date")
-                        if not cve or not pd:
-                            continue
-                        batch4.append((cve, pd))
-                        if len(batch4) >= 5000:
-                            pred_dates_loaded += len(batch4)
-                            cur.executemany("INSERT OR REPLACE INTO pred_dates (cve, pred_date) VALUES (?,?)", batch4)
-                            batch4.clear()
-                    if batch4:
-                        pred_dates_loaded += len(batch4)
-                        cur.executemany("INSERT OR REPLACE INTO pred_dates (cve, pred_date) VALUES (?,?)", batch4)
-                LOGGER.info("pred_dates loaded: rows=%s file=%s", pred_dates_loaded, pred_dates)
-            except Exception as e:
-                msg = f"Error reading pred_dates file {pred_dates}: {e}"
-                LOGGER.error(msg)
-                load_errors.append(msg)
-        else:
-            msg = f"pred_dates file not found: {pred_dates}"
-            LOGGER.warning(msg)
-            load_errors.append(msg)
-
-        con.commit()
-        sig_file.write_text(sig)
-        LOGGER.info("DB rebuild complete: db=%s sig_file=%s", db_path, sig_file)
-
-    con.close()
     return db_path, load_errors
 
 # -------- Serve entirely from RAM --------
 @st.cache_resource(show_spinner=False)
 def serve_from_memory(db_path: str, source_sig: str) -> sqlite3.Connection:
-    _ = source_sig  # part of cache key to force RAM refresh when TSV content changes
+    _ = source_sig  # part of cache key to force RAM refresh when the DB copy changes
     disk = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True, check_same_thread=False)
     disk.row_factory = sqlite3.Row
     mem = sqlite3.connect(":memory:", check_same_thread=False)
@@ -527,10 +270,11 @@ with st.sidebar:
     search_tab, data_tab, ai_tab = st.tabs(["Search", "Data/Index", "AI"])
 
     with search_tab:
-        q = st.text_input(
+        q = st.text_area(
             "Full-text query",
             key="q",
-            #placeholder='log4j*  |  "remote code execution"  |  vendor: apache  product: httpd'
+            height=90,
+            placeholder='apache, nginx\n"remote code execution"\nvendor: cisco product: ios',
         )
         exact_cve = st.text_area(
             "Exact CVE(s) — one per line or comma-separated",
@@ -543,15 +287,14 @@ with st.sidebar:
         clear_search = st.button("Clear search options")
 
     with data_tab:
-        st.subheader("Data sources")
-        tsv_primary  = st.text_input("Primary TSV path", value=DEFAULT_TSV_PRIMARY)
-        tsv_pred2024 = st.text_input("2024 TSV path", value=DEFAULT_TSV_PRED2024)
-        csv_2026     = st.text_input("2026 CSV path", value=DEFAULT_CSV_2026)
+        st.subheader("Data source")
+        st.code(str(CANONICAL_DB_PATH), language=None)
+        st.caption("The app copies this canonical database into web/cve.db and never writes to the original.")
         counts_placeholder = st.empty()
 
         col1, col2 = st.columns(2)
         with col1:
-            force_rebuild = st.button("Force rebuild index")
+            force_rebuild = st.button("Refresh database copy")
         with col2:
             explain = st.checkbox("Explain query plan", value=False)
         errors_placeholder = st.empty()
@@ -570,36 +313,34 @@ with st.sidebar:
         )
         ai_model = st.selectbox("Model", options=OPENROUTER_MODELS, key="ai_model")
         ai_custom_model = st.text_input("Or enter a custom model ID", key="ai_custom_model")
-        prompt_file = st.text_input("Prompt file", value=DEFAULT_PROMPT_FILE, key="prompt_file")
 
 if clear_search:
     st.session_state["_clear_search_pending"] = True
     st.rerun()
 
-tsv_primary_path = _resolve_input_path(tsv_primary)
-tsv_pred2024_path = _resolve_input_path(tsv_pred2024)
-csv_2026_path = _resolve_input_path(csv_2026)
+canonical_db_path = CANONICAL_DB_PATH
 
 if force_rebuild:
     try:
         pathlib.Path(DB_PATH).unlink(missing_ok=True)
         pathlib.Path(DB_PATH + ".sig").unlink(missing_ok=True)
-        st.toast("Index will rebuild and be reloaded into RAM.", icon="⚡")
-        build_or_open_disk.clear()
+        st.toast("Database copy will refresh and be reloaded into RAM.", icon="⚡")
+        sync_database_copy.clear()
         serve_from_memory.clear()
-        _load_logo_bytes.clear()
     except Exception as e:
         st.warning(f"Could not delete DB: {e}")
 
 _active_model = ai_custom_model.strip() if ai_custom_model.strip() else ai_model
-prompt_text = _load_prompt(_resolve_input_path(prompt_file))
+prompt_text = _load_prompt(DEFAULT_PROMPT_PATH)
 
-pred_dates_path = _resolve_input_path(DEFAULT_PRED_DATES)
-source_sig = _source_signature(tsv_primary_path, tsv_pred2024_path, csv_2026_path, pred_dates_path)
-disk_db_path, load_errors = build_or_open_disk(tsv_primary_path, tsv_pred2024_path, csv_2026_path, pred_dates_path, DB_PATH, source_sig)
+source_sig = _source_signature(canonical_db_path)
+if pathlib.Path(DB_PATH).exists() and pathlib.Path(DB_PATH + ".sig").exists():
+    if pathlib.Path(DB_PATH + ".sig").read_text() != source_sig:
+        serve_from_memory.clear()
+disk_db_path, load_errors = sync_database_copy(canonical_db_path, DB_PATH, source_sig)
 con = serve_from_memory(disk_db_path, source_sig)
 
-_n2025 = con.execute("SELECT COUNT(*) FROM cves").fetchone()[0]
+_n2025 = con.execute("SELECT COUNT(*) FROM preds2025").fetchone()[0]
 _n2024 = con.execute("SELECT COUNT(*) FROM preds2024").fetchone()[0]
 _n2026 = con.execute("SELECT COUNT(*) FROM preds2026").fetchone()[0]
 counts_placeholder.markdown(
@@ -625,8 +366,38 @@ import re as _re
 _CVE_RE = _re.compile(r'^CVE-\d{4}-\d+$', _re.IGNORECASE)
 _CVE_FIND_RE = _re.compile(r'CVE-\d{4}-\d+', _re.IGNORECASE)
 
+def _md_escape(value) -> str:
+    return str(value).replace("\\", "\\\\").replace("*", r"\*").replace("_", r"\_")
+
+
+def _predicted_value(row) -> str:
+    for key in ("rating_date", "pred_date"):
+        if key in row.keys():
+            value = (row[key] or "").strip()
+            if value:
+                return value
+    return ""
+
+
+def _predicted_label(row) -> str:
+    pred = _predicted_value(row)
+    return f"Predicted: {pred}" if pred else ""
+
+
+def _missing_requested_cves(con, requested_cves):
+    unique = list(dict.fromkeys(cve.upper() for cve in requested_cves if cve))
+    if not unique:
+        return []
+    placeholders = ",".join("?" * len(unique))
+    found = set()
+    for table in ("cves", "preds2024", "preds2026"):
+        rows = con.execute(f"SELECT cve FROM {table} WHERE cve IN ({placeholders})", unique).fetchall()
+        found.update(row["cve"].upper() for row in rows)
+    return [cve for cve in unique if cve not in found]
+
+
 def _effective_cves() -> List[str]:
-    """Return CVE IDs to match exactly — extracted from the dedicated field,
+    """Return CVE IDs to match exactly - extracted from the dedicated field,
     or from q if it looks like a single CVE ID."""
     if exact_cve.strip():
         return [m.upper() for m in _CVE_FIND_RE.findall(exact_cve)]
@@ -696,13 +467,41 @@ def _fts5_escape(token: str) -> str:
         return col_prefix + '"' + term.replace('"', '""') + '"'
     return col_prefix + term
 
-def scope_query(qs: str, vendor_key: str, product_key: str):
-    # Normalise "vendor: term" (user-friendly) → "vendor:term" (FTS5 column filter)
+def _split_query_terms(qs: str) -> List[str]:
+    terms, buf, in_quote = [], [], False
+    for ch in qs:
+        if ch == '"':
+            in_quote = not in_quote
+            buf.append(ch)
+        elif not in_quote and ch in {",", "\n", "\r", ";"}:
+            term = "".join(buf).strip()
+            if term:
+                terms.append(term)
+            buf = []
+        else:
+            buf.append(ch)
+    term = "".join(buf).strip()
+    if term:
+        terms.append(term)
+    return terms
+
+
+def _scope_query_term(qs: str, vendor_key: str, product_key: str) -> str:
+    # Normalise "vendor: term" (user-friendly) -> "vendor:term" (FTS5 column filter)
     qs = _re.sub(rf"{_re.escape(vendor_key)}:\s*", f"{vendor_key}:", qs)
     qs = _re.sub(rf"{_re.escape(product_key)}:\s*", f"{product_key}:", qs)
-    # Escape individual tokens so hyphens (FTS5 NOT operator) don't break CVE IDs
     tokens = qs.split()
     return " ".join(_fts5_escape(t) for t in tokens)
+
+
+def scope_query(qs: str, vendor_key: str, product_key: str):
+    terms = [_scope_query_term(term, vendor_key, product_key) for term in _split_query_terms(qs)]
+    terms = [term for term in terms if term]
+    if not terms:
+        return ""
+    if len(terms) == 1:
+        return terms[0]
+    return " OR ".join(f"({term})" for term in terms)
 
 HIT_CAP_PRIMARY  = max(RESULT_LIMIT_PRIMARY  * 5, 500)
 HIT_CAP_PRED2024 = max(RESULT_LIMIT_PRED2024 * 5, 500)
@@ -716,9 +515,9 @@ if fts_params_c:
     where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
     count_sql_c = f"""
     WITH hits AS (
-      SELECT rowid, bm25(cve_fts) AS rank
-      FROM cve_fts
-      WHERE cve_fts MATCH ?
+      SELECT rowid, bm25(preds2025_fts) AS rank
+      FROM preds2025_fts
+      WHERE preds2025_fts MATCH ?
       ORDER BY rank
       LIMIT {HIT_CAP_PRIMARY}
     )
@@ -726,16 +525,17 @@ if fts_params_c:
     """
     search_sql_c = f"""
     WITH hits AS (
-      SELECT rowid, bm25(cve_fts) AS rank
-      FROM cve_fts
-      WHERE cve_fts MATCH ?
+      SELECT rowid, bm25(preds2025_fts) AS rank
+      FROM preds2025_fts
+      WHERE preds2025_fts MATCH ?
       ORDER BY rank
       LIMIT {HIT_CAP_PRIMARY}
     )
-    SELECT h.rank, c.*, pd.pred_date
+    SELECT h.rank, c.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM hits h
     JOIN cves c ON c.id = h.rowid
     LEFT JOIN pred_dates pd ON pd.cve = c.cve
+    LEFT JOIN audit_py a ON a.cve = c.cve
     {where_sql_c}
     ORDER BY h.rank, c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
@@ -746,9 +546,10 @@ else:
     where_sql_c = ("WHERE " + " AND ".join(where_c)) if where_c else ""
     count_sql_c = f"SELECT COUNT(*) FROM cves c {where_sql_c}"
     search_sql_c = f"""
-    SELECT c.*, pd.pred_date
+    SELECT c.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM cves c
     LEFT JOIN pred_dates pd ON pd.cve = c.cve
+    LEFT JOIN audit_py a ON a.cve = c.cve
     {where_sql_c}
     ORDER BY c.published DESC, c.cve
     LIMIT {RESULT_LIMIT_PRIMARY}
@@ -781,10 +582,11 @@ if fts_params_p:
       ORDER BY rank
       LIMIT {HIT_CAP_PRED2024}
     )
-    SELECT h.rank, p.*, pd.pred_date
+    SELECT h.rank, p.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM hits h
     JOIN preds2024 p ON p.id = h.rowid
     LEFT JOIN pred_dates pd ON pd.cve = p.cve
+    LEFT JOIN audit_py a ON a.cve = p.cve
     {where_sql_p}
     ORDER BY h.rank, p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
@@ -796,9 +598,10 @@ else:
     where_sql_p = ("WHERE " + " AND ".join(where_p)) if where_p else ""
     count_sql_p = f"SELECT COUNT(*) FROM preds2024 p {where_sql_p}"
     search_sql_p = f"""
-    SELECT p.*, pd.pred_date
+    SELECT p.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM preds2024 p
     LEFT JOIN pred_dates pd ON pd.cve = p.cve
+    LEFT JOIN audit_py a ON a.cve = p.cve
     {where_sql_p}
     ORDER BY p.cve
     LIMIT {RESULT_LIMIT_PRED2024}
@@ -832,10 +635,11 @@ if fts_params_26:
       ORDER BY rank
       LIMIT {HIT_CAP_2026}
     )
-    SELECT h.rank, p.*, pd.pred_date
+    SELECT h.rank, p.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM hits h
     JOIN preds2026 p ON p.id = h.rowid
     LEFT JOIN pred_dates pd ON pd.cve = p.cve
+    LEFT JOIN audit_py a ON a.cve = p.cve
     {where_sql_26}
     ORDER BY h.rank, p.cve
     LIMIT {RESULT_LIMIT_2026}
@@ -846,9 +650,10 @@ else:
     where_sql_26 = ("WHERE " + " AND ".join(where_26)) if where_26 else ""
     count_sql_26 = f"SELECT COUNT(*) FROM preds2026 p {where_sql_26}"
     search_sql_26 = f"""
-    SELECT p.*, pd.pred_date
+    SELECT p.*, pd.pred_date, pd.rating_date, a.github_timestamp AS audit_github_timestamp, a.run_label AS audit_run_label, a.source_file AS audit_source_file, a.source_line AS audit_line
     FROM preds2026 p
     LEFT JOIN pred_dates pd ON pd.cve = p.cve
+    LEFT JOIN audit_py a ON a.cve = p.cve
     {where_sql_26}
     ORDER BY p.cve
     LIMIT {RESULT_LIMIT_2026}
@@ -860,9 +665,9 @@ else:
 if fts_params_c:
     rating_sql_c = f"""
     WITH hits AS (
-      SELECT rowid, bm25(cve_fts) AS rank
-      FROM cve_fts
-      WHERE cve_fts MATCH ?
+      SELECT rowid, bm25(preds2025_fts) AS rank
+      FROM preds2025_fts
+      WHERE preds2025_fts MATCH ?
       ORDER BY rank
       LIMIT {HIT_CAP_PRIMARY}
     )
@@ -915,9 +720,9 @@ else:
 if fts_params_c:
     product_sql_c = f"""
     WITH hits AS (
-      SELECT rowid, bm25(cve_fts) AS rank
-      FROM cve_fts
-      WHERE cve_fts MATCH ?
+      SELECT rowid, bm25(preds2025_fts) AS rank
+      FROM preds2025_fts
+      WHERE preds2025_fts MATCH ?
       ORDER BY rank
       LIMIT {HIT_CAP_PRIMARY}
     )
@@ -1105,9 +910,6 @@ LOGGER.info(
 )
 
 # -------- Render helpers --------
-def show_field(label: str, val: str):
-    v = (val or "").strip()
-    st.markdown(f"**{label}:** {v if v else '—'}")
 
 def _compact_card_body(r, rating_field: str):
     """Render card fields in two columns (left: vendor/product, right: rating/predicted) then description."""
@@ -1119,18 +921,26 @@ def _compact_card_body(r, rating_field: str):
     rating_val = (r[rating_field] or "").strip() if rating_field in r.keys() else ""
     if rating_val:
         right.append(f"**Rating:** {rating_val}")
-    pred = (r["pred_date"] or "").strip() if "pred_date" in r.keys() else ""
-    if pred:
-        right.append(f"**Predicted:** {pred}")
+    predicted_text = _predicted_value(r)
+    if predicted_text:
+        st.markdown(f"**Predicted:** {_md_escape(predicted_text)}")
+    for label, key in [
+        ("Audit timestamp", "audit_github_timestamp"),
+        ("Audit run", "audit_run_label"),
+        ("Audit source", "audit_source_file"),
+        ("Audit line", "audit_line"),
+    ]:
+        v = (r[key] or "").strip() if key in r.keys() else ""
+        if v:
+            right.append(f"**{label}:** {v}")
     cols = st.columns(2)
     with cols[0]:
-        st.markdown("  \n".join(left) or "—")
+        st.markdown("  \n".join(left) or "-")
     with cols[1]:
-        st.markdown("  \n".join(right) or "—")
+        st.markdown("  \n".join(right) or "-")
     desc = (r["description"] or "").strip() if "description" in r.keys() else ""
     if desc:
         st.markdown(f"**Description:** {desc}")
-
 def _ai_data(r, rating_field: str, year: str) -> dict:
     d = {
         "cve": r["cve"],
@@ -1146,26 +956,42 @@ def _ai_data(r, rating_field: str, year: str) -> dict:
 
 def _card_text(r, rating_field: str, year: str) -> str:
     lines = [f"{r['cve']} [{year}]", f"Rating: {(r[rating_field] or 'UNKNOWN').upper()}"]
-    for k, label in [("title","Title"),("vendor","Vendor"),("product","Product"),("description","Description")]:
+    for k, label in [("title", "Title"), ("vendor", "Vendor"), ("product", "Product"), ("description", "Description")]:
+        v = (r[k] or "").strip() if k in r.keys() else ""
+        if v:
+            lines.append(f"{label}: {v}")
+    for k, label in [
+        ("rating_date", "Rating date"),
+        ("audit_github_timestamp", "Audit timestamp"),
+        ("audit_run_label", "Audit run"),
+        ("audit_source_file", "Audit source"),
+        ("audit_line", "Audit line"),
+    ]:
         v = (r[k] or "").strip() if k in r.keys() else ""
         if v:
             lines.append(f"{label}: {v}")
     return "\n".join(lines)
-
 def _rows_to_text(rows, rating_field, year):
     lines = []
     keys = rows[0].keys() if rows else []
     for r in rows:
-        lines.append(f"[{year}] {r['cve']} — {(r[rating_field] or 'UNKNOWN').upper()}")
+        lines.append(f"[{year}] {r['cve']} - {(r[rating_field] or 'UNKNOWN').upper()}")
         if "title" in keys and r["title"]: lines.append(f"  {r['title']}")
         if "vendor" in keys and r["vendor"]: lines.append(f"  Vendor: {r['vendor']}")
         if "product" in keys and r["product"]: lines.append(f"  Product: {r['product']}")
         if "description" in keys and r["description"]: lines.append(f"  {r['description']}")
+        for k, label in [
+            ("rating_date", "Rating date"),
+            ("audit_github_timestamp", "Audit timestamp"),
+            ("audit_run_label", "Audit run"),
+            ("audit_source_file", "Audit source"),
+            ("audit_line", "Audit line"),
+        ]:
+            if k in keys and r[k]: lines.append(f"  {label}: {r[k]}")
+        pred = _predicted_value(r)
+        if pred: lines.append(f"Predicted: {pred}")
         lines.append("")
     return "\n".join(lines)
-
-
-_ai_request = None  # legacy; buttons now go through session_state["ai_running"]
 
 # -------- Main tabs --------
 ai_label = "🤖 AI Analysis" + (" ✦" if st.session_state.get("ai_result") else "")
@@ -1261,6 +1087,7 @@ with tab_results:
         st.markdown(
             """
 - Phrases: `"remote code execution"`
+- Multiple terms: put one term per line or separate with commas
 - Prefix: `log4j*`
 - Field scoping: `vendor: apache  product: httpd`
 - Exact CVE (fastest): use the **Exact CVE** box (`CVE-2024-12345`)
@@ -1307,7 +1134,7 @@ with tab_ai:
         key="prompt_editor",
     )
     if st.button("💾 Save prompt"):
-        prompt_path = _resolve_input_path(prompt_file)
+        prompt_path = DEFAULT_PROMPT_PATH
         pathlib.Path(prompt_path).write_text(edited_prompt, encoding="utf-8")
         prompt_text = edited_prompt
         st.toast("Prompt saved.", icon="✓")

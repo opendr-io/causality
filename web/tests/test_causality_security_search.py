@@ -86,6 +86,8 @@ def test_prompt_write_is_fixed_to_default_prompt_path():
     assert "pathlib.Path(prompt_path).write_text(edited_prompt" in source
 
 
+
+
 def test_2026_prediction_date_is_rendered_in_header_and_copy_text():
     source = CAUSALITY_PATH.read_text(encoding="utf-8")
 
@@ -117,7 +119,7 @@ def test_missing_requested_cves_reports_only_absent_ids():
 
 
 def test_search_smoke_exact_fts_vendor_and_product_filters():
-    helpers = load_causality_helpers("_fts5_escape", "scope_query")
+    helpers = load_causality_helpers("_fts5_escape", "_split_query_terms", "_scope_query_term", "scope_query")
     con = sqlite3.connect(":memory:")
     con.row_factory = sqlite3.Row
     con.executescript(
@@ -183,4 +185,17 @@ def test_search_smoke_exact_fts_vendor_and_product_filters():
 
     hyphenated = helpers.scope_query("CVE-2026-0001", "vendor", "product")
     assert hyphenated == '"CVE-2026-0001"'
+    multi_term = helpers.scope_query("apache, nginx\n\"remote code execution\"", "vendor", "product")
+    assert multi_term == '(apache) OR (nginx) OR ("remote code execution")'
+    multi = con.execute(
+        """
+        SELECT c.cve
+        FROM cve_fts f
+        JOIN cves c ON c.id = f.rowid
+        WHERE cve_fts MATCH ?
+        ORDER BY c.cve
+        """,
+        (helpers.scope_query("apache, other", "vendor", "product"),),
+    ).fetchall()
+    assert [row["cve"] for row in multi] == ["CVE-2026-0001", "CVE-2026-0002"]
     con.close()
