@@ -13,8 +13,33 @@ Colab instance: https://colab.research.google.com/github/opendr-io/causality/blo
 
 [auditor](/auditor) contains audit scripts in python and powershell and their output that can be used to verify these claims.
 
-### Provable public predictions since January 2025 (total 262)
+### Provable public predictions since January 2025 (total 274)
 ### 2026:
+
+August 18: CVE-2026-25895 was added to the VulnCheck KEV. It was predicted August 7.
+
+August 18: CVE-2026-66629 was added to the VulnCheck KEV. It was predicted August 7.
+
+August 17: CVE-2025-52907 was added to the VulnCheck KEV. It was predicted in December.
+
+August 14: CVE-2026-45298 was added to the VulnCheck KEV. It was predicted in June.
+
+August 14: CVE-2026-59309 was added to the VulnCheck KEV. It was predicted August 7.
+
+August 13: CVE-2025-55583 was was added to the VulnCheck KEV. It was predicted in March.
+
+August 13: CVE-2025-10123 was was added to the VulnCheck KEV. It was predicted in March.
+
+August 12:  CVE-2026-55040 was added to the VulnCheck KEV. It was predicted on on August 7.
+
+August 11:  CVE-2026-33497 was added to the VulnCheck KEV. It was predicted on August 7.
+
+August 11:  CVE-2026-49049 was added to the VulnCheck KEV. It was predicted on on August 7.
+
+August 10: CVE-2026-59310 was added to the VulnCheck KEV. It was predicted on on August 7.
+
+August 10: CVE-2026-59310 was added to the VulnCheck KEV. It was predicted on August 7.
+
 August 13: CVE-2025-55583 was added to the VulnCheck KEV. It was predicted in December.
 
 August 13: CVE-2025-10123 was added to the VulnCheck KEV. It was predicted in December.
@@ -31,7 +56,7 @@ August 4: CVE-2026-28409 was added to the VulnCheck KEV. It was predicted in Apr
 
 August 3: CVE-2026-38992 was added to the VulnCheck KEV. It was predicted on June 1.
 
-July 30: CVE-2026-33824 was added to the CISA and VulnCheck KEV. It was predicted on June 1.
+July 30: CVE-2026-33824 was added to the VulnCheck KEV. It was predicted on June 1.
 
 July 27: CVE-2025-68686 was added to the VulnCheck KEV. It was predicted on March 21.
 
