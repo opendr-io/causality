@@ -1,572 +1,267 @@
-
-![Alt text](img/causality-small.png)
-
-### CAUSALITY is an intrusion prediction model that is successfully predicting CVE exploitation watch-listing with lead times ranging from days to months to over a year. The project has been presented at THREATCON1, RSAC 2026, BASC OWASP 2025, and BSidesSW 2025. The audit tools contain what is needed to verify the prediction proofs.  
-
-### Contents:
-
-Colab instance: https://colab.research.google.com/github/opendr-io/causality/blob/main/causality.ipynb#scrollTo=7489421a
-
-[web](/web)  contains a (local) Streamlit app with a search interface
-
-[auditor](/auditor) contains audit scripts in python and powershell and their output that can be used to verify these claims:
-
-### Provable public predictions since January 2025 (total 267)
-### 2026:
-
 August 18: CVE-2026-25895 was added to the VulnCheck KEV. It was predicted August 7.
-
 August 18: CVE-2026-66629 was added to the VulnCheck KEV. It was predicted August 7.
-
 August 17: CVE-2025-52907 was added to the VulnCheck KEV. It was predicted in December.
-
 August 14: CVE-2026-45298 was added to the VulnCheck KEV. It was predicted in June.
-
 August 14: CVE-2026-59309 was added to the VulnCheck KEV. It was predicted August 7.
-
 August 13: CVE-2025-55583 was was added to the VulnCheck KEV. It was predicted in March.
-
 August 13: CVE-2025-10123 was added to the VulnCheck KEV. It was predicted in December.
-
 August 12:  CVE-2026-55040 was added to the VulnCheck KEV. It was predicted on on August 7.
-
 August 11:  CVE-2026-33497 was added to the VulnCheck KEV. It was predicted on August 7.
-
 August 11:  CVE-2026-49049 was added to the VulnCheck KEV. It was predicted on on August 7.
-
 August 10: CVE-2026-59310 was added to the VulnCheck KEV. It was predicted on on August 7.
-
 August 4: CVE-2026-28409 was added to the VulnCheck KEV. It was predicted in April.
-
 August 3: CVE-2026-38992 was added to the VulnCheck KEV. It was predicted on June 1.
-
 July 30: CVE-2026-33824 was added to the VulnCheck KEV. It was predicted on June 1.
-
 July 27: CVE-2025-68686 was added to the VulnCheck KEV. It was predicted on March 21.
-
 July 23: CVE-2025-6231 was added to the VulnCheck KEV. It was predicted in August 2025.
-
 July 21: CVE-2026-0770 was added to the CISA KEV. It was predicted on April 25.
-
 July 20: CVE-2026-4480 was added to the VulnCheck KEV. It was predicted on June 1.
-
 July 10: CVE-2026-2699 was added to the VulnCheck KEV. It was predicted on April 25.
-
 July 9: CVE-2026-31843 was added to the VulnCheck KEV. It was predicted on June 1.
-
 July 8: CVE-2026-4631 was added to the VulnCheck KEV. It was predicted on June 1.
-
 July 9: CVE-2025-7852 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 July 1: CVE-2026-45659 was added to the CISA and VulnCheck KEVs. It was predicted on June  1.
-
 June 29: CVE-2026-46817 was added to the VulnCheck KEV. It was predicted on June 1.
-
 June 25: CVE-2024-41700 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Sixteenth lead time over one year.
-
 June 24: CVE-2026-0769 was added to the VulnCheck KEV. It was predicted on April 25.
-
 June 23: CVE-2026-34909 was added to the CISA KEV. It was predicted on June 1.
-
 June 23: CVE-2026-34908 was added to the CISA KEV. It was predicted on June 1.
-
 June 23: CVE-2025-12352 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 June 23: CVE-2025-7443 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 June 23: CVE-2024-6648 was added to the VulnCheck KEV. It was predicted in February.
-
 June 17: CVE-2025-11837 was added to the VulnCheck KEV. It was predicted in January.
-
 June 17: CVE-2026-27760 was added to the VulnCheck KEV. It was predicted on June 1.
-
 June 15: CVE-2026-39813 was added to the VulnCheck KEV. It was predicted on June 1.
-
 June 9: CVE-2026-34910 was added to the VulnCheck KEV. It was predicted June 1.
-
 June 9: CVE-2026-39808 was added to the VulnCheck KEV. It was predicted June 1.
-
 June 5: CVE-2026-31816 was added to the VulnCheck KEV. It was predicted April 25.
-
 June 3: CVE-2026-45247 was added to the CIA KEV. It was predicted on June 1.
-
 June 8: CVE-2026-5027 was added to the VulnCheck KEV. It was predicted April 25.
-
 June 2: CVE-2026-7465 was added to the VulnCheck KEV. It was predicted June 1.
-
 May 21: CVE-2025-34291 was added to the CISA KEV. It was predicted in January 2026.
-
 May 19: CVE-2025-62481 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 19: CVE-2025-53072 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 10: CVE-2025-32818 was added to the VulnCheck KEV. It was predicted May 8, 2025. Fifteenth lead time over one year.
-
 May 10: CVE-2025-40600 was added to the VulnCheck KEV. It was predicted in August 2025.
-
 May 10: CVE-2025-40601 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 7: CVE-2025-9501 was added to the VulnCheck KEV. It was predicted December 2. 2025.
-
 May 5: CVE-2024-11350 was added to the VulnCheck KEV. It was predicted in February 8.
-
 May 5: CVE-2024-13365 was added to the VulnCheck KEV. It was predicted February 8.
-
 May 4: CVE-2025-15403 was added to the VulnCheck KEV. It was predicted March 21.
-
 May 4: CVE-2025-7340 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 4: CVE-2025-4606 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 4: CVE-2025-3278 was added to the VulnCheck KEV. It was predicted December 2, 2025.
-
 May 4: CVE-2025-5339 was added to the VulnCheck KEV. It was predicted March 21.
-
 May 4: CVE-2024-12281 was added to the VulnCheck KEV. It was predicted February 8.
-
 May 4: CVE-2024-13744 was added to the VulnCheck KEV. It was predicted February 8.
-
 May 4: CVE-2024-4346 was added to the VulnCheck KEV. It was predicted in January 2025. Fourteenth lead time over one year.
-
 May 1: CVE-2025-60021 was added to the VulnCheck KEV. It was predicted in January 2026.
-
 May 1 : CVE-2025-40554 was added to the VulnCheck KEV. It was predicted in January 2026.
-
 April 30: CVE-2026-33478 was added to the VulnCheck KEV. It was predicted April 25.
-
 April 30: CVE-2025-53558 was added to the VulnCheck KEV. It was predicted in August 2025.
-
 April 28: CVE-2024-1708 was added to the CISA KEV. It was predicted in January 2025. Thirteenth prediction over one year.
-
 April 24: CVE-2024-57726 was added to the CISA KEV. It was predicted February 8.
-
 April 24: CVE-2024-57728 was added to the CISA KEV. It was predicted February 8.
-
 April 23: CVE-2025-49867 was added to the VulnCheck KEV. It was predicted in January.
-
 April 23: CVE-2025-31918 was added to the VulnCheck KEV. It was predicted in December.
-
 April 23: CVE-2024-52490 was added to the VulnCheck KEV. It was predicted in January 2025. Twelfth prediction over one year.
-
 April 21: CVE-2024-22927 was added to the VulnCheck KEV. It was predicted in January 2025. Eleventh prediction over one year.
-
 April 21: CVE-2025-29635 was added to the VulnCheck KEV. It was predicted in May 2025.
-
 April 20: CVE-2025-2749 was added to the VulnCheck KEV. It was predicted in May 2025.
-
 April 15: CVE-2025-55184 was added to the VulnCheck KEV. It was predicted in January.
-
 April 15: CVE-2025-12548 was added to the VulnCheck KEV. It was predicted in January.
-
 April 13: CVE-2025-60710 was added to the VulnCheck KEV. It was predicted in December.
-
 April 10: CVE-2024-21833 was added to the VulnCheck KEV. It was predicted in January 2025. Tenth prediction over one year.
-
 April 10: CVE-2025-0520 was added to the VulnCheck KEV. It was predicted in May 2025.
-
 April 9: CVE-2025-71243 was added to the VulnCheck KEV. It was predicted in March.
-
 April 9: CVE-2025-1338 was added to the VulnCheck KEV. It was predicted in March.
-
 April 9: CVE-2025-43532 was added to the VulnCheck KEV. It was predicted in January.
-
 April 7: CVE-2025-43512 was added to the VulnCheck KEV. It was predicted in March.
-
 April 7: CVE-2025-24113 was added to the VulnCheck KEV. It was predicted in May 2025.
-
 April 7: CVE-2025-43542 was added to the VulnCheck KEV. It was predicted in March.
-
 April 1: CVE-2025-59716 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 March 31: CVE-2025-11368 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 March 31: CVE-2025-54726 was added to the VulnCheck KEV. It was predicted in December 2025.
-
 March 31: CVE-2025-48281 was added to the VulnCheck KEV. It was predicted March 21.
-
 March 27: CVE-2025-53521 was added to the CISA KEV. It was predicted in December 2025.
-
 March 18: CVE-2025-43520 was added to the VulnCheck KEV. It was predicted in January 2026. 
-
 March 11: CVE-2025-34117 was added to the VulnCheck KEV. It was predicted in August 2025. 
-
 March 11: CVE-2025-52089 was added to the VulnCheck KEV. It was predicted in December 2025. 
-
 March 11: CVE-2025-57296 was added to the VulnCheck KEV. It was predicted in December 2025. 
-
 March 10: CVE-2025-10353 was added to the VulnCheck KEV. It was predicted in December 2025. 
-
 Feb 20: CVE-2024-6250 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Eighth lead time over one year.
-
 Feb 17: CVE-2024-7694 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Seventh lead time over one year.
-
 Feb 12: CVE-2025-40536 was added to both KEVs. It was predicted in the January 31, 2026 run.
-
 Feb 12: CVE-2025-55303 was added to the VulnCheck KEV. It was predicted in the August 2025 run.
-
 Feb 12: CVE-2024-43468 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Sixth lead time over one year.
-
 Feb 11: CVE-2025-56520 was added to the VulnCheck KEV. It was predicted in December 2025. 
-
 Feb 5: CVE-2025-68947 was added to the VulnCheck KEV. It was predicted in the January 31 run.
-
 Feb 4: CVE-2024-20404 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fifth lead time over one year.
-
 Feb 3: CVE-2025-40551 was added to the VulnCheck KEV. It was predicted in the January 31 run.
-
 Feb 2: CVE-2024-2053 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fourth lead time over one year.
-
 Feb 1: CVE-2024-2862 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Third lead time over one year.
-
 Feb 1: CVE-2025-1023 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
-
 January 29: CVE-2025-61155 was added to the VulnCheck KEV. It was predicted in the December 3, 2025 run.
-
 January 28: CVE-2025-64328 was added to the VulnCheck KEV. It was predicted in the December 3, 2025 run.
-
 January 27: CVE-2025-44846 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
-
 January 23: CVE-2024-37079 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. Second prediction lead time over one year.
-
 January 22: CVE-2025-54313 was added to the CISA KEV. It was predicted in the August 2025 run.
-
 January 21: CVE-2025-51683 was added to the VulnCheck KEV. It was predicted in the December 3, 2025 run.
-
 January 20: CVE-2025-20282 was added to the VulnCheck KEV. It was predicted in the August 2025 run.
-
 January 20: CVE-2025-11001 was added to the VulnCheck KEV. It was predicted in the December 3, 2025 run.
-
 January 20: CVE-2025-26399 was added to the VulnCheck KEV. It was predicted in the December 3, 2025 run.
-
 January 20: CVE-2025-0626 was added to the VulnCheck KEV. It was predicted in the Feb 15, 2025 run.
-
 January 20: CVE-2025-2857 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
-
 January 20: CVE-2024-6782 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. First prediction lead time over one year.
-
 January 20: CVE-2025-0683 was added to the VulnCheck KEV. It was predicted in the Feb 15, 2025 run.
-
 January 20: CVE-2025-0890 was added to the VulnCheck KEV. It was predicted in the Feb 15, 2025 run.
-
-
 January 14: CVE-2024-2863 was added to the VulnCheck KEV. It was predicted in the January 2025 runs.
-
 January 14: CVE-2025-55749 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
-### 2025:
-
 December 31: CVE-2025-10204 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 27: CVE-2025-49619 was added to the VulnCheck KEV. It was predicted in the August run.
-
 December 23: CVE-2025-49544 was added to the VulnCheck KEV. It was predicted in the August run.
-
 December 21: CVE-2025-11953 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 19: CVE-2024-3408 was added to the VulnCheck KEV. It was predicted in January. Fourth lead time over ten months.
-
 December 15: CVE-2025-13315 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 15: CVE-2025-11700 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 15: CVE-2025-55523 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 15: CVE-2025-12055 was added to the VulnCheck KEV. It was predicted in the December 3 run.
-
 December 8: CVE-2024-44902 was added to the VulnCheck KEV. It was predicted in January. Fourth lead time over ten months.
-
 November 27: CVE-2024-53900 was added to the VulnCheck KEV. It was predicted in January. Third lead time over ten months.
-
 November 26: CVE-2024-53375 was added to the VulnCheck KEV. It was predicted in January. Second lead time over ten months.
-
 November 19: CVE-2024-12912 was added to the VulnCheck KEV. It was predicted in January. This is the longest lead time yet, over ten months!
-
 November 19: CVE-2025-2492 was added to the VulnCheck KEV. It was predicted in May.
-
 November 12: CVE-2024-37393 was added to the VulnCheck KEV. It was predicted in January. This was the longest lead time in just under ten months.
-
 November 10: CVE-2025-53118 was added to the VulnCheck KEV. It was predicted in August.
-
 November 7: CVE-2024-54006 was added to the VulCheck KEV.
-
 October 30: CVE-2025-9491 was added to the VulnCheck KEV. It was predicted in the August run.
-
 October 28: CVE-2025-6204 was added to the KEV. It was rated hot in the August run.
-
 October 27: CVE-2025-6205 was added to the VulnCheck KEV. It was predicted in the August run.
-
 October 23: CVE-2025-24477 was added to the VulnCheck KEV. It was predicted in the August run.
-
 October 20: CVE-2025-33073  was added to the KEV. It was rated hot in the August run, yielding almost two months of early warning. It would have been rated hot earlier but I cannot prove this only because I didn't publish runs in June and July. 
-
 October 20: CVE-2025-2746 was added to the KEV. It was rated hot in the August run:
-
 October 20: CVE-2025-2747 was added to the KEV. It was rated hot in the August run:
-
 October 19: CVE-2025-24912 was added to the VulnCheck KEV. It was predicted in the May run.
-
 October 17: CVE-2024-20419 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 October 17: CVE-2024-6235 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 October 11: CVE-2025-2611 was added to the VulnCheck KEV. It was predicted in the August and September runs.
-
 October 10: CVE-2025-22905 was added to the VulnCheck KEV. It was predicted in the January 17 run.
-
 October 10: CVE-2025-49596 was added to the VulnCheck KEV. It was predicted in the August and September runs.
-
 October 9: CVE-2025-6019 was added to the VulnCheck KEV. It was predicted in the August run.
-
 October 9: CVE-2025-36604  was added to the VulnCheck KEV. It was predicted in the August and September runs.
-
 October 2: CVE-2025-4008 was added to the KEV. It was rated warm in the August run:
-
 September 30: CVE-2024-56064 was added to the VulnCheck KEV. It was predicted in the January 7 run.
-
 September 26: CVE-2024-29030 was added to the VulnCheck KEV. It was predicted in the January 7 run.
-
 September 26: CVE-2024-29028 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 September 26: CVE-2024-7344 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 September 25: CVE-2024-29029 was added to the VulnCheck KEV. It was predicted in a January run.
-
 September 25: CVE-2024-33326 was added to the VulnCheck KEV. It was predicted in the January 17 run.
-
 September 15: CVE-2025-34152 was added to the VulnCheck KEV. It was predicted in the August run.
-
 September 12: CVE-2025-25231 went hot. It was rated warm in the August run.
-
 September 11: CVE-2024-11740 was added to the VulnCheck KEV. It was predicted in the January 3 run.
-
 September 11: CVE-2025-5086 was added to the KEV and ENISA watchlists. It was predicted in the August run.
-
 September 4: CVE-2025-42957 was added to the VulnCheck KEV. It was predicted in the August run.
-
 September 4: CVE-2025-52970 was added to the VulnCheck KEV. It was predicted in the August run.
-
-August 25: These were added to the KEV. These were rated hot in the Jan 7 run which makes them the longest lead time so far at more than seven and one half months.
-
-```CVE-2024-8068	Citrix	Citrix Session Recording	Privilege escalation to NetworkService Account access in Citrix Session Recording when an attacker is an authenticated user in the same Windows Active Directory domain as the session recording server domain```
-
-```CVE-2024-8069	Citrix Session Recording	Citrix Session Recording	Limited remote code execution with privilege of a NetworkService Account access in Citrix Session Recording if the attacker is an authenticated user on the same intranet as the session recording server```
-
+```August 25: CVE-2024-8068	Citrix	Citrix Session Recording	Privilege escalation to NetworkService Account access in Citrix Session Recording when an attacker is an authenticated user in the same Windows Active Directory domain as the session recording server domain```
+```August 25: CVE-2024-8069	Citrix Session Recording	Citrix Session Recording	Limited remote code execution with privilege of a NetworkService Account access in Citrix Session Recording if the attacker is an authenticated user on the same intranet as the session recording server```
 August 22: CVE-2024-45890 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-45884 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-45888 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-45891 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-45885 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-45887 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 22: CVE-2024-48074 was added to the VulnCheck KEV. It was predicted in the January 17 run.
-
-August 19: Shadowserver Reported Exploitation of these, rated hot earlier this year:
-
-```CVE-2024-7029	hot	AVTech	AVM1203 (IP Camera)	Commands can be injected over the network and executed without authentication.	```
-
-```CVE-2024-22024	hot	Ivanti	ICS	"An XML external entity or XXE vulnerability in the SAML component of Ivanti Connect Secure (9.x, 22.x), Ivanti Policy Secure (9.x, 22.x) and ZTA gateways which allows an attacker to access certain restricted resources without authentication."	```
-
-```CVE-2024-5827	hot	vanna-ai	vanna-ai/vanna	"Vanna v0.3.4 is vulnerable to SQL injection in its DuckDB integration exposed to its Flask Web APIs. Attackers can inject malicious SQL training data and generate corresponding queries to write arbitrary files on the victim's file system, such as backdoor.php with contents `<?php system($_GET[0]); ?>`. This can lead to command execution or the creation of backdoors."	```
-
-```CVE-2024-48307	hot			JeecgBoot v3.7.1 was discovered to contain a SQL injection vulnerability via the component /onlDragDatasetHead/getTotalData.```
-
-```CVE-2024-6893	hot	Journyx	Journyx (jtime)	"The ""soap_cgi.pyc"" API handler allows the XML body of SOAP requests to contain references to external entities. This allows an unauthenticated attacker to read local files, perform server-side request forgery, and overwhelm the web server resources."	```
-
-```CVE-2024-1561	hot	gradio-app	gradio-app/gradio	"An issue was discovered in gradio-app/gradio, where the `/component_server` endpoint improperly allows the invocation of any method on a `Component` class with attacker-controlled arguments. Specifically, by exploiting the `move_resource_to_block_cache()` method of the `Block` class, an attacker can copy any file on the filesystem to a temporary directory and subsequently retrieve it. This vulnerability enables unauthorized local file read access, posing a significant risk especially when the application is exposed to the internet via `launch(share=True)`, thereby allowing remote attackers to read files on the host machine. Furthermore, gradio apps hosted on `huggingface.co` are also affected, potentially leading to the exposure of sensitive information such as API keys and credentials stored in environment variables."		```
-
-```CVE-2024-25852	hot			"Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the ""AccessControlList"" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights."	```
-
-```9832	CVE-2025-0674	Elber	Cleber/3 Broadcast Multi-Purpose Platform; ESE DVB-S/S2 Satellite Receiver; Reble610 M/ODU XPIC IP-ASI-SDH; Signum DVB-S/S2 IRD; Wayber Analog/Digital Audio STL	"Multiple Elber products are affected by an authentication bypass ```
-
-```CVE-2024-8752	hot	Smart HMI	WebIQ	The Windows version of WebIQ 2.15.9 is affected by a directory traversal vulnerability that allows remote attackers to read any file on the system.	```
-
-```CVE-2024-28255	hot	open-metadata	OpenMetadata	"OpenMetadata is a unified platform for discovery, observability, and governance powered by a central metadata repository, in-depth lineage, and seamless team collaboration. The `JwtFilter` handles the API authentication by requiring and verifying JWT tokens. When a new request comes in, the request's path is checked against this list. When the request's path contains any of the excluded endpoints the filter returns without validating the JWT. Unfortunately, an attacker may use Path Parameters to make any path contain any arbitrary strings. For example, a request to `GET /api/v1;v1%2fusers%2flogin/events/subscriptions/validation/condition/111` will match the excluded endpoint condition and therefore will be processed with no JWT validation allowing an attacker to bypass the authentication mechanism and reach any arbitrary endpoint, including the ones listed above that lead to arbitrary SpEL expression injection. This bypass will not work when the endpoint uses the `SecurityContext.getUserPrincipal()` since it will return `null` and will throw an NPE. This issue may lead to authentication bypass and has been addressed in version 1.2.4. Users are advised to upgrade. There are no known workarounds for this vulnerability. This issue is also tracked as `GHSL-2023-237`."	```
-
-August 18: Shadowserver Reported Exploitation of these CVEs rated hot earlier this year:
-
-```CVE-2024-38653	hot	Ivanti	Avalanche	XXE in SmartDeviceServer in Ivanti Avalanche 6.3.1 allows a remote unauthenticated attacker to read arbitrary files on the server.```
-
-```CVE-2024-38289	hot			"A boolean-based SQL injection issue in the Virtual Meeting Password (VMP) endpoint in R-HUB TurboMeeting through 8.x allows unauthenticated remote attackers to extract hashed passwords from the database, and authenticate to the application, via crafted SQL input."```
-
-```CVE-2024-31750	hot			SQL injection vulnerability in f-logic datacube3 v.1.0 allows a remote attacker to obtain sensitive information via the req_id parameter.```
-
-```CVE-2024-34257	hot			"TOTOLINK EX1800T V9.1.0cu.2112_B20220316 has a vulnerability in the apcliEncrypType parameter that allows unauthorized execution of arbitrary commands, allowing an attacker to obtain device administrator privileges."```
-
-```CVE-2024-29973	hot	Zyxel	NAS326 firmware	** UNSUPPORTED WHEN ASSIGNED **	"The command injection vulnerability in the “setCookie” parameter in Zyxel NAS326 firmware versions before V5.21(AAZF.17)C0 and NAS542 firmware versions before V5.21(ABAG.14)C0 could allow an unauthenticated attacker to execute some operating system (OS) commands by sending a crafted HTTP POST request."""```
-
-```CVE-2024-54763	hot			An access control issue in the component /login/hostinfo.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
-
-```CVE-2024-54764	hot			An access control issue in the component /login/hostinfo2.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
-
-```CVE-2024-50334	hot	Erudika	scoold	"Scoold is a Q&A and a knowledge sharing platform for teams. A semicolon path injection vulnerability was found on the /api;/config endpoint. By appending a semicolon in the URL, attackers can bypass authentication and gain unauthorised access to sensitive configuration data. Furthermore, PUT requests on the /api;/config endpoint while setting the Content-Type: application/hocon header allow unauthenticated attackers to file reading via HOCON file inclusion. This allows attackers to retrieve sensitive information such as configuration files from the server, which can be leveraged for further exploitation. The vulnerability has been fixed in Scoold 1.64.0. A workaround would be to disable the Scoold API with scoold.api_enabled = false."```
-
+```August 19: CVE-2024-7029	hot	AVTech	AVM1203 (IP Camera)	Commands can be injected over the network and executed without authentication.	```
+```August 19: CVE-2024-22024	hot	Ivanti	ICS	"An XML external entity or XXE vulnerability in the SAML component of Ivanti Connect Secure (9.x, 22.x), Ivanti Policy Secure (9.x, 22.x) and ZTA gateways which allows an attacker to access certain restricted resources without authentication."	```
+```August 19: CVE-2024-5827	hot	vanna-ai	vanna-ai/vanna	"Vanna v0.3.4 is vulnerable to SQL injection in its DuckDB integration exposed to its Flask Web APIs. Attackers can inject malicious SQL training data and generate corresponding queries to write arbitrary files on the victim's file system, such as backdoor.php with contents `<?php system($_GET[0]); ?>`. This can lead to command execution or the creation of backdoors."	```
+```August 19: CVE-2024-48307	hot			JeecgBoot v3.7.1 was discovered to contain a SQL injection vulnerability via the component /onlDragDatasetHead/getTotalData.```
+```August 19: CVE-2024-6893	hot	Journyx	Journyx (jtime)	"The ""soap_cgi.pyc"" API handler allows the XML body of SOAP requests to contain references to external entities. This allows an unauthenticated attacker to read local files, perform server-side request forgery, and overwhelm the web server resources."	```
+```August 19: CVE-2024-1561	hot	gradio-app	gradio-app/gradio	"An issue was discovered in gradio-app/gradio, where the `/component_server` endpoint improperly allows the invocation of any method on a `Component` class with attacker-controlled arguments. Specifically, by exploiting the `move_resource_to_block_cache()` method of the `Block` class, an attacker can copy any file on the filesystem to a temporary directory and subsequently retrieve it. This vulnerability enables unauthorized local file read access, posing a significant risk especially when the application is exposed to the internet via `launch(share=True)`, thereby allowing remote attackers to read files on the host machine. Furthermore, gradio apps hosted on `huggingface.co` are also affected, potentially leading to the exposure of sensitive information such as API keys and credentials stored in environment variables."		```
+```August 19: CVE-2024-25852	hot			"Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the ""AccessControlList"" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights."	```
+```August 19: 9832	CVE-2025-0674	Elber	Cleber/3 Broadcast Multi-Purpose Platform; ESE DVB-S/S2 Satellite Receiver; Reble610 M/ODU XPIC IP-ASI-SDH; Signum DVB-S/S2 IRD; Wayber Analog/Digital Audio STL	"Multiple Elber products are affected by an authentication bypass ```
+```August 19: CVE-2024-8752	hot	Smart HMI	WebIQ	The Windows version of WebIQ 2.15.9 is affected by a directory traversal vulnerability that allows remote attackers to read any file on the system.	```
+```August 19: CVE-2024-28255	hot	open-metadata	OpenMetadata	"OpenMetadata is a unified platform for discovery, observability, and governance powered by a central metadata repository, in-depth lineage, and seamless team collaboration. The `JwtFilter` handles the API authentication by requiring and verifying JWT tokens. When a new request comes in, the request's path is checked against this list. When the request's path contains any of the excluded endpoints the filter returns without validating the JWT. Unfortunately, an attacker may use Path Parameters to make any path contain any arbitrary strings. For example, a request to `GET /api/v1;v1%2fusers%2flogin/events/subscriptions/validation/condition/111` will match the excluded endpoint condition and therefore will be processed with no JWT validation allowing an attacker to bypass the authentication mechanism and reach any arbitrary endpoint, including the ones listed above that lead to arbitrary SpEL expression injection. This bypass will not work when the endpoint uses the `SecurityContext.getUserPrincipal()` since it will return `null` and will throw an NPE. This issue may lead to authentication bypass and has been addressed in version 1.2.4. Users are advised to upgrade. There are no known workarounds for this vulnerability. This issue is also tracked as `GHSL-2023-237`."	```
+```August 18: CVE-2024-38653	hot	Ivanti	Avalanche	XXE in SmartDeviceServer in Ivanti Avalanche 6.3.1 allows a remote unauthenticated attacker to read arbitrary files on the server.```
+```August 18: CVE-2024-38289	hot			"A boolean-based SQL injection issue in the Virtual Meeting Password (VMP) endpoint in R-HUB TurboMeeting through 8.x allows unauthenticated remote attackers to extract hashed passwords from the database, and authenticate to the application, via crafted SQL input."```
+```August 18: CVE-2024-31750	hot			SQL injection vulnerability in f-logic datacube3 v.1.0 allows a remote attacker to obtain sensitive information via the req_id parameter.```
+```August 18: CVE-2024-34257	hot			"TOTOLINK EX1800T V9.1.0cu.2112_B20220316 has a vulnerability in the apcliEncrypType parameter that allows unauthorized execution of arbitrary commands, allowing an attacker to obtain device administrator privileges."```
+```August 18: CVE-2024-29973	hot	Zyxel	NAS326 firmware	** UNSUPPORTED WHEN ASSIGNED **	"The command injection vulnerability in the “setCookie” parameter in Zyxel NAS326 firmware versions before V5.21(AAZF.17)C0 and NAS542 firmware versions before V5.21(ABAG.14)C0 could allow an unauthenticated attacker to execute some operating system (OS) commands by sending a crafted HTTP POST request."""```
+```August 18: CVE-2024-54763	hot			An access control issue in the component /login/hostinfo.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
+```August 18: CVE-2024-54764	hot			An access control issue in the component /login/hostinfo2.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.```
+```August 18: CVE-2024-50334	hot	Erudika	scoold	"Scoold is a Q&A and a knowledge sharing platform for teams. A semicolon path injection vulnerability was found on the /api;/config endpoint. By appending a semicolon in the URL, attackers can bypass authentication and gain unauthorised access to sensitive configuration data. Furthermore, PUT requests on the /api;/config endpoint while setting the Content-Type: application/hocon header allow unauthenticated attackers to file reading via HOCON file inclusion. This allows attackers to retrieve sensitive information such as configuration files from the server, which can be leveraged for further exploitation. The vulnerability has been fixed in Scoold 1.64.0. A workaround would be to disable the Scoold API with scoold.api_enabled = false."```
 August  7: CVE-2024-42852 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 4: CVE-2024-38196 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 August 1: CVE-2024-30090 was added to the VulnCheck KEV. It was predicted in the January 17 run.
-
 July 31: CVE-2025-2264 was added to the VulnCheck KEV. It was predicted in the May run.
-
-July 21: Shadowserver
-
-```CVE-2024-34193	hot			"smanga 3.2.7 does not filter the file parameter at the PHP/get file flow.php interface, resulting in a path traversal vulnerability that can cause arbitrary file reading."```	
-
-```10684	CVE-2025-28137			The TOTOLINK A810R V4.1.2cu.5182_B20201026 were found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
-
-```10750	CVE-2025-28036			TOTOLINK A950RG V4.1.2cu.5161_B20200903 was found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
-
-```CVE-2024-51211	hot			"SQL injection vulnerability exists in OS4ED openSIS-Classic Version 9.1, specifically in the resetuserinfo.php file. The vulnerability is due to improper input validation of the $username_stn_id parameter, which can be manipulated by an attacker to inject arbitrary SQL commands."```
-
+```July 21: CVE-2024-34193	hot			"smanga 3.2.7 does not filter the file parameter at the PHP/get file flow.php interface, resulting in a path traversal vulnerability that can cause arbitrary file reading."```	
+```July 21: 10684	CVE-2025-28137			The TOTOLINK A810R V4.1.2cu.5182_B20201026 were found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
+```July 21: 10750	CVE-2025-28036			TOTOLINK A950RG V4.1.2cu.5161_B20200903 was found to contain a pre-auth remote command execution vulnerability in the setNoticeCfg function through the NoticeUrl parameter.	hot```
+```July 21: CVE-2024-51211	hot			"SQL injection vulnerability exists in OS4ED openSIS-Classic Version 9.1, specifically in the resetuserinfo.php file. The vulnerability is due to improper input validation of the $username_stn_id parameter, which can be manipulated by an attacker to inject arbitrary SQL commands."```
 July 18: CVE-2024-10586 was added to the VulnCheck KEV. It was predicted in the January runs.
-
-July 10: Shadowserver
-
-```CVE-2024-7399	hot	Samsung Electronics	MagicINFO 9 Server	Improper limitation of a pathname to a restricted directory vulnerability in Samsung MagicINFO 9 Server version before 21.1050 allows attackers to write arbitrary file as system authority.```	
-
+```July 10: CVE-2024-7399	hot	Samsung Electronics	MagicINFO 9 Server	Improper limitation of a pathname to a restricted directory vulnerability in Samsung MagicINFO 9 Server version before 21.1050 allows attackers to write arbitrary file as system authority.```	
 June 28: CVE-2024-5334 was added to the VulnCheck KEV. It was predicted in a January run.
-
 June 25: CVE-2024-0692 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 June 25: CVE-2025-0107  was added to the VulnCheck KEV. It was predicted in the January, February and May runs.
-
 June 10: CVE-2024-21407 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 June 10: CVE-2025-24016 was added to the KEV. It was rated hot in the Feb 15 run, almost four months ago.
-
 June 9: CVE-2025-29085 was added to the VulnCheck KEV. It was predicted in the May run.
-
 June 9: CVE-2025-32433 was added to the KEV. It was rated hot in the May 8 run one month prior.
-
 June 8: CVE-2025-26793 was added to the VulnCheck KEV. It was predicted in the February run.
-
 June 8: CVE-2024-43360 was added to the VulnCheck KEV. It was predicted in the April run.
-
 June 7: CVE-2024-52763 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 June 7: CVE-2024-29972 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 June 7: CVE-2024-20440 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 June 4: CVE-2024-30850 was added to the VulnCheck KEV. It was predicted in a January run.
-
 May 27: CVE-2024-7314 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 May 19: CVE-2024-11182 was added to the KEV. It was rated hot in the Jan 7 run which is the longest lead time yet at 135 days.
-
-May 13: Today's five MS CVEs reserved in March and released today are rated HOT!! https://github.com/opendr-io/causality/blob/main/2025/may-13-o4.txt
-
 May 7: CVE-2024-6047 was added to the KEV. It was rated hot in the Jan 3 run, a lead time of almost four months.
-
 May 7: CVE-2024-11120 was added to the KEV. It was rated hot in the Jan 3 run, a lead time of almost four months.
-
 May 1: CVE-2024-38475 was added to the KEV. It was rated hot on the Jan 3 run, a lead time just shy of four months.
-
-April 9: Two Linux CVEs were added to the KEV, CVE-2024-53150 and CVE-2024-53197.
-Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
-
+April 9: Two Linux CVEs were added to the KEV, CVE-2024-53150 and CVE-2024-53197. Both were rated hot in the January 7 run which is the longest lead time yet at 92 days.
 April 9: CVE-2024-38023 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 April 9: CVE-2024-38024 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 31: CVE-2024-20439 was added to the KEV. It was rated hot in the January 3 run which is the longest lead time yet at 87 days.
-
 March 19: CVE-2024-5932 was added to the VulnCheck KEV. It was predicted in a January run.
-
 March 19: CVE-2024-8856 was added to the VulnCheck KEV. It was predicted in a January run.
-
 March 19: CVE-2024-22120 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 19: CVE-2024-3806 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 19: CVE-2024-8503 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 18: CVE-2025-24472  was added to the KEV. It was rated hot in the Feb 15 run, another 31 day lead time.
-
 March 12: CVE-2024-6409 was added to the VulnCheck KEV. It was predicted in a January run.
-
 March 11: CVE-2024-11303 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 11: CVE-2024-9593 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 March 10: CVE-2025-25181 was added to the KEV. It was rated hot in the Feb 15 run. (23)
-
 March 10: CVE-2024-13159 was added to the KEV. It was rated hot in the Jan 17 run.
-
 March 10: CVE-2024-13160 was added to the KEV. It was rated hot in the Jan 17 run.
-
 March 10: 	CVE-2024-13161 was added to the KEV. It was rated hot in the Jan 17 run.
-
 March 4: CVE-2024-50302 was added to the KEV. It was rated hot in the Jan 7 run.
-
 March 3: CVE-2024-4885 was added to the KEV. It was rated hot in the Jan 3 run, a prediction time of two months, the longest so far. (18)
-
 February 27: CVE-2024-32238 was added to the VulnCheck KEV. It was predicted in a January run.
-
 February 26: CVE-2024-28916 was added to the VulnCheck KEV. It was predicted in a January run.
-
 February 26: CVE-2024-21447 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 February 26: CVE-2024-38100 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 February 26: CVE-2024-0582 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 February 25: CVE-2024-38514 was added to the VulnCheck KEV. It was predicted in the January 7 run.
-
 Feb 25: CVE-2024-49035 was added to the KEV. It was rated hot in the Jan 3 run. 
-
 Feb 20: CVE-2025-0111 was added to the KEV, rated hot in the Feb 15 run. (16)
-
 Feb 18: CVE-2024-53704 was added to the KEV today. This one was predicted to go hot by the model in the Jan 17 run which is 31 days early warning. It could have been in the Jan 3 run but some CVEs were not in the data then because my loader was missing a few.**
-
 Feb 18: CVE-2025-0108 was added to the KEV today. This one was predicted to go hot by the model in the Feb 15 run. It could have been predicted Feb 12 but I am not running the model daily yet.**
-
 Feb 12: CVE-2024-41710 was added to the KEV today. This one was predicted to go hot by the model in the Jan 7 run which is the longest lead time so far at 51 days!**
-
 February 12: CVE-2024-24328 was added to the VulnCheck KEV. It was predicted in a January run.
-
 February 12: CVE-2024-24329 was added to the VulnCheck KEV. It was predicted in the January 17 run.
-
-Feb 6: CVE-2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days! (12)
-https://github.com/opendr-io/causality/blob/main/2024/2024-predictions.txt
-
-Feb 5: CVE-2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 34 days!
-https://github.com/opendr-io/causality/blob/main/2024/2024-predictions.txt
-
+Feb 6: CVE-2024-21413 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 35 days! (12) https://github.com/opendr-io/causality/blob/main/2024/2024-predictions.txt
+Feb 5: CVE-2024-53104 was added to the KEV today. This one was predicted to go hot by the model in the Jan 3 run which is the longest lead time so far at 34 days! https://github.com/opendr-io/causality/blob/main/2024/2024-predictions.txt
 CVE-2024-29059 was added to the KEV on Feb 4. It was predicted hot in the Jan 17 run of the 2024 CVEs, 18 days ago. It should have been in the Jan 3 output but a few of the 2024 CVEs were not in the dataframe then.
-
 February 2: CVE-2024-6298 was added to the VulnCheck KEV. It was predicted in the January runs.
-
 CVE-2024-12686 was added to the KEV on January 13. It was classified 'hot' by my model on January 3 - ten days prior to the KEV addition - in this output file which was committed to GitHub on that day (https://github.com/opendr-io/causality/blob/main/2024/2024-predictions.txt) Commit history: https://github.com/opendr-io/causality/compare/ca99f27cd91bc6251ffd5c22aa1b18f1dab0d214...40cc5c07883f41762139050820d40ebe787dce4c
-
 January 23:  CVE-2024-42448 was added to the VulnCheck KEV. It was predicted January 7.
-
 These predictions were made by the January 3 run, around three weeks ahead of being added to the VulnCheck KEV (8)
-
 Jan22 	CVE-2024-6205	Unknown	PayPlus Payment Gateway	"The PayPlus Payment Gateway WordPress plugin before 6.6.9 does not properly sanitise and escape a parameter before using it in a SQL statement via a WooCommerce API route available to unauthenticated users, leading to an SQL injection vulnerability."	hot
-
 Jan22	CVE-2024-32735	CyberPower	CyberPower PowerPanel Enterprise	"An issue regarding missing authentication for certain utilities exists in CyberPower PowerPanel Enterprise prior to v2.8.3. An unauthenticated remote attacker can access the PDNU REST APIs, which may result in compromise of the application."	neutral	hot
-
 Jan22	CVE-2024-32737	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3. An unauthenticated remote attacker can leak sensitive information via the ""query_contract_result"" function within MCUDBHelper."	neutral	hot
-
 Jan22	CVE-2024-32738	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3. An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_lean"" function within MCUDBHelper."	neutral	hot
-
 Jan22	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3. An unauthenticated remote attacker can leak sensitive information via the ""query_utask_verbose"" function within MCUDBHelper."	neutral	hot
-
 Jan22	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	"A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3. An unauthenticated remote attacker can leak sensitive information via the ""query_ptask_verbose"" function within MCUDBHelper."	neutral	hot
-
-Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/)
-CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.
-
-Rated hot & added to the KEV Jan 7:
-
-CVE-2024-55550			"Mitel MiCollab through 9.8 SP2 could allow an authenticated attacker with administrative privilege to conduct a local file read, due to insufficient input sanitization. A successful exploit could allow the authenticated admin attacker to access resources that are constrained to the admin access level, and the disclosure is limited to non-sensitive system information. This vulnerability does not allow file modification or privilege escalation."	hot
-
-CVE-2024-41713			"A vulnerability in the NuPoint Unified Messaging (NPM) component of Mitel MiCollab through 9.8 SP1 FP2 (9.8.1.201) could allow an unauthenticated attacker to conduct a path traversal attack, due to insufficient input validation. A successful exploit could allow unauthorized access, enabling the attacker to view, corrupt, or delete users' data and system configurations."	hot
-
-
+Rated hot January 3, mentioned in VulnVerse Jan 5: (https://www.linkedin.com/pulse/security-week-review-vulnverse-23-marko-%25C5%25BEivanovi%25C4%2587-4sstf/) CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability.
+Rated hot & added to the KEV Jan 7: CVE-2024-55550			"Mitel MiCollab through 9.8 SP2 could allow an authenticated attacker with administrative privilege to conduct a local file read, due to insufficient input sanitization. A successful exploit could allow the authenticated admin attacker to access resources that are constrained to the admin access level, and the disclosure is limited to non-sensitive system information. This vulnerability does not allow file modification or privilege escalation."	hot
+Rated hot & added to the KEV Jan 7: CVE-2024-41713			"A vulnerability in the NuPoint Unified Messaging (NPM) component of Mitel MiCollab through 9.8 SP1 FP2 (9.8.1.201) could allow an unauthenticated attacker to conduct a path traversal attack, due to insufficient input validation. A successful exploit could allow unauthorized access, enabling the attacker to view, corrupt, or delete users' data and system configurations."	hot
