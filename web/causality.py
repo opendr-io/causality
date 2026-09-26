@@ -76,8 +76,8 @@ def _load_app_config() -> dict:
 APP_CONFIG = _load_app_config()
 
 
-def _sha256_file(path: pathlib.Path) -> str:
-    p = path.resolve()
+def _sha256_file(path: "str | pathlib.Path") -> str:
+    p = pathlib.Path(path).resolve()
     if not p.exists() or not p.is_file():
         return "MISSING:" + str(p)
     h = hashlib.sha256()
