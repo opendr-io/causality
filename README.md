@@ -13,8 +13,68 @@ Colab instance: https://colab.research.google.com/github/opendr-io/causality/blo
 
 [auditor](/auditor) contains audit scripts in python and powershell and their output that can be used to verify these claims.
 
-### Provable public predictions since January 2025 (total 300)
+### Provable public predictions since January 2025 (total 330)
 ### 2026:
+
+October 21, 2026: CVE-2026-7873 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm. 
+
+October 21, 2026: CVE-2024-39930 was added to the VulnCheck KEV. It was predicted on January 7, 2024. Its rating is hot. Eighth lead time over 18 months.
+
+October 18, 2026: CVE-2026-33309 was added to the VulnCheck KEV. It was predicted on April 25, 2026. Its rating is fire.
+
+October 17, 2026: CVE-2026-25243 was added to the VulnCheck KEV. It was predicted on June 1, 2026. Its rating is warm. 
+
+October 14, 2026: CVE-2025-41450 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is warm.
+
+October 13, 2026: CVE-2026-9290 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-54188 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-52714 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-49058 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-4257 was added to the VulnCheck KEV. It was predicted on April 25, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-24611 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2026-1830 was added to the VulnCheck KEV. It was predicted on June 1, 2026. Its rating is warm. Ninth lead time over one year.
+
+October 13, 2026: CVE-2025-7721 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is hot.
+
+October 13, 2026: CVE-2025-7402 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is hot.
+
+October 13, 2026: CVE-2025-46444 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is hot.
+
+October 13, 2026: CVE-2025-26936 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is hot.
+
+October 13, 2026: CVE-2025-14736 was added to the VulnCheck KEV. It was predicted on March 21, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2025-13407 was added to the VulnCheck KEV. It was predicted on March 21, 2026. Its rating is warm.
+
+October 13, 2026: CVE-2025-13206 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is warm.
+
+October 13, 2026: CVE-2025-10897 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is warm.
+
+October 13, 2026: CVE-2024-9634 was added to the VulnCheck KEV. It was predicted on January 7, 2024. Its rating is hot. Seventh lead time over 18 months.
+
+October 8, 2026: CVE-2026-4815 was added to the VulnCheck KEV. It was predicted on April 25, 2026. Its rating is warm.
+
+October 7, 2026: CVE-2026-26216 was added to the VulnCheck KEV. It was predicted on April 25, 2026. Its rating is warm.
+
+October 5, 2026: CVE-2024-23625 was added to the VulnCheck KEV. It was predicted on January 7, 2024. Its rating is hot. Sixth lead time over 18 months.
+
+October 2, 2026: CVE-2026-65761 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 1, 2026: CVE-2026-61500 was added to the VulnCheck KEV. It was predicted on August 5, 2026. Its rating is warm.
+
+October 1, 2026: CVE-2025-3759 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Its rating is hot. Eighth lead time over one year.
+
+September 30, 2026: CVE-2024-49766 was added to the VulnCheck KEV. It was predicted on January 17, 2024. Its rating is hot. Fifth lead time over 18 months.
+
+September 27, 2026: CVE-2025-9090 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is warm.
+
+September 27, 2026: CVE-2024-5522 was added to the VulnCheck KEV. It was predicted on January 7, 2024. Its rating is hot. Fourth lead time over 18 months.
 
 September 21: CVE-2026-7273 was added to the VulnCheck KEV. It was predicted on August 7.
 
