@@ -1,9 +1,9 @@
 CVE PREDICTION AUDIT REPORT
-Generated  : 2026-10-30 12:21
+Generated  : 2026-10-30 12:32
 Source     : \\vmware-host\Shared Folders\SHARED\GitHub\causality\README.md
 Data root  : \\vmware-host\Shared Folders\SHARED\GitHub\causality
 Dates      : from GitHub commit history (opendr-io/causality)
-Total CVEs : 337  |  Found: 335  |  Not found: 2  |  Flagged as non-predictions: 1
+Total CVEs : 336  |  Found: 336  |  Not found: 0  |  Flagged as non-predictions: 1
 --------------------------------------------------------------------------------
 
 CVE              : CVE-2024-0582
@@ -1946,6 +1946,13 @@ Rating           : hot
 File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-60698	2025-11-13 00:00:00+00:00		A command injection vulnerability exists in the D-Link DIR-882 Router firmware DIR882A1_FW102B02 within the `prog.cgi` and `rc` binaries. The `sub_432F60` function in `prog.cgi` stores user-supplied `SetSysLogSettings/IPAddress` values in NVRAM via `nvram_safe_set("SysLogRemote_IPAddress", ...)`. These values are later retrieved in the `sub_448DCC` function of `rc` using `nvram_safe_get` and concatenated into a shell command executed via `twsystem()` without any sanitization. An unauthenticated remote attacker can exploit this vulnerability to execute arbitrary commands on the device through specially crafted HTTP requests to the router's web interface.	n/a	n/a			hot
 
+CVE              : CVE-2025-60702
+KEV Date         : 2026-09-01
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : hot
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-60702	2025-11-13 00:00:00+00:00		A command injection vulnerability exists in the TOTOLINK A950RG Router firmware V5.9c.4592_B20191022_ALL within the `system.so` binary. The `setDiagnosisCfg` function retrieves the `ipDoamin` parameter from user input via `websGetVar` and concatenates it directly into a `ping` system command executed via `CsteSystem()` without any sanitization. An unauthenticated remote attacker can exploit this vulnerability to execute arbitrary commands on the device through specially crafted HTTP requests to the router's web interface.	n/a	n/a			hot
+
 CVE              : CVE-2025-60710
 KEV Date         : 2026-04-13
 Github Timestamp : 2025-12-03  (December 2025 run)
@@ -2447,10 +2454,6 @@ Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-60105	PUBLISHED	VulnCheck	2026-07-08T21:02:37.204Z	Monsta FTP < 2.14.5 SSRF via IPv4-Mapped IPv6 Address Bypass	Monsta FTP before 2.14.5 contains a server-side request forgery vulnerability in the fetchRemoteFile action caused by an incomplete IP blocklist check in the isBlockedIP() function, which fails to detect embedded IPv4 addresses within IPv4-mapped IPv6 addresses. An unauthenticated attacker can obtain a CSRF token from the public getSystemVars endpoint and submit a fetchRemoteFile request with a source URL resolving to an IPv4-mapped address, causing the server to issue HTTP requests to internal services and write responses to an attacker-controlled FTP destination, enabling retrieval of cloud instance metadata credentials.	Monsta Limited of New Zealand	Monsta FTP	7.7	HIGH	CWE-918	FALSE	warm	['CWE-918']	['Server-Side Request Forgery (SSRF)']
 
-CVE              : CVE-2026-60702
-KEV Date         : 2026-09-01
-Github Timestamp : NOT FOUND in any prediction file
-
 CVE              : CVE-2026-61500
 KEV Date         : 
 Github Timestamp : 2026-08-07  (August 2026 run)
@@ -2471,10 +2474,6 @@ Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-65761	PUBLISHED	Joomla	2026-07-23T16:38:58.787Z	Joomla Extension - joomshaper.com - Unauthenticated SQL injection in Easy Store extension 1.0.0-2.0.1	Joomla Extension - joomshaper.com - Unauthenticated SQL injection in Easy Store extension 1.0.0-2.0.1 - Improper validation of order parameters lead to an unauthenticated SQL injection in easystore, allowing full DB read access including credentials and sessions.	joomshaper.com	Easy Store extension for Joomla	9.3	CRITICAL	CWE-89	FALSE	warm	['CWE-89']	["Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"]
-
-CVE              : CVE-2026-66629
-KEV Date         : 2026-08-18
-Github Timestamp : NOT FOUND in any prediction file
 
 CVE              : CVE-2026-7273
 KEV Date         : 2026-09-21
