@@ -14,7 +14,7 @@ Colab instance: https://colab.research.google.com/github/opendr-io/causality/blo
 
 [auditor](/auditor) contains audit scripts in python and powershell and their output that can be used to verify these claims.
 
-### Provable public predictions since January 2025 (total 337)
+### Provable public predictions since January 2025 (total 336)
 
 ### 2026:
 
@@ -126,7 +126,7 @@ September 3:  CVE-2024-4956 was added to the VulnCheck KEV. It was predicted in 
 
 September 1: CVE-2026-9586 was added to the VulnCheck KEV. It was predicted on August 7.
 
-September 1:  CVE-2026-60702 was added to the VulnCheck KEV. It was predicted in December 2025.
+September 1:  CVE-2025-60702 was added to the VulnCheck KEV. It was predicted in December 2025.
 
 September 1:  CVE-2025-40553 was added to the VulnCheck KEV. It was predicted March 21.
 
@@ -137,8 +137,6 @@ August 27:  CVE-2026-61511 was added to the VulnCheck KEV. It was predicted on A
 August 26: CVE-2026-49869 was added to the VulnCheck KEV. It was predicted on August 7.
 
 August 18: CVE-2026-25895 was added to the VulnCheck KEV. It was predicted August 7.
-
-August 18: CVE-2026-66629 was added to the VulnCheck KEV. It was predicted August 7.
 
 August 17: CVE-2025-52907 was added to the VulnCheck KEV. It was predicted in December.
 
