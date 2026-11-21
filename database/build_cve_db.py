@@ -124,8 +124,6 @@ def infer_source_file(path: pathlib.Path) -> Tuple[SourceFile | None, List[str]]
 
     if not ({"cveid", "rating"} <= set(fields)):
         errors.append(f"HEAD {path}: missing required cveid/rating columns: {fields}")
-    elif year != "2024" and "kev" not in fields:
-        errors.append(f"HEAD {path}: inferred {year} but missing required kev column: {fields}")
     elif year == "2024" and not ({"vendorproject", "product", "shortdescription"} <= set(fields)):
         errors.append(f"HEAD {path}: inferred 2024 but header does not match 2024 prediction format: {fields}")
     elif year == "2025" and not ({"cveid", "published", "vulnerabilityname"} <= set(fields)):
@@ -157,7 +155,6 @@ def validate_rows(
     delimiter: str,
     row_number_key: str | None = None,
     require_rating: bool = True,
-    require_kev: bool = False,
     require_rating_date: bool = False,
 ) -> List[str]:
     errors = []
@@ -177,8 +174,6 @@ def validate_rows(
                 )
             if require_rating and not get(row, "rating"):
                 errors.append(f"{name} {path} record {record_number}: missing rating for cveid={preview(cve)}")
-            if require_kev and not get(row, "kev"):
-                errors.append(f"{name} {path} record {record_number}: missing kev for cveid={preview(cve)}")
             if require_rating_date and not get(row, "rating_date"):
                 errors.append(
                     f"{name} {path} record {record_number}: missing rating_date for cve={preview(cve)}"
@@ -195,7 +190,6 @@ def preflight_sources(sources: List[SourceFile], rating_dates_path: pathlib.Path
                 source.path,
                 source.delimiter,
                 row_number_key=source.row_number_key,
-                require_kev=source.year != "2024",
             )
         )
     errors.extend(validate_rows("rating_dates", rating_dates_path, ",", require_rating=True, require_rating_date=True))
@@ -258,7 +252,7 @@ def verify_rating_dates_before_insert(
 ) -> Tuple[List[str], dict, dict]:
     errors = []
     generated = verify_ingestion.generated_rating_dates(
-        source_paths={source.year: source.path for source in sources}
+        source_paths=[(source.year, source.path) for source in sources]
     )
     generated_dates = generated["dates"]
     never_seen_in_artifacts = generated["never_seen_in_artifacts"]
@@ -274,6 +268,7 @@ def verify_rating_dates_before_insert(
         "csv_mismatches": 0,
     }
 
+    reported_years = set()
     for source in sources:
         source_counts = verify_ingestion.source_cves(source.year, source.path)
         stats["coverage_checked"] += len(source_counts)
@@ -281,6 +276,9 @@ def verify_rating_dates_before_insert(
             1 for cve in source_counts
             if generated_dates.get(cve, {}).get("rating") == "cold"
         )
+        if source.year in reported_years:
+            continue  # never_seen / never_rated are per year, already reported
+        reported_years.add(source.year)
         never_seen = never_seen_in_artifacts.get(source.year, [])
         stats["never_seen"] += len(never_seen)
         for cve in never_seen:
@@ -461,7 +459,7 @@ def iter_primary_rows(source: SourceFile):
                 get(row, "vendor") or get(row, "vendorProject") or get(row, "vendorproject"),
                 get(row, "product"),
                 get(row, "affected versions") or get(row, "affected_versions"),
-                get(row, "kev"),
+                get(row, "kev"),  # optional: blank when the file has no kev column
                 get(row, "rating"),
             )
 
@@ -503,7 +501,7 @@ def iter_2026_rows(source: SourceFile):
                 get(row, "shortdescription") or get(row, "description"),
                 get(row, "vendorproject") or get(row, "vendor"),
                 get(row, "product"),
-                get(row, "kev"),
+                get(row, "kev"),  # optional: blank when the file has no kev column
                 get(row, "rating"),
             )
 
@@ -546,18 +544,48 @@ def iter_audit_py_rows(path: pathlib.Path):
             )
 
 
+def source_run_date(path: pathlib.Path) -> str:
+    """Run date of a HEAD file, from verify_ingestion.RATING_DATE_ARTIFACTS ("" if not listed)."""
+    target = path.resolve()
+    for artifact_path, run_date in verify_ingestion.RATING_DATE_ARTIFACTS:
+        if artifact_path.resolve() == target:
+            return run_date
+    return ""
+
+
+def iter_source_rows(source: SourceFile):
+    if source.year == "2024":
+        yield from iter_2024_rows(source)
+    elif source.year == "2025":
+        yield from iter_primary_rows(source)
+    elif source.year == "2026":
+        yield from iter_2026_rows(source)
+    else:
+        raise ValueError(f"unsupported source year: {source.year}")
+
+
 def rows_for_year(sources: List[SourceFile], year: str):
-    for source in sources:
-        if source.year != year:
-            continue
-        if year == "2024":
-            yield from iter_2024_rows(source)
-        elif year == "2025":
-            yield from iter_primary_rows(source)
-        elif year == "2026":
-            yield from iter_2026_rows(source)
-        else:
-            raise ValueError(f"unsupported source year: {year}")
+    """One row per CVE. When several HEAD files cover the same year (e.g. the
+    August 2026 run with every CVE, plus the November 2026 run with only
+    non-cold CVEs), each CVE's row comes from the newest run that contains it;
+    CVEs missing from a newer run keep their row from the older one. The
+    prediction date itself comes from rating_dates, not from these rows."""
+    year_sources = [source for source in sources if source.year == year]
+    if len(year_sources) > 1:
+        undated = [str(source.path) for source in year_sources if not source_run_date(source.path)]
+        if undated:
+            raise ValueError(
+                f"{year}: several HEAD files share this year, so each needs a run date in "
+                f"RATING_DATE_ARTIFACTS to decide which is newest; missing: {undated}"
+            )
+        year_sources.sort(key=lambda source: source_run_date(source.path), reverse=True)
+    seen = set()
+    for source in year_sources:
+        for row in iter_source_rows(source):
+            if row[0] in seen:
+                continue
+            seen.add(row[0])
+            yield row
 
 
 def build_database(
@@ -741,7 +769,6 @@ def main() -> int:
                 source.path,
                 source.delimiter,
                 row_number_key=source.row_number_key,
-                require_kev=source.year != "2024",
             )
         )
     if rating_dates_path.exists():

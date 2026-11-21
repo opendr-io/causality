@@ -11,9 +11,45 @@ Colab instance: https://colab.research.google.com/github/opendr-io/causality/blo
 
 [auditor](/auditor) contains audit scripts in python and powershell and their output that can be used to verify these claims:
 
-### Provable public predictions since January 2025 (total 350):
+### Provable public predictions since January 2025 (total 368):
 
 ### 2026:
+
+November 20: CVE-2025-42884 was added to the CISA KEV. It was predicted on December 2, 2025.
+
+November 20: CVE-2026-76466 was added to the CISA KEV. It was predicted on November 16, 2026.
+
+November 19: CVE-2025-61678 was added to the VulnCheck KEV. It was predicted on December 2, 2025.
+
+November 18: CVE-2025-34053 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Twenty-fourth lead time over one year.
+
+November 18: CVE-2025-24489 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Twenty-third lead time over one year.
+
+November 18: CVE-2025-27721 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Twenty-second lead time over one year.
+
+November 18: CVE-2025-66571 was added to the VulnCheck KEV. It was predicted on January 31, 2026.
+
+November 17: CVE-2024-11289 was added to the VulnCheck KEV. It was predicted on January 3, 2025. Eighteenth lead time over 18 months.
+
+November 17: CVE-2026-110618 was added to the VulnCheck KEV. It was predicted on November 16, 2026.
+
+November 17: CVE-2024-1728 was added to the VulnCheck KEV. It was predicted on January 3, 2025. Seventeenth lead time over 18 months.
+
+November 17: CVE-2024-25641 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Sixteenth lead time over 18 months.
+
+November 16: CVE-2024-38795 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Fifteenth lead time over 18 months.
+
+November 14: CVE-2024-9441 was added to the VulnCheck KEV. It was predicted on January 3, 2025. Fourteenth lead time over 18 months.
+
+November 13: CVE-2025-39506 was added to the VulnCheck KEV. It was predicted on December 2, 2025.
+
+November 11: CVE-2026-54121 was added to the VulnCheck KEV. It was predicted on August 7, 2026.
+
+November 11: CVE-2025-13516 was added to the VulnCheck KEV. It was predicted on December 2, 2025.
+
+November 11: CVE-2025-10162 was added to the VulnCheck KEV. It was predicted on December 2, 2025.
+
+November 10: CVE-2025-6744 was added to the VulnCheck KEV. It was predicted on December 2, 2025.
 
 November 10: CVE-2025-69971 was added to the VulnCheck KEV. It was predicted in March 2026.
 
@@ -25,23 +61,23 @@ November 10: CVE-2026-47668 was added to the VulnCheck KEV. It was predicted in 
 
 November 9: CVE-2026-11746 was added to the VulnCheck KEV. It was predicted in December 2025.
 
-November 8:  CVE-2024-24809 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Nth time over 18 months.
+November 8:  CVE-2024-24809 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Thirteenth lead time over 18 months.
 
-November 6:  CVE-2024-33605 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Nth time over 18 months.
+November 6:  CVE-2024-33605 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Twelfth lead time over 18 months.
 
-November 5: CVE-2026-26966 was added to the VulnCheck KEV. It was predicted in March 2026.
+November 5: CVE-2025-26966 was added to the VulnCheck KEV. It was predicted in January 2026.
 
-November 4:  CVE-2024-27834 was added to the CISA and VulnCheck KEVs. It was predicted on January 17, 2025. Nth time over 18 months.
+November 4:  CVE-2024-27834 was added to the CISA and VulnCheck KEVs. It was predicted on January 17, 2025. Eleventh lead time over 18 months.
 
 November 4: CVE-2025-49387 was added to the VulnCheck KEV. It was predicted in December 2025.
 
 November 4: CVE-2026-11556 was added to the VulnCheck KEV. It was predicted in August 2026.
 
-November 3: CVE-2025-41451 was added to the VulnCheck KEV. It was predicted in August 2025. Nth lead time over one year.
+November 3: CVE-2025-41451 was added to the VulnCheck KEV. It was predicted in August 2025. Twenty-first lead time over one year.
 
-October 30:  CVE-2025-41656 was added to the VulnCheck KEV. It was predicted in August 2025. Nth lead tiome over one year. 
+October 30:  CVE-2025-41656 was added to the VulnCheck KEV. It was predicted in August 2025. Twentieth lead time over one year.
 
-October 27:  CVE-2024-3848 was added to the VulnCheck KEV. It was predicted on January 17, 2025. Nth time over 18 months.
+October 29: CVE-2024-10441 was added to the VulnCheck KEV. It was predicted on February 8, 2026.
 
 October 27/28, 2026: CVE-2026-41709 was added to the VulnCheck and CISA KEVs. It was predicted on August 7, 2026. Its rating is warm.
 
@@ -79,7 +115,7 @@ October 13, 2026: CVE-2026-4257 was added to the VulnCheck KEV. It was predicted
 
 October 13, 2026: CVE-2026-24611 was added to the VulnCheck KEV. It was predicted on August 7, 2026. Its rating is warm.
 
-October 13, 2026: CVE-2026-1830 was added to the VulnCheck KEV. It was predicted on June 1, 2026. Its rating is warm. Ninth lead time over one year.
+October 13, 2026: CVE-2026-1830 was added to the VulnCheck KEV. It was predicted on June 1, 2026. Its rating is warm.
 
 October 13, 2026: CVE-2025-7721 was added to the VulnCheck KEV. It was predicted on December 2, 2025. Its rating is hot.
 
@@ -109,7 +145,7 @@ October 2, 2026: CVE-2026-65761 was added to the VulnCheck KEV. It was predicted
 
 October 1, 2026: CVE-2026-61500 was added to the VulnCheck KEV. It was predicted on August 7, 2026. Its rating is warm.
 
-October 1, 2026: CVE-2025-3759 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Its rating is hot. Eighth lead time over one year.
+October 1, 2026: CVE-2025-3759 was added to the VulnCheck KEV. It was predicted on August 31, 2025. Its rating is hot. Nineteenth lead time over one year.
 
 September 30, 2026: CVE-2024-49766 was added to the VulnCheck KEV. It was predicted on January 17, 2025. Its rating is hot. Fifth lead time over 18 months.
 
@@ -211,7 +247,7 @@ July 1: CVE-2026-45659 was added to the CISA and VulnCheck KEVs. It was predicte
 
 June 29: CVE-2026-46817 was added to the VulnCheck KEV. It was predicted on June 1.
 
-June 25: CVE-2024-41700 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Seventeenth lead time over one year.
+June 25: CVE-2024-41700 was added to the VulnCheck KEV. It was predicted on January 7, 2025. Eighteenth lead time over one year.
 
 June 24: CVE-2026-0769 was added to the VulnCheck KEV. It was predicted on April 25.
 
@@ -253,7 +289,7 @@ May 19: CVE-2025-62481 was added to the VulnCheck KEV. It was predicted December
 
 May 19: CVE-2025-53072 was added to the VulnCheck KEV. It was predicted December 2, 2025.
 
-May 10: CVE-2025-32818 was added to the VulnCheck KEV. It was predicted May 8, 2025. Sixteenth lead time over one year.
+May 10: CVE-2025-32818 was added to the VulnCheck KEV. It was predicted May 8, 2025. Seventeenth lead time over one year.
 
 May 10: CVE-2025-40600 was added to the VulnCheck KEV. It was predicted in August 2025.
 
@@ -279,7 +315,7 @@ May 4: CVE-2024-12281 was added to the VulnCheck KEV. It was predicted February 
 
 May 4: CVE-2024-13744 was added to the VulnCheck KEV. It was predicted February 8.
 
-May 4: CVE-2024-4346 was added to the VulnCheck KEV. It was predicted in January 2025. Fifteenth lead time over one year.
+May 4: CVE-2024-4346 was added to the VulnCheck KEV. It was predicted in January 2025. Sixteenth lead time over one year.
 
 May 1: CVE-2025-60021 was added to the VulnCheck KEV. It was predicted in January 2026.
 
@@ -289,7 +325,7 @@ April 30: CVE-2026-33478 was added to the VulnCheck KEV. It was predicted April 
 
 April 30: CVE-2025-53558 was added to the VulnCheck KEV. It was predicted in August 2025.
 
-April 28: CVE-2024-1708 was added to the CISA KEV. It was predicted in January 2025. Fourteenth prediction over one year.
+April 28: CVE-2024-1708 was added to the CISA KEV. It was predicted in January 2025. Fifteenth prediction over one year.
 
 April 24: CVE-2024-57726 was added to the CISA KEV. It was predicted February 8.
 
@@ -299,9 +335,9 @@ April 23: CVE-2025-49867 was added to the VulnCheck KEV. It was predicted in Jan
 
 April 23: CVE-2025-31918 was added to the VulnCheck KEV. It was predicted in December.
 
-April 23: CVE-2024-52490 was added to the VulnCheck KEV. It was predicted in January 2025. Thirteenth prediction over one year.
+April 23: CVE-2024-52490 was added to the VulnCheck KEV. It was predicted in January 2025. Fourteenth prediction over one year.
 
-April 21: CVE-2024-22927 was added to the VulnCheck KEV. It was predicted in January 2025. Twelfth prediction over one year.
+April 21: CVE-2024-22927 was added to the VulnCheck KEV. It was predicted in January 2025. Thirteenth prediction over one year.
 
 April 21: CVE-2025-29635 was added to the VulnCheck KEV. It was predicted in May 2025.
 
@@ -313,7 +349,7 @@ April 15: CVE-2025-12548 was added to the VulnCheck KEV. It was predicted in Jan
 
 April 13: CVE-2025-60710 was added to the VulnCheck KEV. It was predicted in December.
 
-April 10: CVE-2024-21833 was added to the VulnCheck KEV. It was predicted in January 2025. Eleventh prediction over one year.
+April 10: CVE-2024-21833 was added to the VulnCheck KEV. It was predicted in January 2025. Twelfth prediction over one year.
 
 April 10: CVE-2025-0520 was added to the VulnCheck KEV. It was predicted in May 2025.
 
@@ -341,9 +377,9 @@ March 27: CVE-2025-53521 was added to the CISA KEV. It was predicted in December
 
 March 18: CVE-2025-43520 was added to the VulnCheck KEV. It was predicted in January 2026. 
 
-March 11: CVE-2024-4841 was listed by ShadowServer. It was predicted in January 2025. Tenth lead time over one year.
+March 11: CVE-2024-4841 was listed by ShadowServer. It was predicted in January 2025. Eleventh lead time over one year.
 
-March 11: CVE-2024-4367 was listed by VulnCheck. It was predicted in January 2025. Ninth lead time over one year.
+March 11: CVE-2024-4367 was listed by VulnCheck. It was predicted in January 2025. Tenth lead time over one year.
 
 March 11: CVE-2025-34117 was added to the VulnCheck KEV. It was predicted in August 2025. 
 
@@ -353,27 +389,27 @@ March 11: CVE-2025-57296 was added to the VulnCheck KEV. It was predicted in Dec
 
 March 10: CVE-2025-10353 was added to the VulnCheck KEV. It was predicted in December 2025. 
 
-Feb 20: CVE-2024-6250 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Eighth lead time over one year.
+Feb 20: CVE-2024-6250 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Ninth lead time over one year.
 
-Feb 17: CVE-2024-7694 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Seventh lead time over one year.
+Feb 17: CVE-2024-7694 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Eighth lead time over one year.
 
 Feb 12: CVE-2025-40536 was added to both KEVs. It was predicted in the January 31, 2026 run.
 
 Feb 12: CVE-2025-55303 was added to the VulnCheck KEV. It was predicted in the August 2025 run.
 
-Feb 12: CVE-2024-43468 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Sixth lead time over one year.
+Feb 12: CVE-2024-43468 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Seventh lead time over one year.
 
 Feb 11: CVE-2025-56520 was added to the VulnCheck KEV. It was predicted in December 2025. 
 
 Feb 5: CVE-2025-68947 was added to the VulnCheck KEV. It was predicted in the January 31 run.
 
-Feb 4: CVE-2024-20404 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fifth lead time over one year.
+Feb 4: CVE-2024-20404 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Sixth lead time over one year.
 
 Feb 3: CVE-2025-40551 was added to the VulnCheck KEV. It was predicted in the January 31 run.
 
-Feb 2: CVE-2024-2053 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fourth lead time over one year.
+Feb 2: CVE-2024-2053 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fifth lead time over one year.
 
-Feb 1: CVE-2024-2862 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Third lead time over one year.
+Feb 1: CVE-2024-2862 was added to the VulnCheck KEV. It was predicted in the first run in January 2025. Fourth lead time over one year.
 
 Feb 1: CVE-2025-1023 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
 
@@ -383,7 +419,7 @@ January 28: CVE-2025-64328 was added to the VulnCheck KEV. It was predicted in t
 
 January 27: CVE-2025-44846 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
 
-January 23: CVE-2024-37079 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. Second prediction lead time over one year.
+January 23: CVE-2024-37079 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. Third prediction lead time over one year.
 
 January 22: CVE-2025-54313 was added to the CISA KEV. It was predicted in the August 2025 run.
 
@@ -399,14 +435,13 @@ January 20: CVE-2025-0626 was added to the VulnCheck KEV. It was predicted in th
 
 January 20: CVE-2025-2857 was added to the VulnCheck KEV. It was predicted in the May 8, 2025 run.
 
-January 20: CVE-2024-6782 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. First prediction lead time over one year.
+January 20: CVE-2024-6782 was added to the VulnCheck KEV. It was predicted in the very first published run in early January 2025. Second prediction lead time over one year.
 
 January 20: CVE-2025-0683 was added to the VulnCheck KEV. It was predicted in the Feb 15, 2025 run.
 
 January 20: CVE-2025-0890 was added to the VulnCheck KEV. It was predicted in the Feb 15, 2025 run.
 
-
-January 14: CVE-2024-2863 was added to the VulnCheck KEV. It was predicted in the January 2025 runs.
+January 14: CVE-2024-2863 was added to the VulnCheck KEV. It was predicted in the January 2025 runs. First lead time over one year.
 
 January 14: CVE-2025-55749 was added to the VulnCheck KEV. It was predicted in the December 3 run.
 
