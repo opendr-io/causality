@@ -17,7 +17,9 @@ DEFAULT_DB = BASE_DIR / "cve.db"
 DEFAULT_SOURCES = {
     "2025": HEAD_DIR / "2025-processed-clean.txt",
     "2024": HEAD_DIR / "2024-output-may-24.txt",
-    "2026": HEAD_DIR / "2026-august.txt",
+    # Several HEAD files can cover one year: the database keeps one row per
+    # CVE, from the newest run that contains it (see build_cve_db.rows_for_year).
+    "2026": [HEAD_DIR / "2026-august.txt", HEAD_DIR / "2026-november-16-run.tsv"],
 }
 
 DEFAULT_RATING_DATES = BASE_DIR / "rating_dates.csv"
@@ -42,10 +44,14 @@ RATING_DATE_ARTIFACTS = [
     (ROOT_DIR / "2026" / "2026-april-1-for-sharing.txt", "2026-04-25"),
     (ROOT_DIR / "2026" / "2026-june-1.txt", "2026-06-02"),
     (ROOT_DIR / "HEAD" / "2026-august.txt", "2026-08-07"),
+    (ROOT_DIR / "HEAD" / "2026-november-16-run.tsv", "2026-11-16"),   # non-cold CVEs only
 ]
 CVE_RE = re.compile(r"^CVE-\d{4}-\d+$", re.IGNORECASE)
 LINE_START_CVE_RE = re.compile(r"^(?:\d+[,\t])?(CVE-\d{4}-\d+)(?=[,\t])", re.IGNORECASE)
-RATING_VALUES = {"fire", "hot", "warm", "cold", "sunspot"}
+# "supply chain" is the November 2026 run's name for what earlier runs called
+# "sunspot". "wildfire" is deliberately absent: those rows fall through to
+# predicted_rating, and a later wildfire row never moves the first non-cold date.
+RATING_VALUES = {"fire", "hot", "warm", "cold", "sunspot", "supply chain"}
 
 
 def nz(value):
@@ -166,6 +172,29 @@ def source_cves(year, path):
     return counts
 
 
+def iter_source_paths(source_paths):
+    """Yield (year, path) from {year: path}, {year: [paths]} or [(year, path), ...]."""
+    items = source_paths.items() if isinstance(source_paths, dict) else source_paths
+    for year, paths in items:
+        if isinstance(paths, (list, tuple)):
+            for path in paths:
+                yield year, path
+        else:
+            yield year, paths
+
+
+def year_source_cves(year, paths):
+    """CVE counts for one year. With several files the database keeps one row
+    per CVE, so the expectation is the union of their CVEs, once each."""
+    paths = paths if isinstance(paths, (list, tuple)) else [paths]
+    if len(paths) == 1:
+        return source_cves(year, paths[0])
+    union = set()
+    for path in paths:
+        union.update(source_cves(year, path))
+    return Counter({cve: 1 for cve in union})
+
+
 def load_rating_dates(path=DEFAULT_RATING_DATES):
     dates = {}
     with open(path, encoding="utf-8", errors="ignore", newline="") as f:
@@ -190,9 +219,9 @@ def write_rating_dates(dates: dict, path=DEFAULT_RATING_DATES) -> None:
 def verify_rating_date_coverage(source_paths=DEFAULT_SOURCES, rating_dates_path=DEFAULT_RATING_DATES):
     dates = load_rating_dates(rating_dates_path)
     missing_by_year = {}
-    for year, path in source_paths.items():
+    for year, path in iter_source_paths(source_paths):
         missing = sorted(cve for cve in source_cves(year, path) if not dates.get(cve))
-        missing_by_year[year] = missing
+        missing_by_year[year] = sorted(set(missing_by_year.get(year, [])) | set(missing))
     return missing_by_year
 
 
@@ -324,14 +353,14 @@ def generated_rating_dates(
 
     never_seen_in_artifacts = {}
     never_rated_in_artifacts = {}
-    for year, path in source_paths.items():
+    for year, path in iter_source_paths(source_paths):
         source_set = set(source_cves(year, path))
-        never_seen = sorted(cve for cve in source_set if cve not in seen_cves)
+        never_seen = {cve for cve in source_set if cve not in seen_cves}
         if never_seen:
-            never_seen_in_artifacts[year] = never_seen
-        never_rated = sorted(cve for cve in source_set if cve in seen_cves and cve not in dates)
+            never_seen_in_artifacts[year] = sorted(set(never_seen_in_artifacts.get(year, [])) | never_seen)
+        never_rated = {cve for cve in source_set if cve in seen_cves and cve not in dates}
         if never_rated:
-            never_rated_in_artifacts[year] = never_rated
+            never_rated_in_artifacts[year] = sorted(set(never_rated_in_artifacts.get(year, [])) | never_rated)
     return {
         "dates": dates,
         "artifact_count": len(dates),
@@ -360,7 +389,7 @@ def db_cves(con, table):
 
 
 def verify_dataset(con, year, table, path):
-    expected = source_cves(year, path)
+    expected = year_source_cves(year, path)
     actual = db_cves(con, table)
     missing = sorted(set(expected) - set(actual))
     extra = sorted(set(actual) - set(expected))
@@ -471,7 +500,7 @@ def main():
     expected_by_year = {}
     for year, table, path in checks:
         result = verify_dataset(con, year, table, path)
-        expected_by_year[year] = source_cves(year, path)
+        expected_by_year[year] = year_source_cves(year, path)
         print(
             f"{year}: rows source={result['expected_rows']:,} db={result['db_rows']:,}; "
             f"unique source={result['expected_unique']:,} db={result['db_unique']:,}; "

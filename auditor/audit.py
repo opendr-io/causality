@@ -55,6 +55,7 @@ PREDICTION_FILES = [
     {"date": "2026-04-25", "label": "April 2026 run",              "path": r"2026\2026-april-1-for-sharing.txt"},
     {"date": "2026-06-01", "label": "June 2026 run",             "path": r"2026\2026-june-1.txt"},
     {"date": "2026-08-07", "label": "August 2026 run",           "path": r"HEAD\2026-august.txt"},
+    {"date": "2026-11-16", "label": "November 2026 run",           "path": r"HEAD\2026-november-16-run.tsv"},
 ]
 
 
@@ -87,7 +88,11 @@ DATE_COMPACT_RE = re.compile(
 # Rating-column name aliases used across the pipeline's various export
 # schemas, and the token values that count as an actual rating (as opposed
 # to header noise or free text that happens to match).
-RATING_COLS   = {"rating", "label", "prediction", "predicted_label"}
+# Ordered by priority: the model's prediction columns come before "label",
+# because the first 2024 run (2024-predictions.txt) has both a "label"
+# column (all "neutral" -- not a model rating) and "Predicted_Label" (the
+# actual rating). Columns are checked in this order, not header order.
+RATING_COLS   = ["predicted_label", "prediction", "rating", "label"]
 RATING_VALUES = {"hot", "cold", "warm", "fire", "neutral"}
 ACTIONABLE_VALUES = RATING_VALUES - {"cold"}
 
@@ -136,7 +141,8 @@ def extract_row_cve(row: list[str]) -> str | None:
 
 
 def rating_column_indices(header: list[str]) -> list[int]:
-    return [i for i, h in enumerate(header) if h and h.strip().lower() in RATING_COLS]
+    names = [(h or "").strip().lower() for h in header]
+    return [i for c in RATING_COLS for i, n in enumerate(names) if n == c]
 
 
 def row_rating(row: list[str], rating_idx: list[int]) -> str | None:

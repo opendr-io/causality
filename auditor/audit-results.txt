@@ -1,36 +1,41 @@
 CVE PREDICTION AUDIT REPORT
-Generated  : 2026-10-30 12:32
-Source     : \\vmware-host\Shared Folders\SHARED\GitHub\causality\README.md
-Data root  : \\vmware-host\Shared Folders\SHARED\GitHub\causality
+Generated  : 2026-11-20 19:06
 Dates      : from GitHub commit history (opendr-io/causality)
-Total CVEs : 336  |  Found: 336  |  Not found: 0  |  Flagged as non-predictions: 1
+Total CVEs : 368  |  Found: 368  |  Not found: 0  |  Flagged as non-predictions: 0
 --------------------------------------------------------------------------------
 
 CVE              : CVE-2024-0582
 KEV Date         : 2025-02-26
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 23969	CVE-2024-0582	Red Hat	Red Hat Enterprise Linux 6	A memory leak flaw was found in the Linux kernelâ€™s io_uring functionality in how a user registers a buffer ring with IORING_REGISTER_PBUF_RING, mmap() it, and then frees it. This flaw allows a local user to crash or potentially escalate their privileges on the system.	neutral	hot
 
 CVE              : CVE-2024-0692
 KEV Date         : 2025-06-25
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 23184	CVE-2024-0692	SolarWinds 	Security Event Manager 	The SolarWinds Security Event Manager was susceptible to Remote Code Execution Vulnerability. This vulnerability allows an unauthenticated user to abuse SolarWindsâ€™ service, resulting in remote code execution.	neutral	hot
+
+CVE              : CVE-2024-10441
+KEV Date         : 2026-10-29
+Github Timestamp : 2026-02-08  (May 24 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\2024-output-may-24.txt
+Line             : CVE-2024-10441	Synology	BeeStation OS (BSM); DiskStation Manager (DSM)	Improper encoding or escaping of output vulnerability in the system plugin daemon in Synology BeeStation OS (BSM) before 1.1-65374 and Synology DiskStation Manager (DSM) before 7.2-64570-4, 7.2.1-69057-6 and 7.2.2-72806-1 allows remote attackers to execute arbitrary code via unspecified vectors.	hot
 
 CVE              : CVE-2024-10586
 KEV Date         : 2025-07-18
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 13043	CVE-2024-10586	eugenbobrowski	Debug Tool	The Debug Tool plugin for WordPress is vulnerable to arbitrary file creation due to a missing capability check on the dbt_pull_image() function and missing file type validation in all versions up to, and including, 2.2. This makes it possible for unauthenticated attackers to to create arbitrary files such as .php files that can be leveraged for remote code execution.	neutral	hot
 
 CVE              : CVE-2024-11120
 KEV Date         : 2025-05-07
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 6060	CVE-2024-11120	GeoVision	GV-VS12	** UNSUPPPORTED WHEN ASSIGNED ** Certain EOL GeoVision devices have an OS Command Injection vulnerability. Unauthenticated remote attackers can exploit this vulnerability to inject and execute arbitrary system commands on the device. Moreover, this vulnerability has already been exploited by attackers, and we have received related reports.	neutral	hot
 
@@ -47,6 +52,13 @@ JavaScript in an img tag. This could
  allow a remote attacker
 
 to load arbitrary JavaScript code in the context of a webmail user's browser window.	hot
+
+CVE              : CVE-2024-11289
+KEV Date         : 2026-11-17
+Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\2024-predictions.txt
+Line             : 6224	CVE-2024-11289	pencidesign	Soledad	The Soledad theme for WordPress is vulnerable to Local File Inclusion in all versions up to, and including, 8.5.9 via several functions like penci_archive_more_post_ajax_func, penci_more_post_ajax_func, and penci_more_featured_post_ajax_func. This makes it possible for unauthenticated attackers to include and execute PHP files on the server, allowing the execution of any PHP code in those files. This can be used to bypass access controls, obtain sensitive data, or achieve code execution in cases where PHP files can be uploaded and included. The exploitability of this is limited to Windows.	neutral	hot
 
 CVE              : CVE-2024-11303
 KEV Date         : 2025-03-11
@@ -65,7 +77,7 @@ Line             : CVE-2024-11350	scriptsbundle	AdForest	The AdForest theme for 
 CVE              : CVE-2024-11740
 KEV Date         : 2025-09-11
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 6028	CVE-2024-11740	codename065	Download Manager	The The Download Manager plugin for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 3.3.03. This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode. This makes it possible for unauthenticated attackers to execute arbitrary shortcodes.	neutral	hot
 
@@ -79,21 +91,21 @@ Line             : CVE-2024-12281	Fave Themes	Homey	The Homey theme for WordPres
 CVE              : CVE-2024-12686
 KEV Date         : 2025-02-02
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 18609	CVE-2024-12686	BeyondTrust	Remote Support(RS) & Privileged Remote Access(PRA)	A vulnerability has been discovered in Privileged Remote Access (PRA) and Remote Support (RS) which can allow an attacker with existing administrative privileges to inject commands and run as a site user.	neutral	hot
 
 CVE              : CVE-2024-12856
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 18774	CVE-2024-12856	Four-Faith	F3x24	The Four-Faith router models F3x24 and F3x36 are affected by an operating system (OS) command injection vulnerability. At least firmware version 2.0 allows authenticated and remote attackers to execute arbitrary OS commands over HTTP when modifying the system time via apply.cgi. Additionally, this firmware version has default credentials which, if not changed, would effectively change this vulnerability into an unauthenticated and remote OS command execution issue.	neutral	hot
 
 CVE              : CVE-2024-12912
 KEV Date         : 2025-11-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 18878	CVE-2024-12912	ASUS	Router	An improper input insertion vulnerability in AiCloud on certain router models may lead to arbitrary command execution.
 Refer to the '01/02/2025 ASUS Router AiCloud vulnerability' section on the ASUS Security Advisory for more information.	neutral	hot
@@ -136,14 +148,14 @@ Line             : CVE-2024-13744	pluggabl	Booster for WooCommerce	The Booster f
 CVE              : CVE-2024-1561
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 24901	CVE-2024-1561	gradio-app	gradio-app/gradio	An issue was discovered in gradio-app/gradio, where the `/component_server` endpoint improperly allows the invocation of any method on a `Component` class with attacker-controlled arguments. Specifically, by exploiting the `move_resource_to_block_cache()` method of the `Block` class, an attacker can copy any file on the filesystem to a temporary directory and subsequently retrieve it. This vulnerability enables unauthorized local file read access, posing a significant risk especially when the application is exposed to the internet via `launch(share=True)`, thereby allowing remote attackers to read files on the host machine. Furthermore, gradio apps hosted on `huggingface.co` are also affected, potentially leading to the exposure of sensitive information such as API keys and credentials stored in environment variables.	neutral	hot
 
 CVE              : CVE-2024-1708
 KEV Date         : 2026-04-28
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 24550	CVE-2024-1708	ConnectWise	ScreenConnect	ConnectWise ScreenConnect 23.9.7 and prior are affected by path-traversal vulnerability, which may allow an attacker 
 
@@ -151,44 +163,59 @@ the ability to execute remote code or directly impact confidential data or criti
 
 	neutral	hot
 
+CVE              : CVE-2024-1728
+KEV Date         : 2026-11-17
+Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\2024-predictions.txt
+Line             : 24541	CVE-2024-1728	gradio-app	gradio-app/gradio	gradio-app/gradio is vulnerable to a local file inclusion vulnerability due to improper validation of user-supplied input in the UploadButton component. Attackers can exploit this vulnerability to read arbitrary files on the filesystem, such as private SSH keys, by manipulating the file path in the request to the `/queue/join` endpoint. This issue could potentially lead to remote code execution. The vulnerability is present in the handling of file upload paths, allowing attackers to redirect file uploads to unintended locations on the server.	neutral	hot
+
 CVE              : CVE-2024-20404
 KEV Date         : 2026-02-04
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
-Line             : 10035	CVE-2024-20404	Cisco	Cisco Unified Contact Center Enterprise	A vulnerability in the web-based management interface of Cisco Finesse could allow an unauthenticated, remote attacker to conduct an SSRF attack on an affected system.
- This vulnerability is due to insufficient validation of user-supplied input for specific HTTP requests that are sent to an affected system. An attacker could exploit this vulnerability by sending a crafted HTTP request to the affected device. A successful exploit could allow the attacker to obtain limited sensitive information for services that are associated to the affected device.	neutral	hot
+Line             : 10035	CVE-2024-20404	Cisco	Cisco Unified Contact Center Enterprise	A vulnerability in the web-based management interface of Cisco Finesse could allow an unauthenticated, remote attacker to conduct an SSRF attack on an affected system.
+
+
+ This vulnerability is due to insufficient validation of user-supplied input for specific HTTP requests that are sent to an affected system. An attacker could exploit this vulnerability by sending a crafted HTTP request to the affected device. A successful exploit could allow the attacker to obtain limited sensitive information for services that are associated to the affected device.	neutral	hot
 
 CVE              : CVE-2024-20419
 KEV Date         : 2025-10-17
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
-Line             : 10107	CVE-2024-20419	Cisco	Cisco Smart Software Manager On-Prem	A vulnerability in the authentication system of Cisco Smart Software Manager On-Prem (SSM On-Prem) could allow an unauthenticated, remote attacker to change the password of any user, including administrative users.
- This vulnerability is due to improper implementation of the password-change process. An attacker could exploit this vulnerability by sending crafted HTTP requests to an affected device. A successful exploit could allow an attacker to access the web UI or API with the privileges of the compromised user.	neutral	hot
+Line             : 10107	CVE-2024-20419	Cisco	Cisco Smart Software Manager On-Prem	A vulnerability in the authentication system of Cisco Smart Software Manager On-Prem (SSM On-Prem) could allow an unauthenticated, remote attacker to change the password of any user, including administrative users.
+
+
+ This vulnerability is due to improper implementation of the password-change process. An attacker could exploit this vulnerability by sending crafted HTTP requests to an affected device. A successful exploit could allow an attacker to access the web UI or API with the privileges of the compromised user.	neutral	hot
 
 CVE              : CVE-2024-20439
 KEV Date         : 2025-03-31
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
-Line             : 10133	CVE-2024-20439	Cisco	Cisco Smart License Utility	A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to log in to an affected system by using a static administrative credential.
-
+Line             : 10133	CVE-2024-20439	Cisco	Cisco Smart License Utility	A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to log in to an affected system by using a static administrative credential.
+
+
+
 This vulnerability is due to an undocumented static user credential for an administrative account. An attacker could exploit this vulnerability by using the static credentials to log in to the affected system. A successful exploit could allow the attacker to log in to the affected system with administrative privileges over the API of the Cisco Smart Licensing Utility application.	neutral	hot
 
 CVE              : CVE-2024-20440
 KEV Date         : 2025-06-07
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
-Line             : 9594	CVE-2024-20440	Cisco	Cisco Smart License Utility	A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to access sensitive information.
-
+Line             : 9594	CVE-2024-20440	Cisco	Cisco Smart License Utility	A vulnerability in Cisco Smart Licensing Utility could allow an unauthenticated, remote attacker to access sensitive information.
+
+
+
 This vulnerability is due to excessive verbosity in a debug log file. An attacker could exploit this vulnerability by sending a crafted HTTP request to an affected device. A successful exploit could allow the attacker to obtain log files that contain sensitive data, including credentials that can be used to access the API.	neutral	hot
 
 CVE              : CVE-2024-2053
 KEV Date         : 2026-02-02
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 859	CVE-2024-2053	Artica Tech	Artica Proxy	The Artica Proxy administrative web application will deserialize arbitrary PHP objects supplied by unauthenticated users and subsequently enable code execution as the "www-data" user. This issue was demonstrated on version 4.50 of theÂ The Artica-Proxy administrative web application attempts to prevent local file inclusion. These protections can be bypassed and arbitrary file requests supplied by unauthenticated users will be returned according to the privileges of the "www-data" user.
 	neutral	hot
@@ -196,42 +223,42 @@ Line             : 859	CVE-2024-2053	Artica Tech	Artica Proxy	The Artica Proxy a
 CVE              : CVE-2024-21407
 KEV Date         : 2025-06-10
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 8085	CVE-2024-21407	Microsoft	Windows 10 Version 1809	Windows Hyper-V Remote Code Execution Vulnerability	neutral	hot
 
 CVE              : CVE-2024-21413
 KEV Date         : 2025-02-06
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 8317	CVE-2024-21413	Microsoft	Microsoft Office 2019	Microsoft Outlook Remote Code Execution Vulnerability	neutral	hot
 
 CVE              : CVE-2024-21447
 KEV Date         : 2025-02-26
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 7960	CVE-2024-21447	Microsoft	Windows Server 2022	Windows Authentication Elevation of Privilege Vulnerability	neutral	hot
 
 CVE              : CVE-2024-21833
 KEV Date         : 2026-04-10
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 8237	CVE-2024-21833	TP-Link	Archer AX3000	Multiple TP-LINK products allow a network-adjacent unauthenticated attacker with access to the product to execute arbitrary OS commands. The affected device, with the initial configuration, allows login only from the LAN port or Wi-Fi.	neutral	hot
 
 CVE              : CVE-2024-22024
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 21191	CVE-2024-22024	Ivanti	ICS	An XML external entity or XXE vulnerability in the SAML component of Ivanti Connect Secure (9.x, 22.x), Ivanti Policy Secure (9.x, 22.x) and ZTA gateways which allows an attacker to access certain restricted resources without authentication.	neutral	hot
 
 CVE              : CVE-2024-22120
 KEV Date         : 2025-03-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 21186	CVE-2024-22120	Zabbix	Zabbix	Zabbix server can perform command execution for configured scripts. After command is executed, audit entry is added to "Audit Log". Due to "clientip" field is not sanitized, it is possible to injection SQL into "clientip" and exploit time based blind SQL injection.	neutral	hot
 
@@ -243,9 +270,9 @@ File             : 2024\2024-predictions-jan-17-run.txt
 Line             : CVE-2024-22927	hot			Cross Site Scripting (XSS) vulnerability in the func parameter in eyoucms v.1.6.5 allows a remote attacker to run arbitrary code via crafted URL.	
 
 CVE              : CVE-2024-23625
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 14907	CVE-2024-23625	D-Link	DAP-1650	A command injection vulnerability exists in D-Link DAP-1650 devices when handling UPnP SUBSCRIBE messages. An unauthenticated attacker can exploit this vulnerability to gain command execution on the device as root.
 	neutral	hot
@@ -271,12 +298,33 @@ Rating           : hot
 File             : 2024\2024-predictions-jan-17-run.txt
 Line             : CVE-2024-24329	hot			TOTOLINK A3300R V17.0.0cu.557_B20221024 was discovered to contain a command injection vulnerability via the enable parameter in the setPortForwardRules function.	
 
+CVE              : CVE-2024-24809
+KEV Date         : 2026-11-08
+Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\predictions-jan-7-run.txt
+Line             : CVE-2024-24809	traccar	traccar	Traccar is an open source GPS tracking system. Versions prior to 6.0 are vulnerable to path traversal and unrestricted upload of file with dangerous type. Since the system allows registration by default, attackers can acquire ordinary user permissions by registering an account and exploit this vulnerability to upload files with the prefix `device.` under any folder. Attackers can use this vulnerability for phishing, cross-site scripting attacks, and potentially execute arbitrary commands on the server. Version 6.0 contains a patch for the issue.	hot
+
+CVE              : CVE-2024-25641
+KEV Date         : 2026-11-17
+Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\predictions-jan-7-run.txt
+Line             : CVE-2024-25641	Cacti	cacti	Cacti provides an operational monitoring and fault management framework. Prior to version 1.2.27, an arbitrary file write vulnerability, exploitable through the "Package Import" feature, allows authenticated users having the "Import Templates" permission to execute arbitrary PHP code on the web server. The vulnerability is located within the `import_package()` function defined into the `/lib/import.php` script. The function blindly trusts the filename and file content provided within the XML data, and writes such files into the Cacti base path (or even outside, since path traversal sequences are not filtered). This can be exploited to write or overwrite arbitrary files on the web server, leading to execution of arbitrary PHP code or other security impacts. Version 1.2.27 contains a patch for this issue.	hot
+
 CVE              : CVE-2024-25852
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\predictions-jan-7-run.txt
 Line             : CVE-2024-25852			Linksys RE7000 v2.0.9, v2.0.11, and v2.0.15 have a command execution vulnerability in the "AccessControlList" parameter of the access control function point. An attacker can use the vulnerability to obtain device administrator rights.	hot
+
+CVE              : CVE-2024-27834
+KEV Date         : 2026-11-04
+Github Timestamp : 2025-01-17  (Jan 17 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\2024-predictions-jan-17-run.txt
+Line             : CVE-2024-27834	hot	Apple	iOS and iPadOS	The issue was addressed with improved checks. This issue is fixed in iOS 17.5 and iPadOS 17.5, tvOS 17.5, Safari 17.5, watchOS 10.5, macOS Sonoma 14.5. An attacker with arbitrary read and write capability may be able to bypass Pointer Authentication.	
 
 CVE              : CVE-2024-28255
 KEV Date         : 2025-08-19
@@ -288,7 +336,7 @@ Line             : CVE-2024-28255	open-metadata	OpenMetadata	OpenMetadata is a u
 CVE              : CVE-2024-2862
 KEV Date         : 2026-02-01
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 808	CVE-2024-2862	LG Electronics	LG LED Assistant	
 This vulnerability allows remote attackers to reset the password of anonymous users without authorization on the affected LG LED Assistant.
@@ -298,14 +346,14 @@ This vulnerability allows remote attackers to reset the password of anonymous us
 CVE              : CVE-2024-2863
 KEV Date         : 2026-01-14
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 755	CVE-2024-2863	LG Electronics	LG LED Assistant	This vulnerability allows remote attackers to traverse paths via file upload on the affected LG LED Assistant.	neutral	hot
 
 CVE              : CVE-2024-28916
 KEV Date         : 2025-02-26
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 27483	CVE-2024-28916	Microsoft	Xbox Gaming Services	Xbox Gaming Services Elevation of Privilege Vulnerability	neutral	hot
 
@@ -340,7 +388,7 @@ Line             : CVE-2024-29059	hot	Microsoft	Microsoft .NET Framework 4.8	.NE
 CVE              : CVE-2024-29972
 KEV Date         : 2025-06-07
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 22736	CVE-2024-29972	Zyxel	NAS326 firmware	** UNSUPPPORTED WHEN ASSIGNED ** ** UNSUPPORTED WHEN ASSIGNED **
 The command injection vulnerability in the CGI program "remote_help-cgi" in Zyxel NAS326 firmware versions before V5.21(AAZF.17)C0 and NAS542 firmware versions beforeÂ V5.21(ABAG.14)C0Â could allow an unauthenticated attacker to execute some operating system (OS) commands by sending a crafted HTTP POST request.	neutral	hot
@@ -348,7 +396,7 @@ The command injection vulnerability in the CGI program "remote_help-cgi" in Zyxe
 CVE              : CVE-2024-29973
 KEV Date         : 2025-08-18
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 22763	CVE-2024-29973	Zyxel	NAS326 firmware	** UNSUPPPORTED WHEN ASSIGNED ** ** UNSUPPORTED WHEN ASSIGNED **
 The command injection vulnerability in the â€œsetCookieâ€ parameter in Zyxel NAS326 firmware versions before V5.21(AAZF.17)C0 and NAS542 firmware versions beforeÂ V5.21(ABAG.14)C0 could allow an unauthenticated attacker to execute some operating system (OS) commands by sending a crafted HTTP POST request.	neutral	hot
@@ -384,14 +432,14 @@ Line             : CVE-2024-32238	hot			H3C ER8300G2-X is vulnerable to Incorrec
 CVE              : CVE-2024-32735
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 19682	CVE-2024-32735	CyberPower	CyberPower PowerPanel Enterprise	An issue regarding missing authentication for certain utilities exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can access the PDNU REST APIs, which may result in compromise of the application.	neutral	hot
 
 CVE              : CVE-2024-32736
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 20249	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterprise	A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the "query_utask_verbose" function within MCUDBHelper.
 	neutral	hot
@@ -399,7 +447,7 @@ Line             : 20249	CVE-2024-32736	CyberPower	CyberPower PowerPanel Enterpr
 CVE              : CVE-2024-32737
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 20104	CVE-2024-32737	CyberPower	CyberPower PowerPanel Enterprise	A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the "query_contract_result" function within MCUDBHelper.
 	neutral	hot
@@ -407,7 +455,7 @@ Line             : 20104	CVE-2024-32737	CyberPower	CyberPower PowerPanel Enterpr
 CVE              : CVE-2024-32738
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 19737	CVE-2024-32738	CyberPower	CyberPower PowerPanel Enterprise	A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the "query_ptask_lean" function within MCUDBHelper.
 	neutral	hot
@@ -415,7 +463,7 @@ Line             : 19737	CVE-2024-32738	CyberPower	CyberPower PowerPanel Enterpr
 CVE              : CVE-2024-32739
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 19718	CVE-2024-32739	CyberPower	CyberPower PowerPanel Enterprise	A sql injection vulnerability exists in CyberPower PowerPanel Enterprise prior to v2.8.3.Â An unauthenticated remote attacker can leak sensitive information via the "query_ptask_verbose" function within MCUDBHelper.
 	neutral	hot
@@ -427,10 +475,17 @@ Rating           : hot
 File             : 2024\2024-predictions-jan-17-run.txt
 Line             : CVE-2024-33326	hot			A cross-site scripting (XSS) vulnerability in the component XsltResultControllerHtml.jsp of Lumisxp v15.0.x to v16.1.x allows attackers to execute arbitrary web scripts or HTML via a crafted payload injected into the lumPageID parameter.	
 
+CVE              : CVE-2024-33605
+KEV Date         : 2026-11-06
+Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\predictions-jan-7-run.txt
+Line             : CVE-2024-33605	Sharp Corporation	Multiple MFPs (multifunction printers)	Improper processing of some parameters of installed_emanual_list.html leads to a path traversal vulnerability. As for the details of affected product names, model numbers, and versions, refer to the information provided by the respective vendors listed under [References].	hot
+
 CVE              : CVE-2024-3408
 KEV Date         : 2025-12-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 3235	CVE-2024-3408	man-group	man-group/dtale	man-group/dtale version 3.10.0 is vulnerable to an authentication bypass and remote code execution (RCE) due to improper input validation. The vulnerability arises from a hardcoded `SECRET_KEY` in the flask configuration, allowing attackers to forge a session cookie if authentication is enabled. Additionally, the application fails to properly restrict custom filter queries, enabling attackers to execute arbitrary code on the server by bypassing the restriction on the `/update-settings` endpoint, even when `enable_custom_filters` is not enabled. This vulnerability allows attackers to bypass authentication mechanisms and execute remote code on the server.	neutral	hot
 
@@ -451,7 +506,7 @@ Line             : CVE-2024-34257			TOTOLINK EX1800T V9.1.0cu.2112_B20220316 has
 CVE              : CVE-2024-36394
 KEV Date         : 2025-10-26
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 17470	CVE-2024-36394	Sysaid	SysAid	SysAid - CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')	neutral	hot
 
@@ -465,7 +520,7 @@ Line             : CVE-2024-37014			Langflow through 0.6.19 allows remote code e
 CVE              : CVE-2024-37079
 KEV Date         : 2026-01-23
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 15403	CVE-2024-37079		VMware vCenter Server	vCenter Server contains a heap-overflow vulnerability in the implementation of the DCERPC protocol. A malicious actor with network access to vCenter Server may trigger this vulnerability by sending a specially crafted network packet potentially leading to remote code execution.	neutral	hot
 
@@ -479,14 +534,14 @@ Line             : CVE-2024-37393			Multiple LDAP injections vulnerabilities exi
 CVE              : CVE-2024-38023
 KEV Date         : 2025-04-09
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26073	CVE-2024-38023	Microsoft	Microsoft SharePoint Enterprise Server 2016	Microsoft SharePoint Server Remote Code Execution Vulnerability	neutral	hot
 
 CVE              : CVE-2024-38024
 KEV Date         : 2025-04-09
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26330	CVE-2024-38024	Microsoft	Microsoft SharePoint Enterprise Server 2016	Microsoft SharePoint Server Remote Code Execution Vulnerability	neutral	hot
 
@@ -500,14 +555,14 @@ Line             : CVE-2024-3806	P-THEMES	Porto	The Porto theme for WordPress is
 CVE              : CVE-2024-38100
 KEV Date         : 2025-02-26
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26390	CVE-2024-38100	Microsoft	Windows Server 2019	Windows File Explorer Elevation of Privilege Vulnerability	neutral	hot
 
 CVE              : CVE-2024-38196
 KEV Date         : 2025-08-04
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 25870	CVE-2024-38196	Microsoft	Windows 11 Version 24H2	Windows Common Log File System Driver Elevation of Privilege Vulnerability	neutral	hot
 
@@ -521,14 +576,14 @@ Line             : CVE-2024-38289			A boolean-based SQL injection issue in the V
 CVE              : CVE-2024-38475
 KEV Date         : 2025-05-01
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26289	CVE-2024-38475	Apache Software Foundation	Apache HTTP Server	Improper escaping of output in mod_rewrite in Apache HTTP Server 2.4.59 and earlier allows an attacker to map URLs to filesystem locations that areÂ permitted to be served by the server but are not intentionally/directly reachable by any URL, resulting in code execution or source code disclosure. 
 
 Substitutions inÂ server context that use a backreferences or variables as the first segment of the substitution are affected.Â  Some unsafe RewiteRules will be broken by this change and the rewrite flag "UnsafePrefixStat" can be used to opt back in once ensuring the substitution is appropriately constrained.	neutral	hot
 
 CVE              : CVE-2024-3848
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-17  (Jan 17 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\2024-predictions-jan-17-run.txt
@@ -545,12 +600,19 @@ Line             : CVE-2024-38514	ChatGPTNextWeb	ChatGPT-Next-Web	NextChat is a 
 CVE              : CVE-2024-38653
 KEV Date         : 2025-08-18
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26144	CVE-2024-38653	Ivanti	Avalanche	XXE in SmartDeviceServer in Ivanti Avalanche 6.3.1 allows a remote unauthenticated attacker to read arbitrary files on the server.	neutral	hot
 
+CVE              : CVE-2024-38795
+KEV Date         : 2026-11-16
+Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\predictions-jan-7-run.txt
+Line             : CVE-2024-38795	CridioStudio	ListingPro	Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in CridioStudio ListingPro allows SQL Injection.This issue affects ListingPro: from n/a through 2.9.4.	hot
+
 CVE              : CVE-2024-39930
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\predictions-jan-7-run.txt
@@ -580,7 +642,7 @@ Line             : CVE-2024-41713			A vulnerability in the NuPoint Unified Messa
 CVE              : CVE-2024-42448
 KEV Date         : 2025-01-23
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 16781	CVE-2024-42448	Veeam	Service Provider Console	From the VSPC management agent machine, under condition that the management agent is authorized on the server, it is possible to perform Remote Code Execution (RCE) on the VSPC server machine.	neutral	hot
 
@@ -608,14 +670,14 @@ Line             : CVE-2024-4346	wshberlin	Startklar Elementor Addons	The Startk
 CVE              : CVE-2024-43468
 KEV Date         : 2026-02-12
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 19421	CVE-2024-43468	Microsoft	Microsoft Configuration Manager	Microsoft Configuration Manager Remote Code Execution Vulnerability	neutral	hot
 
 CVE              : CVE-2024-4367
 KEV Date         : 2026-03-11
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 21916	CVE-2024-4367	Mozilla	Firefox	A type check was missing when handling fonts in PDF.js, which would allow arbitrary JavaScript execution in the PDF.js context. This vulnerability affects Firefox < 126, Firefox ESR < 115.11, and Thunderbird < 115.11.	neutral	hot
 
@@ -685,14 +747,14 @@ Line             : CVE-2024-48307	hot			JeecgBoot v3.7.1 was discovered to conta
 CVE              : CVE-2024-4841
 KEV Date         : 2026-03-11
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 22400	CVE-2024-4841	parisneo	parisneo/lollms-webui	A Path Traversal vulnerability exists in the parisneo/lollms-webui, specifically within the 'add_reference_to_local_mode' function due to the lack of input sanitization. This vulnerability affects versions v9.6 to the latest. By exploiting this vulnerability, an attacker can predict the folders, subfolders, and files present on the victim's computer. The vulnerability is present in the way the application handles the 'path' parameter in HTTP requests to the '/add_reference_to_local_model' endpoint.	neutral	hot
 
 CVE              : CVE-2024-4885
 KEV Date         : 2025-03-03
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 22505	CVE-2024-4885	Progress Software Corporation	WhatsUp Gold	In WhatsUp Gold versions released before 2023.1.3,Â an unauthenticated Remote Code Execution vulnerability in Progress WhatsUpGold.Â Â The 
 
@@ -705,7 +767,7 @@ WhatsUp.ExportUtilities.Export.GetFileWithoutZip
 CVE              : CVE-2024-49035
 KEV Date         : 2025-02-25
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 25614	CVE-2024-49035	Microsoft	Microsoft Partner Center	An improper access control vulnerability in Partner.Microsoft.com allows an a unauthenticated attacker to elevate privileges over a network.	neutral	hot
 
@@ -717,7 +779,7 @@ File             : 2024\predictions-jan-7-run.txt
 Line             : CVE-2024-4956	Sonatype	Nexus Repository	Path Traversal in Sonatype Nexus Repository 3 allows an unauthenticated attacker to read system files. Fixed in version 3.68.1.	hot
 
 CVE              : CVE-2024-49766
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-17  (Jan 17 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\2024-predictions-jan-17-run.txt
@@ -767,7 +829,7 @@ Line             : CVE-2024-52763			A cross-site scripting (XSS) vulnerability i
 CVE              : CVE-2024-53104
 KEV Date         : 2025-02-05
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 17109	CVE-2024-53104	Linux	Linux	In the Linux kernel, the following vulnerability has been resolved:
 
@@ -804,7 +866,7 @@ have to be checked in addition to the sizeof() check.	hot
 CVE              : CVE-2024-53197
 KEV Date         : 2025-04-09
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 16961	CVE-2024-53197	Linux	Linux	In the Linux kernel, the following vulnerability has been resolved:
 
@@ -819,7 +881,7 @@ usb_destroy_configuration.	neutral	hot
 CVE              : CVE-2024-5334
 KEV Date         : 2025-06-28
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 26891	CVE-2024-5334	stitionai	stitionai/devika	A local file read vulnerability exists in the stitionai/devika repository, affecting the latest version. The vulnerability is due to improper handling of the 'snapshot_path' parameter in the '/api/get-browser-snapshot' endpoint. An attacker can exploit this vulnerability by crafting a request with a malicious 'snapshot_path' parameter, leading to arbitrary file read from the system. This issue impacts the security of the application by allowing unauthorized access to sensitive files on the server.	neutral	hot
 
@@ -866,7 +928,7 @@ File             : 2024\2024-predictions-jan-17-run.txt
 Line             : CVE-2024-54764	hot			An access control issue in the component /login/hostinfo2.cgi of ipTIME A2004 v12.17.0 allows attackers to obtain sensitive information without authentication.	
 
 CVE              : CVE-2024-5522
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\predictions-jan-7-run.txt
@@ -903,7 +965,7 @@ Line             : CVE-2024-57728			SimpleHelp remote support software v5.5.7 an
 CVE              : CVE-2024-5827
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 27225	CVE-2024-5827	vanna-ai	vanna-ai/vanna	Vanna v0.3.4 is vulnerable to SQL injection in its DuckDB integration exposed to its Flask Web APIs. Attackers can inject malicious SQL training data and generate corresponding queries to write arbitrary files on the victim's file system, such as backdoor.php with contents `<?php system($_GET[0]); ?>`. This can lead to command execution or the creation of backdoors.	neutral	hot
 
@@ -917,35 +979,35 @@ Line             : CVE-2024-5932	webdevmattcrom	GiveWP â€“ Donation Plugin 
 CVE              : CVE-2024-6047
 KEV Date         : 2025-05-07
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1710	CVE-2024-6047	GeoVision	GV_DSP_LPR_V2	** UNSUPPPORTED WHEN ASSIGNED ** Certain EOL GeoVision devices fail to properly filter user input for the specific functionality. Unauthenticated remote attackers can exploit this vulnerability to inject and execute arbitrary system commands on the device.	neutral	hot
 
 CVE              : CVE-2024-6205
 KEV Date         : 2025-01-22
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1063	CVE-2024-6205	Unknown	PayPlus Payment Gateway	The PayPlus Payment Gateway WordPress plugin before 6.6.9 does not properly sanitise and escape a parameter before using it in a SQL statement via a WooCommerce API route available to unauthenticated users, leading to an SQL injection vulnerability.	neutral	hot
 
 CVE              : CVE-2024-6235
 KEV Date         : 2025-10-17
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1301	CVE-2024-6235	NetScaler	NetScaler Console	Sensitive information disclosureÂ inÂ NetScaler Console	neutral	hot
 
 CVE              : CVE-2024-6250
 KEV Date         : 2026-02-20
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1736	CVE-2024-6250	parisneo	parisneo/lollms-webui	An absolute path traversal vulnerability exists in parisneo/lollms-webui v9.6, specifically in the `open_file` endpoint of `lollms_advanced.py`. The `sanitize_path` function with `allow_absolute_path=True` allows an attacker to access arbitrary files and directories on a Windows system. This vulnerability can be exploited to read any file and list arbitrary directories on the affected system.	neutral	hot
 
 CVE              : CVE-2024-6298
 KEV Date         : 2025-02-02
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1337	CVE-2024-6298	ABB	ASPECT-Enterprise	Unauthorized file access in WEB Server in ABB ASPECT - Enterprise v3.08.01; NEXUS Series
 
@@ -958,7 +1020,7 @@ Line             : 1337	CVE-2024-6298	ABB	ASPECT-Enterprise	Unauthorized file ac
 CVE              : CVE-2024-6409
 KEV Date         : 2025-03-12
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1300	CVE-2024-6409	Red Hat	Red Hat Enterprise Linux 9	A race condition vulnerability was discovered in how signals are handled by OpenSSH's server (sshd). If a remote attacker does not authenticate within a set time period, then sshd's SIGALRM handler is called asynchronously. However, this signal handler calls various functions that are not async-signal-safe, for example, syslog(). As a consequence of a successful attack, in the worst case scenario, an attacker may be able to perform a remote code execution (RCE) as an unprivileged user running the sshd server.	neutral	hot
 
@@ -972,28 +1034,28 @@ Line             : CVE-2024-6648	Apollo Theme	AP Page Builder	Absolute Path Trav
 CVE              : CVE-2024-6782
 KEV Date         : 2026-01-20
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1234	CVE-2024-6782	Calibre	Calibre	Improper access control in Calibre 6.9.0 ~ 7.14.0 allow unauthenticated attackers to achieve remote code execution.	neutral	hot
 
 CVE              : CVE-2024-6893
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1463	CVE-2024-6893	Journyx	Journyx (jtime)	The "soap_cgi.pyc" API handler allows the XML body of SOAP requests to contain references to external entities. This allows an unauthenticated attacker to read local files, perform server-side request forgery, and overwhelm the web server resources.	neutral	hot
 
 CVE              : CVE-2024-7029
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1957	CVE-2024-7029	AVTech	AVM1203 (IP Camera)	Commands can be injected over the network and executed without authentication.	neutral	hot
 
 CVE              : CVE-2024-7314
 KEV Date         : 2025-05-27
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 2565	CVE-2024-7314	anji-plus	AJ-Report	anji-plus AJ-Report is affected by an authentication bypass vulnerability. A remote and unauthenticated attacker can append ";swagger-ui" to HTTP requests to bypass authentication and execute arbitrary Java on the victim server.	neutral	hot
 
@@ -1007,42 +1069,42 @@ Line             : CVE-2024-7344	hot	Radix	SmartRecovery	Howyar UEFI Application
 CVE              : CVE-2024-7399
 KEV Date         : 2025-07-10
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 1854	CVE-2024-7399	Samsung Electronics	MagicINFO 9 Server	Improper limitation of a pathname to a restricted directory vulnerability in Samsung MagicINFO 9 Server version before 21.1050 allows attackers to write arbitrary file as system authority.	neutral	hot
 
 CVE              : CVE-2024-7694
 KEV Date         : 2026-02-17
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 2418	CVE-2024-7694	TeamT5	ThreatSonar Anti-Ransomware	ThreatSonar Anti-Ransomware from TeamT5 does not properly validate the content of uploaded files. Remote attackers with  administrator privileges on the product platform can upload malicious files, which can be used to execute arbitrary system command on the server.	neutral	hot
 
 CVE              : CVE-2024-8068
 KEV Date         : 2025-08-25
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 4917	CVE-2024-8068	Citrix	Citrix Session Recording	Privilege escalation to NetworkService Account accessÂ in Citrix Session Recording when an attacker is an authenticated user in the same Windows Active Directory domain as the session recording server domain	neutral	hot
 
 CVE              : CVE-2024-8069
 KEV Date         : 2025-08-25
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 5104	CVE-2024-8069	Citrix Session Recording	Citrix Session Recording	Limited remote code execution with privilege of a NetworkService Account accessÂ inÂ Citrix Session Recording if the attacker is an authenticated user on the same intranet as the session recording server	neutral	hot
 
 CVE              : CVE-2024-8503
 KEV Date         : 2025-03-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 4667	CVE-2024-8503	VICIdial	VICIdial	An unauthenticated attacker can leverage a time-based SQL injection vulnerability in VICIdial to enumerate database records. By default, VICIdial stores plaintext credentials within the database.	neutral	hot
 
 CVE              : CVE-2024-8517
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 5246	CVE-2024-8517	SPIP	SPIP	SPIP before 4.3.2, 4.2.16, and 
 4.1.18 is vulnerable to a command injection issue. A 
@@ -1051,7 +1113,7 @@ remote and unauthenticated attacker can execute arbitrary operating system comma
 CVE              : CVE-2024-8752
 KEV Date         : 2025-08-19
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 4755	CVE-2024-8752	Smart HMI	WebIQ	The Windows version of WebIQ 2.15.9 is affected by a directory traversal vulnerability that allows remote attackers to read any file on the system.	neutral	hot
 
@@ -1065,19 +1127,26 @@ Line             : CVE-2024-8856	revmakx	Backup and Staging by WP Time Capsule	T
 CVE              : CVE-2024-9264
 KEV Date         : 2025-05-20
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 11616	CVE-2024-9264	Grafana	Grafana	The SQL Expressions experimental feature of Grafana allows for the evaluation of `duckdb` queries containing user input. These queries are insufficiently sanitized before being passed to `duckdb`, leading to a command injection and local file inclusion vulnerability. Any user with the VIEWER or higher permission is capable of executing this attack.  The `duckdb` binary must be present in Grafana's $PATH for this attack to function; by default, this binary is not installed in Grafana distributions.	neutral	hot
+
+CVE              : CVE-2024-9441
+KEV Date         : 2026-11-14
+Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
+Rating           : hot
+File             : 2024\2024-predictions.txt
+Line             : 11504	CVE-2024-9441	Linear	eMerge e3-Series	The Linear eMerge e3-Series through version 1.00-07 is vulnerable to an OS command injection vulnerability. A remote and unauthenticated attacker can execute arbitrary OS commands via the login_id parameter when invoking the forgot_password functionality over HTTP.	neutral	hot
 
 CVE              : CVE-2024-9593
 KEV Date         : 2025-03-11
 Github Timestamp : 2025-01-04  (Jan 3 2025 run (2024 CVEs))
-Rating           : neutral
+Rating           : hot
 File             : 2024\2024-predictions.txt
 Line             : 11593	CVE-2024-9593	Scott Paterson	Time Clock Pro	The Time Clock plugin and Time Clock Pro plugin for WordPress are vulnerable to Remote Code Execution in versions up to, and including, 1.2.2 (for Time Clock) and 1.1.4 (for Time Clock Pro) via the 'etimeclockwp_load_function_callback' function. This allows unauthenticated attackers to execute code on the server. The invoked function's parameters cannot be specified.	neutral	hot
 
 CVE              : CVE-2024-9634
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-01-07  (Jan 7 2025 run (2024 CVEs))
 Rating           : hot
 File             : 2024\predictions-jan-7-run.txt
@@ -1166,6 +1235,13 @@ Rating           : warm
 File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-10123	2025-09-09 02:32:10.145000+00:00	D-Link DIR-823X set_static_leases sub_415028 command injection	A vulnerability was determined in D-Link DIR-823X up to 250416. Affected by this vulnerability is the function sub_415028 of the file /goform/set_static_leases. Executing manipulation of the argument Hostname can lead to command injection. The attack can be launched remotely. The exploit has been publicly disclosed and may be utilized.	D-Link	DIR-823X	7.3	HIGH	warm
 
+CVE              : CVE-2025-10162
+KEV Date         : 2026-11-11
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : warm
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-10162	2025-10-07 06:00:04.678000+00:00	OrderConvo < 14 - Unauthenticated Arbitrary File Read	The Admin and Customer Messages After Order for WooCommerce: OrderConvo WordPress plugin before 14 does not validate the path of files to be downloaded, which could allow unauthenticated attacker to read/download arbitrary files via a path traversal attack	Unknown	Admin and Customer Messages After Order for WooCommerce: OrderConvo			warm
+
 CVE              : CVE-2025-10204
 KEV Date         : 2025-12-31
 Github Timestamp : 2025-12-03  (December 2025 run)
@@ -1188,7 +1264,7 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-10353	2025-10-08 10:47:55.067000+00:00	Missing Authorization vulnerability in Melis Platform	File upload leading to remote code execution (RCE) in the “melis-cms-slider” module of Melis Technology's Melis Platform. This vulnerability allows an attacker to upload a malicious file via a POST request to '/melis/MelisCmsSlider/MelisCmsSliderDetails/saveDetailsForm' using the 'mcsdetail_img' parameter.	Melis Technology	Melis Platform			hot
 
 CVE              : CVE-2025-10897
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-12-03  (December 2025 run)
 Rating           : warm
 File             : 2025\November\december-2-ratings.txt
@@ -1242,7 +1318,7 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-12055	2025-10-27 06:36:36.526000+00:00	Unauthenticated Local File Disclosure in MPDV Mikrolab MIP 2 / FEDRA 2 / HYDRA X Manufacturing Execution System	HYDRA X, MIP 2 and FEDRA 2 of MPDV Mikrolab GmbH suffer from an unauthenticated local file disclosure vulnerability in all releases until Maintenance Pack 36 with Servicepack 8 (week 36/2025), which allows an attacker to read arbitrary files from the Windows operating system. The "Filename" parameter of the public $SCHEMAS$ ressource is vulnerable and can be exploited easily.	MPDV Mikrolab GmbH	FEDRA 2; HYDRA X; MIP 2			hot
 
 CVE              : CVE-2025-1232
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : warm
 File             : HEAD\2025-processed-clean.txt
@@ -1263,7 +1339,7 @@ File             : 2025\Final run Jan 2026\2025-ratings-final.txt
 Line             : CVE-2025-12548	Github.com/che-incubator/che-code: eclipse che — unauthenticated rce and secret exfiltration via tcp/3333	A flaw was found in Eclipse Che che-machine-exec. This vulnerability allows unauthenticated remote arbitrary command execution and secret exfiltration (SSH keys, tokens, etc.) from other users' Developer Workspace containers, via an unauthenticated JSON-RPC / websocket API exposed on TCP port 3333.	Red Hat	Red Hat OpenShift Dev Spaces (RHOSDS) 3.22; Red Hat OpenShift Dev Spaces (RHOSDS) 3.23; Red Hat OpenShift Dev Spaces (RHOSDS) 3.24	warm
 
 CVE              : CVE-2025-13206
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : warm
 File             : HEAD\2025-processed-clean.txt
@@ -1284,11 +1360,18 @@ File             : HEAD\2025-processed-clean.txt
 Line             : CVE-2025-1338,2025-02-16T11:00:20.737Z,NUUO Camera handle_config.php print_file command injection,A vulnerability was found in NUUO Camera up to 20250203. It has been declared as critical. This vulnerability affects the function print_file of the file /handle_config.php. The manipulation of the argument log leads to command injection. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.,NUUO,Camera,False,False,6.9,MEDIUM,CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N,CWE-77 | CWE-74,False,warm,CWE-77,Improper Neutralization of Special Elements used in a Command ('Command Injection')
 
 CVE              : CVE-2025-13407
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-01-31  (2025 ratings final (Jan 31 run))
 Rating           : warm
 File             : 2025\Final run Jan 2026\2025-ratings-final.txt
 Line             : CVE-2025-13407	GravityForms < 2.9.23.1 - Unauthenticated Arbitrary File Upload	The Gravity Forms WordPress plugin before 2.9.23.1 does not properly prevent users from uploading dangerous files through its chunked upload functionality, allowing attackers to upload PHP files to affected sites and achieve Remote Code Execution, granted they can discover or enumerate the upload path.	Unknown	Gravity Forms	warm
+
+CVE              : CVE-2025-13516
+KEV Date         : 2026-11-11
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : hot
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-13516	2025-12-02 08:24:54.808000+00:00	SureMail – SMTP and Email Logs Plugin with Amazon SES, Postmark, and Other Providers <= 1.9.0 - Unauthenticated Arbitrary File Upload	The SureMail – SMTP and Email Logs Plugin for WordPress is vulnerable to Unrestricted Upload of File with Dangerous Type in versions up to and including 1.9.0. This is due to the plugin's save_file() function in inc/emails/handler/uploads.php which duplicates all email attachments to a web-accessible directory (wp-content/uploads/suremails/attachments/) without validating file extensions or content types. Files are saved with predictable names derived from MD5 hashes of their content. While the plugin attempts to protect this directory with an Apache .htaccess file to disable PHP execution, this protection is ineffective on nginx, IIS, and Lighttpd servers, or on misconfigured Apache installations. This makes it possible for unauthenticated attackers to achieve Remote Code Execution by uploading malicious PHP files through any public form that emails attachments, calculating the predictable filename, and directly accessing the file to execute arbitrary code granted they are exploiting a site running on an affected web server configuration.	brainstormforce	SureMail – SMTP and Email Logs Plugin with Amazon SES, Postmark, and Other Providers	8.1	HIGH	hot
 
 CVE              : CVE-2025-14208
 KEV Date         : 2026-09-07
@@ -1298,7 +1381,7 @@ File             : HEAD\2025-processed-clean.txt
 Line             : CVE-2025-14208,2025-12-08T01:02:07.507Z,D-Link DIR-823X set_wan_settings sub_415028 command injection,A security flaw has been discovered in D-Link DIR-823X up to 20250416. This affects the function sub_415028 of the file /goform/set_wan_settings. The manipulation of the argument ppp_username results in command injection. It is possible to launch the attack remotely. The exploit has been released to the public and may be exploited.,D-Link,DIR-823X,False,False,5.3,MEDIUM,CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:L/VI:L/VA:L/SC:N/SI:N/SA:N/E:P,CWE-77 | CWE-74,False,warm,CWE-77,Improper Neutralization of Special Elements used in a Command ('Command Injection')
 
 CVE              : CVE-2025-14736
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : warm
 File             : HEAD\2025-processed-clean.txt
@@ -1323,8 +1406,10 @@ KEV Date         : 2026-01-20
 Github Timestamp : 2025-08-31  (August 2025 run)
 Rating           : hot
 File             : 2025\August\august-2025-combined-ratings.txt
-Line             : CVE-2025-20282,PUBLISHED,cisco,2025-06-25T16:29:12.357Z,Cisco ISE API Unauthenticated Remote Code Execution Vulnerability,A vulnerability in an internal API of Cisco ISE and Cisco ISE-PIC could allow an unauthenticated, remote attacker to upload arbitrary files to an affected device and then execute those files on the underlying operating system as root.
-
+Line             : CVE-2025-20282,PUBLISHED,cisco,2025-06-25T16:29:12.357Z,Cisco ISE API Unauthenticated Remote Code Execution Vulnerability,A vulnerability in an internal API of Cisco ISE and Cisco ISE-PIC could allow an unauthenticated, remote attacker to upload arbitrary files to an affected device and then execute those files on the underlying operating system as root.
+
+
+
 This vulnerability is due a lack of file validation checks that would prevent uploaded files from being placed in privileged directories on an affected system. An attacker could exploit this vulnerability by uploading a crafted file to the affected device. A successful exploit could allow the attacker to store malicious files on the affected system and then execute arbitrary code or obtain root privileges on the system.,CISCO,Cisco Identity Services Engine Software,hot
 
 CVE              : CVE-2025-2264
@@ -1375,6 +1460,14 @@ Github Timestamp : 2025-08-31  (August 2025 run)
 Rating           : warm
 File             : 2025\August\august-2025-combined-ratings.txt
 Line             : CVE-2025-24477,PUBLISHED,fortinet,2025-07-15T08:14:41.283Z,,A heap-based buffer overflow in Fortinet FortiOS versions 7.6.0 through 7.6.2, 7.4.0 through 7.4.7, 7.2.4 through 7.2.11 allows an attacker to escalate its privileges via a specially crafted CLI command,FORTINET,FortiOS,warm
+
+CVE              : CVE-2025-24489
+KEV Date         : 2026-11-18
+Github Timestamp : 2025-08-31  (August 2025 run)
+Rating           : warm
+File             : 2025\August\august-2025-combined-ratings.txt
+Line             : CVE-2025-24489,PUBLISHED,icscert,2025-08-21T19:44:18.551Z,INFINITT Healthcare INFINITT PACS Unrestricted Upload of File with Dangerous Type,An attacker could exploit this vulnerability by uploading arbitrary 
+files via a specific service, which could lead to system compromise.,INFINITT HEALTHCARE,INFINITT PACS System Manager,warm
 
 CVE              : CVE-2025-24912
 KEV Date         : 2025-10-19
@@ -1448,14 +1541,21 @@ File             : 2025\feb-15-run.txt
 Line             : CVE-2025-26793	Hirsch	Enterphone MESH	The Web GUI configuration panel of Hirsch (formerly Identiv and Viscount) Enterphone MESH through 2024 ships with default credentials (username freedom, password viscount). The administrator is not prompted to change these credentials on initial configuration, and changing the credentials requires many steps. Attackers can use the credentials over the Internet via mesh.webadmin.MESHAdminServlet to gain access to dozens of Canadian and U.S. apartment buildings and obtain building residents' PII. NOTE: the Supplier's perspective is that the "vulnerable systems are not following manufacturers' recommendations to change the default password."	hot
 
 CVE              : CVE-2025-26936
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-01-31  (2025 ratings final (Jan 31 run))
 Rating           : warm
 File             : 2025\Final run Jan 2026\2025-ratings-final.txt
 Line             : CVE-2025-26936	WordPress Fresh Framework plugin <= 1.70.0 - Unauthenticated Remote Code Execution (RCE) vulnerability	Improper Control of Generation of Code ('Code Injection') vulnerability in NotFound Fresh Framework allows Code Injection. This issue affects Fresh Framework: from n/a through 1.70.0.	NotFound	Fresh Framework	warm
 
+CVE              : CVE-2025-26966
+KEV Date         : 2026-11-05
+Github Timestamp : 2026-01-31  (2025 ratings final (Jan 31 run))
+Rating           : warm
+File             : 2025\Final run Jan 2026\2025-ratings-final.txt
+Line             : CVE-2025-26966	WordPress PrivateContent plugin <= 8.11.5 - Unauthenticated Account Takeover vulnerability	Authentication Bypass Using an Alternate Path or Channel vulnerability in Aldo Latino PrivateContent. This issue affects PrivateContent: from n/a through 8.11.5.	Aldo Latino	PrivateContent	warm
+
 CVE              : CVE-2025-26986
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-12-03  (December 2025 run)
 Rating           : warm
 File             : 2025\November\december-2-ratings.txt
@@ -1481,6 +1581,14 @@ Github Timestamp : 2025-05-08  (May 2025 run)
 Rating           : n/a (no rating column)
 File             : 2025\may-8-run.txt
 Line             : 294	CVE-2025-2749	Kentico	Xperience	An authenticated remote code execution in Kentico Xperience allows authenticated users Staging Sync Server to upload arbitrary data to path relative locations. This results in path traversal and arbitrary file upload, including content that can be executed server side leading to remote code execution.This issue affects Kentico Xperience through 13.0.178.	hot
+
+CVE              : CVE-2025-27721
+KEV Date         : 2026-11-18
+Github Timestamp : 2025-08-31  (August 2025 run)
+Rating           : warm
+File             : 2025\August\august-2025-combined-ratings.txt
+Line             : CVE-2025-27721,PUBLISHED,icscert,2025-08-21T19:33:03.503Z,INFINITT Healthcare INFINITT PACS Exposure of Sensitive System Information to an Unauthorized Control Sphere,Unauthorized users can access INFINITT PACS System Manager�without proper authorization, 
+which could lead to unauthorized access to system resources.,INFINITT HEALTHCARE,INFINITT PACS System Manager,warm
 
 CVE              : CVE-2025-28036
 KEV Date         : 2025-07-21
@@ -1554,6 +1662,13 @@ Rating           : hot
 File             : 2025\August\august-2025-combined-ratings.txt
 Line             : CVE-2025-33073,PUBLISHED,microsoft,2025-06-10T17:02:35.874Z,Windows SMB Client Elevation of Privilege Vulnerability,Improper access control in Windows SMB allows an authorized attacker to elevate privileges over a network.,MICROSOFT,windows,hot
 
+CVE              : CVE-2025-34053
+KEV Date         : 2026-11-18
+Github Timestamp : 2025-08-31  (August 2025 run)
+Rating           : hot
+File             : 2025\August\august-2025-combined-ratings.txt
+Line             : CVE-2025-34053,PUBLISHED,VulnCheck,2025-07-01T14:45:02.858Z,AVTECH IP camera, DVR, and NVR Devices Authentication Bypass via .cab Path Manipulation,An authentication bypass vulnerability exists in AVTECH IP camera, DVR, and NVR devices� streamd web server. The strstr() function is used to identify ".cab" requests, allowing any URL containing ".cab" to bypass authentication and access protected endpoints.,AVTECH,IP camera, DVR, and NVR devices,hot
+
 CVE              : CVE-2025-34117
 KEV Date         : 2026-03-11
 Github Timestamp : 2025-08-31  (August 2025 run)
@@ -1583,12 +1698,19 @@ File             : 2025\August\august-2025-combined-ratings.txt
 Line             : CVE-2025-36604,PUBLISHED,dell,2025-08-04T14:00:05.295Z,,Dell Unity, version(s) 5.5 and prior, contain(s) an Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') vulnerability. An unauthenticated attacker with remote access could potentially exploit this vulnerability, leading to arbitrary command execution.,DELL,Unity,hot
 
 CVE              : CVE-2025-3759
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-08-31  (August 2025 run)
 Rating           : hot
 File             : 2025\August\august-2025-combined-ratings.txt
 Line             : CVE-2025-3759,PUBLISHED,CERT-PL,2025-05-08T10:05:07.131Z,Missing Authentication for Changing Device Configuration in WF2220,Endpoint�/cgi-bin-igd/netcore_set.cgi�which is used for changing device configuration is accessible without authentication. This poses a significant security threat allowing for e.g: administrator account hijacking or AP password changing.
 The vendor was contacted early about this disclosure but did not respond in any way.,NETIS,WF2220,hot
+
+CVE              : CVE-2025-39506
+KEV Date         : 2026-11-13
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : warm
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-39506	2025-05-23 12:43:49.805000+00:00	WordPress Nasa Core Plugin <= 6.3.2 - Local File Inclusion vulnerability	Improper Control of Filename for Include/Require Statement in PHP Program ('PHP Remote File Inclusion') vulnerability in NasaTheme Nasa Core allows PHP Local File Inclusion. This issue affects Nasa Core: from n/a through 6.3.2.	NasaTheme	Nasa Core	8.1	HIGH	warm
 
 CVE              : CVE-2025-39964
 KEV Date         : 2026-09-18
@@ -1661,11 +1783,32 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-40601	2025-11-20 12:26:54.465000+00:00		A Stack-based buffer overflow vulnerability in the SonicOS SSLVPN service allows a remote unauthenticated attacker to cause Denial of Service (DoS), which could cause an impacted firewall to crash.	SonicWall	SonicOS			hot
 
 CVE              : CVE-2025-41450
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : warm
 File             : HEAD\2025-processed-clean.txt
 Line             : CVE-2025-41450,2025-05-08T09:41:20.881Z,Authentication bypass with privileged access in Danfoss AK-SM 8xxA Series prior to version 4.2,Improper Authentication vulnerability in Danfoss AKSM8xxA Series.This issue affects Danfoss AK-SM 8xxA Series prior to version 4.2,Danfoss,AK-SM 8xxA Series,False,False,8.2,HIGH,CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:H/I:L/A:H,CWE-305,False,warm,CWE-305,Authentication Bypass by Primary Weakness
+
+CVE              : CVE-2025-41451
+KEV Date         : 2026-11-03
+Github Timestamp : 2025-08-31  (August 2025 run)
+Rating           : warm
+File             : 2025\August\august-2025-combined-ratings.txt
+Line             : CVE-2025-41451,PUBLISHED,Danfoss,2025-08-22T02:40:46.216Z,Post-Authentication OS Command Injection RCE in Danfoss AK-SM8xxA Series,Improper neutralization of alarm-to-mail configuration fields used in an OS shell Command ('Command Injection') in Danfoss AK-SM8xxA Series�prior to version 4.3.1, leading to a potential post-authenticated remote code execution on an attacked system.,DANFOSS,AK-SM8xxA Series,warm
+
+CVE              : CVE-2025-41656
+KEV Date         : 2026-10-30
+Github Timestamp : 2025-08-31  (August 2025 run)
+Rating           : hot
+File             : 2025\August\august-2025-combined-ratings.txt
+Line             : CVE-2025-41656,PUBLISHED,CERTVDE,2025-07-01T08:10:06.208Z,Pilz: Missing Authentication in Node-RED integration,An unauthenticated remote attacker can run arbitrary commands on the affected devices with high privileges because the authentication for the Node_RED server is not configured by default.,PILZ,IndustrialPI 4 with Firmware Bullseye,hot
+
+CVE              : CVE-2025-42884
+KEV Date         : 2026-11-20
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : hot
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-42884	2025-11-11 00:14:02.774000+00:00	JNDI Injection vulnerability in SAP NetWeaver Enterprise Portal	SAP NetWeaver Enterprise Portal allows an unauthenticated attacker to inject JNDI environment properties or pass a URL used during JNDI lookup operations, enabling access to an unintended JNDI provider.�This could further lead to disclosure or modification of information about the server. There is no impact on availability.	SAP_SE	SAP NetWeaver Enterprise Portal	6.5	MEDIUM	hot
 
 CVE              : CVE-2025-42957
 KEV Date         : 2025-09-04
@@ -1724,7 +1867,7 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-4606	2025-07-09 03:22:04.150000+00:00	Sala - Startup & SaaS WordPress Theme <= 1.1.4 - Unauthenticated Privilege Escalation via Password Reset/Account Takeover	The Sala - Startup & SaaS WordPress Theme theme for WordPress is vulnerable to privilege escalation via account takeover in all versions up to, and including, 1.1.4. This is due to the theme not properly validating a user's identity prior to updating their details like password. This makes it possible for unauthenticated attackers to change arbitrary user's passwords, including administrators, and leverage that to gain access to their account.	uxper	Sala - Startup & SaaS WordPress Theme	9.8	CRITICAL	warm
 
 CVE              : CVE-2025-46444
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-12-03  (December 2025 run)
 Rating           : warm
 File             : 2025\November\december-2-ratings.txt
@@ -1736,6 +1879,13 @@ Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : hot
 File             : HEAD\2025-processed-clean.txt
 Line             : CVE-2025-48281,2025-06-09T15:53:53.912Z,WordPress MyStyle Custom Product Designer <= 3.21.1 - SQL Injection Vulnerability,Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') vulnerability in mystyleplatform MyStyle Custom Product Designer allows Blind SQL Injection. This issue affects MyStyle Custom Product Designer: from n/a through 3.21.1.,mystyleplatform,MyStyle Custom Product Designer,False,False,9.3,CRITICAL,CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:L,CWE-89,False,hot,CWE-89,Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+
+CVE              : CVE-2025-49387
+KEV Date         : 2026-11-04
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : warm
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-49387	2025-08-28 12:37:13.181000+00:00	WordPress Drag and Drop File Upload for Elementor Forms Plugin <= 1.5.3 - Arbitrary File Upload Vulnerability	Unrestricted Upload of File with Dangerous Type vulnerability in add-ons.org Drag and Drop File Upload for Elementor Forms allows Upload a Web Shell to a Web Server. This issue affects Drag and Drop File Upload for Elementor Forms: from n/a through 1.5.3.	add-ons.org	Drag and Drop File Upload for Elementor Forms	10	CRITICAL	warm
 
 CVE              : CVE-2025-49544
 KEV Date         : 2025-12-23
@@ -1967,6 +2117,13 @@ Rating           : hot
 File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-61155	2025-10-28 00:00:00+00:00		Hotta Studio GameDriverX64.sys 7.23.4.7, a signed kernel-mode anti-cheat driver, allows local attackers to cause a denial of service by crashing arbitrary processes via sending crafted IOCTL requests.	n/a	n/a			hot
 
+CVE              : CVE-2025-61678
+KEV Date         : 2026-11-19
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : hot
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-61678	2025-10-14 19:33:29.934000+00:00	FreePBX Endpoint Manager vulnerable to authenticated arbitrary file upload via fwbrand parameter	FreePBX Endpoint Manager is a module for managing telephony endpoints in FreePBX systems. In versions prior to 16.0.92 for FreePBX 16 and versions prior to 17.0.6 for FreePBX 17, the Endpoint Manager module contains an authenticated arbitrary file upload vulnerability affecting the fwbrand parameter. The fwbrand parameter allows an attacker to change the file path. Combined, these issues can result in a webshell being uploaded. Authentication with a known username is required to exploit this vulnerability. Successful exploitation allows authenticated users to upload arbitrary files to attacker-controlled paths on the server, potentially leading to remote code execution. This issue has been patched in version 16.0.92 for FreePBX 16 and version 17.0.6 for FreePBX 17.	FreePBX	security-reporting			hot
+
 CVE              : CVE-2025-6204
 KEV Date         : 2025-10-28
 Github Timestamp : 2025-08-31  (August 2025 run)
@@ -2002,6 +2159,20 @@ Rating           : warm
 File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-64328	2025-11-07 03:32:20.670000+00:00	FreePBX Administration GUI is Vulnerable to Authenticated Command Injection	FreePBX Endpoint Manager is a module for managing telephony endpoints in FreePBX systems. In versions 17.0.2.36 and above before 17.0.3, the filestore module within the Administrative interface is vulnerable to a post-authentication command injection by an authenticated known user via the testconnection -> check_ssh_connect() function. An attacker can leverage this vulnerability to obtain remote access to the system as an asterisk user. This issue is fixed in version 17.0.3.	FreePBX	security-reporting			warm
 
+CVE              : CVE-2025-66571
+KEV Date         : 2026-11-18
+Github Timestamp : 2026-01-31  (2025 ratings final (Jan 31 run))
+Rating           : warm
+File             : 2025\Final run Jan 2026\2025-ratings-final.txt
+Line             : CVE-2025-66571	UNA CMS 9.0.0-RC1 - 14.0.0-RC4 PHP Object Injection	UNA CMS versions 9.0.0-RC1 - 14.0.0-RC4 contain a PHP object injection vulnerability in BxBaseMenuSetAclLevel.php where the profile_id POST parameter is passed to PHP unserialize() without proper handling, allowing remote, unauthenticated attackers to inject arbitrary PHP objects and potentially write and execute arbitrary PHP code.	Unknown	UNA CMS	warm
+
+CVE              : CVE-2025-6744
+KEV Date         : 2026-11-10
+Github Timestamp : 2025-12-03  (December 2025 run)
+Rating           : hot
+File             : 2025\November\december-2-ratings.txt
+Line             : CVE-2025-6744	2025-07-08 09:22:30.508000+00:00	Woodmart <= 8.2.3 - Unauthenticated Arbitrary Shortcode Execution	The The Woodmart theme for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 8.2.3. This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode through the woodmart_get_products_shortcode() function. This makes it possible for unauthenticated attackers to execute arbitrary shortcodes.	xTemos	Woodmart	7.3	HIGH	hot
+
 CVE              : CVE-2025-68686
 KEV Date         : 2026-07-27
 Github Timestamp : 2026-03-21  (2025 processed-clean)
@@ -2015,6 +2186,13 @@ Github Timestamp : 2026-01-31  (2025 ratings final (Jan 31 run))
 Rating           : warm
 File             : 2025\Final run Jan 2026\2025-ratings-final.txt
 Line             : CVE-2025-68947	NSecsoft NSecKrnl process termination privilege escalation	NSecsoft 'NSecKrnl' is a Windows driver that allows a local, authenticated attacker to terminate processes owned by other users, including SYSTEM and Protected Processes by issuing crafted IOCTL requests to the driver.	NSecsoft	NSecKrnl	warm
+
+CVE              : CVE-2025-69971
+KEV Date         : 2026-11-10
+Github Timestamp : 2026-03-21  (2025 processed-clean)
+Rating           : fire
+File             : HEAD\2025-processed-clean.txt
+Line             : CVE-2025-69971,2026-02-03T00:00:00.000Z,,FUXA v1.2.7 contains a hard-coded credential vulnerability in server/api/jwt-helper.js. The application uses a hard-coded secret key to sign and verify JWT Tokens. This allows remote attackers to forge valid admin tokens and bypass authentication to gain full administrative access.,,server/api/jwt-helper.js. The application uses a hard-coded secret key to sign and verify JWT Tokens. This allows remote attackers to forge valid admin tokens and bypass authentication to gain full administrative access,False,False,,,,CWE-798,False,fire,CWE-798,Use of Hard-coded Credentials
 
 CVE              : CVE-2025-71243
 KEV Date         : 2026-04-09
@@ -2031,7 +2209,7 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-7340	2025-07-15 04:23:42.345000+00:00	HT Contact Form Widget For Elementor Page Builder & Gutenberg Blocks & Form Builder. <= 2.2.1 - Unauthenticated Arbitrary File Upload	The HT Contact Form Widget For Elementor Page Builder & Gutenberg Blocks & Form Builder. plugin for WordPress is vulnerable to arbitrary file uploads due to missing file type validation in the temp_file_upload function in all versions up to, and including, 2.2.1. This makes it possible for unauthenticated attackers to upload arbitrary files on the affected site's server which may make remote code execution possible.	htplugins	HT Contact Form Widget For Elementor Page Builder & Gutenberg Blocks & Form Builder.	9.8	CRITICAL	warm
 
 CVE              : CVE-2025-7402
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : hot
 File             : HEAD\2025-processed-clean.txt
@@ -2045,7 +2223,7 @@ File             : 2025\November\december-2-ratings.txt
 Line             : CVE-2025-7443	2025-08-01 04:24:29.246000+00:00	BerqWP <= 2.2.42 - Unauthenticated Arbitrary File Upload	The BerqWP – Automated All-In-One Page Speed Optimization for Core Web Vitals, Cache, CDN, Images, CSS, and JavaScript plugin for WordPress is vulnerable to arbitrary file uploads due to missing file type validation via the store_javascript_cache.php file in all versions up to, and including, 2.2.42. This makes it possible for unauthenticated attackers to upload arbitrary files on the affected site's server which may make remote code execution possible.	berqwp	BerqWP – Automated All-In-One Page Speed Optimization for Core Web Vitals, Cache, CDN, Images, CSS, and JavaScript	8.1	HIGH	hot
 
 CVE              : CVE-2025-7721
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2025-12-03  (December 2025 run)
 Rating           : warm
 File             : 2025\November\december-2-ratings.txt
@@ -2067,7 +2245,7 @@ Line             : CVE-2025-9074,PUBLISHED,Docker,2025-08-20T13:28:35.553Z,Docke
 This can lead to execution of a wide range of privileged commands to the engine API, including controlling other containers, creating new ones, managing images etc. In some circumstances (e.g. Docker Desktop for Windows with WSL backend) it also allows mounting the host drive with the same privileges as the user running Docker Desktop.,DOCKER,Docker Desktop,hot
 
 CVE              : CVE-2025-9090
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-03-21  (2025 processed-clean)
 Rating           : warm
 File             : HEAD\2025-processed-clean.txt
@@ -2117,8 +2295,29 @@ Line             : CVE-2026-0770	zdi	2026-01-23T03:28:52.286Z	Langflow exec_glob
 
 The specific flaw exists within the handling of the exec_globals parameter provided to the validate endpoint. The issue results from the inclusion of a resource from an untrusted control sphere. An attacker can leverage this vulnerability to execute code in the context of root. Was ZDI-CAN-27325.	Langflow	Langflow			CWE-829	FALSE	fire
 
+CVE              : CVE-2026-110618
+KEV Date         : 2026-11-17
+Github Timestamp : 2026-11-16  (November 2026 run)
+Rating           : warm
+File             : HEAD\2026-november-16-run.tsv
+Line             : CVE-2026-110618	VulnCheck	2026-10-14T14:16:56.635Z	SmsForwarder through 3.5.0 Missing Authentication in HTTP Server Remote Control API	SmsForwarder through 3.5.0 contains a missing authentication vulnerability in its AndServer HTTP server that allows unauthenticated network attackers to invoke remote-control APIs. Attackers can call the default-enabled endpoints to read SMS, call logs and contacts, send SMS, and export or overwrite configuration via the clone API.	pppscn	SmsForwarder	8.6	HIGH	CWE-306	warm	CWE-306	Missing Authentication for Critical Function	warm
+
+CVE              : CVE-2026-11556
+KEV Date         : 2026-11-04
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : warm
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-11556	PUBLISHED	VulDB	2026-06-08T18:00:15.317Z	Tenda F451 Web Management WriteFacMac formWriteFacMac os command injection	A security flaw has been discovered in Tenda F451 1.0.0.7/1.0.0.9. Impacted is the function formWriteFacMac of the file /goform/WriteFacMac of the component Web Management Interface. Performing a manipulation of the argument mac results in os command injection. Remote exploitation of the attack is possible. The exploit has been released to the public and may be used for attacks.	Tenda	F451	8.7	HIGH	CWE-78 | CWE-77	FALSE	warm	['CWE-78', 'CWE-77']	["Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')", "Improper Neutralization of Special Elements used in a Command ('Command Injection')"]
+
+CVE              : CVE-2026-11746
+KEV Date         : 2026-11-09
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : warm
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-11746	PUBLISHED	LY-Corporation	2026-06-22T02:35:51.201Z		A vulnerability has been identified in centraldogma-server versions prior to 0.84.0, where enabling ZooKeeper replication without setting replication.secret causes the server to silently fall back to a hard-coded, publicly known secret. This default credential authenticates the embedded ZooKeeper ensemble, allowing an attacker with network access to read the full replication log or join the quorum and execute arbitrary replicated commands across the cluster.	LY Corporation	Central Dogma	9.4	CRITICAL	None	FALSE	warm	['None']	[]
+
 CVE              : CVE-2026-1830
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-06-02  (June 2026 run)
 Rating           : hot
 File             : 2026\2026-june-1.txt
@@ -2132,14 +2331,14 @@ File             : 2026\2026-april-1-for-sharing.txt
 Line             : CVE-2026-23536	2026-03-20T21:58:47.338Z	Feast: unauthenticated arbitrary file read	A security issue was discovered in the Feast Feature Server's `/read-document` endpoint that allows an unauthenticated remote attacker to read any file accessible to the server process. By sending a specially crafted HTTP POST request, an attacker can bypass intended access restrictions to potentially retrieve sensitive system files, application configurations, and credentials.	Red Hat	Red Hat OpenShift AI (RHOAI)	7.5	HIGH	hot	CWE-22	Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')
 
 CVE              : CVE-2026-24611
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-24611	PUBLISHED	Patchstack	2026-06-17T09:50:41.016Z	WordPress MetForm Pro plugin <= 3.9.1 - Broken Access Control vulnerability	Unauthenticated Broken Access Control in MetForm Pro <= 3.9.1 versions.	WPMet	MetForm Pro	9.1	CRITICAL	CWE-862	FALSE	warm	['CWE-862']	['Missing Authorization']
 
 CVE              : CVE-2026-25243
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-06-02  (June 2026 run)
 Rating           : warm
 File             : 2026\2026-june-1.txt
@@ -2153,7 +2352,7 @@ File             : HEAD\2026-august.txt
 Line             : CVE-2026-25895	PUBLISHED	GitHub_M	2026-02-09T22:29:48.203Z	FUXA Unauthenticated Remote Code Execution via Arbitrary File Write in Upload API	FUXA is a web-based Process Visualization (SCADA/HMI/Dashboard) software. A path traversal vulnerability in FUXA allows an unauthenticated, remote attacker to write arbitrary files to arbitrary locations on the server filesystem. This affects FUXA through version 1.2.9. This issue has been patched in FUXA version 1.2.10.	frangoteam	FUXA	9.5	CRITICAL	CWE-22 | CWE-306	FALSE	warm	['CWE-22', 'CWE-306']	["Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')", 'Missing Authentication for Critical Function']
 
 CVE              : CVE-2026-26216
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-04-25  (April 2026 run)
 Rating           : fire
 File             : 2026\2026-april-1-for-sharing.txt
@@ -2202,7 +2401,7 @@ File             : 2026\2026-june-1.txt
 Line             : CVE-2026-32996	hackerone	2026-05-28T04:01:37.686Z		This vulnerability in Veeam Agent for Microsoft Windows allows for Local Privilege Escalation.	Veeam	Backup and Replication	7.3	HIGH	CWE-532	FALSE	hot
 
 CVE              : CVE-2026-33309
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : fire
 File             : HEAD\2026-august.txt
@@ -2279,14 +2478,14 @@ File             : 2026\2026-june-1.txt
 Line             : CVE-2026-40242	GitHub_M	2026-04-10T20:34:12.777Z	Arcane Unauthenticated SSRF with Conditional Response Reflection in Template Fetch Endpoint	Arcane is an interface for managing Docker containers, images, networks, and volumes. Prior to 1.17.3, the /api/templates/fetch endpoint accepts a caller-supplied url parameter and performs a server-side HTTP GET request to that URL without authentication and without URL scheme or host validation. The server's response is returned directly to the caller. type. This constitutes an unauthenticated SSRF vulnerability affecting any publicly reachable Arcane instance. This vulnerability is fixed in 1.17.3.	getarcaneapp	arcane	7.2	HIGH	CWE-918	FALSE	hot
 
 CVE              : CVE-2026-41709
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-41709	PUBLISHED	vmware	2026-07-30T12:45:02.292Z	ESX insufficient logging vulnerability	VMware ESX contains an insufficient logging vulnerability. A malicious administrator could exploit this issue to perform certain operations without them being logged.	VMware	Cloud Foundation | vSphere Foundation | ESX | Telco Cloud Platform	2.7	LOW	CWE-778	FALSE	warm	['CWE-778']	['Insufficient Logging']
 
 CVE              : CVE-2026-4257
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-04-25  (April 2026 run)
 Rating           : hot
 File             : 2026\2026-april-1-for-sharing.txt
@@ -2349,15 +2548,22 @@ Rating           : warm
 File             : 2026\2026-june-1.txt
 Line             : CVE-2026-46817	oracle	2026-05-28T20:17:10.861Z		Vulnerability in the Oracle Payments product of Oracle E-Business Suite (component: File Transmission).  Supported versions that are affected are 12.2.3-12.2.15. Easily exploitable vulnerability allows unauthenticated attacker with network access via HTTP to compromise Oracle Payments.  Successful attacks of this vulnerability can result in takeover of Oracle Payments. CVSS 3.1 Base Score 9.8 (Confidentiality, Integrity and Availability impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H).	Oracle	Oracle Payments	9.8	CRITICAL	CWE-306 | CWE-287 | CWE-269	FALSE	warm
 
+CVE              : CVE-2026-47668
+KEV Date         : 2026-11-10
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : warm
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-47668	PUBLISHED	GitHub_M	2026-07-23T17:34:52.399Z	DbGate: Unauthenticated Remote Code Execution via JSON Script Runner	DbGate is cross-platform database manager. In versions 7.1.8 and prior, DbGate's JSON script runner (`POST /runners/start`) allows remote code execution via code injection in the `functionName` parameter of JSON script `assign` commands. The `functionName` value is interpolated directly into dynamically generated JavaScript source code via string concatenation. The generated code is then executed in a forked Node.js child process. Version 7.1.9 contains a patch.	dbgate	dbgate	10	CRITICAL	CWE-20 | CWE-94 | CWE-1188	FALSE	warm	['CWE-20', 'CWE-94', 'CWE-1188']	['Improper Input Validation', "Improper Control of Generation of Code ('Code Injection')", 'Initialization with Hard-Coded Network Resource Configuration Data']
+
 CVE              : CVE-2026-4815
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-06-02  (June 2026 run)
 Rating           : hot
 File             : 2026\2026-june-1.txt
 Line             : CVE-2026-4815	INCIBE	2026-03-25T13:31:52.953Z	SQL Injection vulnerability in Support Board	A SQL Injection vulnerability has been found in Support Board v3.7.7. This vulnerability allows an attacker to retrieve, create, update and delete database via 'calls[0][message_ids][]' parameter in '/supportboard/include/ajax.php' endpoint.	Schiocco	Support Board	8.7	HIGH	CWE-89	FALSE	hot
 
 CVE              : CVE-2026-48356
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : fire
 File             : HEAD\2026-august.txt
@@ -2378,14 +2584,14 @@ File             : HEAD\2026-august.txt
 Line             : CVE-2026-49049	PUBLISHED	Joomla	2026-06-29T14:34:07.407Z	Joomla Extension - joomshaper.com - Unauthenticated access to Helix3 template ajax handler	The Helix3 plugin for Joomla exposes an ajax handler task, that allows unauthenticated attackers to delete arbitrary files, write arbitrary JSON files and update template parameters.	joomshaper.com	Helix3 extension for Joomla			CWE-284	FALSE	warm	['CWE-284']	['Improper Access Control']
 
 CVE              : CVE-2026-49058
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-49058	PUBLISHED	Patchstack	2026-06-17T09:51:18.531Z	WordPress LoginPress Pro plugin <= 6.2.2 - Privilege Escalation vulnerability	Unauthenticated Privilege Escalation in LoginPress Pro <= 6.2.2 versions.	LoginPress	LoginPress Pro	9.8	CRITICAL	CWE-266	FALSE	warm	['CWE-266']	['Incorrect Privilege Assignment']
 
 CVE              : CVE-2026-49083
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
@@ -2406,14 +2612,21 @@ File             : 2026\2026-april-1-for-sharing.txt
 Line             : CVE-2026-5027	2026-03-27T14:54:53.609Z	Langflow - Path Traversal Arbitrary File Write via upload_user_file	The 'POST /api/v2/files' endpoint does not sanitize the 'filename' parameter from the multipart form data, allowing an attacker to write files to arbitrary locations on the filesystem using path traversal sequences ('../').	Langflow	Langflow	8.8	HIGH	warm	CWE-22	Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')
 
 CVE              : CVE-2026-52714
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-52714	PUBLISHED	Patchstack	2026-06-16T09:00:34.680Z	WordPress SEO Plugin by Squirrly SEO plugin <= 12.4.16 - Broken Access Control vulnerability	Unauthenticated Broken Access Control in SEO Plugin by Squirrly SEO <= 12.4.16 versions.	SEO Squirrly	SEO Plugin by Squirrly SEO	7.5	HIGH	CWE-862	FALSE	warm	['CWE-862']	['Missing Authorization']
 
+CVE              : CVE-2026-54121
+KEV Date         : 2026-11-11
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : hot
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-54121	PUBLISHED	microsoft	2026-07-14T17:08:20.916Z	Active Directory Certificate Services Elevation of Privilege Vulnerability	Improper authorization in Active Directory Certificate Services (AD CS) allows an authorized attacker to elevate privileges over a network.	Microsoft	Windows	8.8	HIGH	CWE-285	FALSE	hot	['CWE-285']	['Improper Authorization']
+
 CVE              : CVE-2026-54188
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
@@ -2425,6 +2638,13 @@ Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : fire
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-55450	PUBLISHED	GitHub_M	2026-06-23T16:17:52.168Z	Langflow: Unauthenticated file upload leads to DoS (space exhaustion) and information leak	Langflow is a tool for building and deploying AI-powered agents and workflows. Prior to 1.9.1, unauthenticated users can upload any amount of data to the server without any limitations. No need for any prior knowledge, only network access to Langflow. This can lead to space exhaustion on the server. In addition, in the response, the absolute path of the uploaded file is reported to the attacker, which is an information leak that can assist in chaining other primitives. This vulnerability is fixed in 1.9.1.	Langflow	Langflow	9.3	CRITICAL	CWE-200 | CWE-306 | CWE-400	FALSE	fire	['CWE-200', 'CWE-306', 'CWE-400']	['Exposure of Sensitive Information to an Unauthorized Actor', 'Missing Authentication for Critical Function', 'Uncontrolled Resource Consumption']
+
+CVE              : CVE-2026-56070
+KEV Date         : 2026-11-10
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : warm
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-56070	PUBLISHED	Patchstack	2026-06-26T14:52:54.109Z	WordPress Advance Product Search plugin <= 1.4.4 - SQL Injection vulnerability	Unauthenticated SQL Injection in Advance Product Search <= 1.4.4 versions.	ThemeHunk	Advance Product Search	9.3	CRITICAL	CWE-89	FALSE	warm	['CWE-89']	["Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"]
 
 CVE              : CVE-2026-58457
 KEV Date         : 2026-09-04
@@ -2455,7 +2675,7 @@ File             : HEAD\2026-august.txt
 Line             : CVE-2026-60105	PUBLISHED	VulnCheck	2026-07-08T21:02:37.204Z	Monsta FTP < 2.14.5 SSRF via IPv4-Mapped IPv6 Address Bypass	Monsta FTP before 2.14.5 contains a server-side request forgery vulnerability in the fetchRemoteFile action caused by an incomplete IP blocklist check in the isBlockedIP() function, which fails to detect embedded IPv4 addresses within IPv4-mapped IPv6 addresses. An unauthenticated attacker can obtain a CSRF token from the public getSystemVars endpoint and submit a fetchRemoteFile request with a source URL resolving to an IPv4-mapped address, causing the server to issue HTTP requests to internal services and write responses to an attacker-controlled FTP destination, enabling retrieval of cloud instance metadata credentials.	Monsta Limited of New Zealand	Monsta FTP	7.7	HIGH	CWE-918	FALSE	warm	['CWE-918']	['Server-Side Request Forgery (SSRF)']
 
 CVE              : CVE-2026-61500
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
@@ -2468,8 +2688,15 @@ Rating           : warm
 File             : HEAD\2026-august.txt
 Line             : CVE-2026-61511	PUBLISHED	VulnCheck	2026-07-27T12:39:16.085Z	vBulletin < 6.2.2 Eval Injection RCE via vb5/template/runtime.php	vBulletin 5.x through 5.7.5 and 6.x through 6.2.1 contains an eval injection vulnerability in the vB5_Template_Runtime::runMaths() method within the template runtime that allows unauthenticated remote attackers to execute arbitrary PHP code by supplying crafted input through the pagenav[pagenumber] parameter. Attackers can exploit the insufficiently restrictive regex filter by using phpfuck-style encoding with permitted characters to inject and execute arbitrary PHP code via the unauthenticated ajax/render template route without any authentication.	vBulletin	vBulletin	9.3	CRITICAL	CWE-95	FALSE	warm	['CWE-95']	["Improper Neutralization of Directives in Dynamically Evaluated Code ('Eval Injection')"]
 
+CVE              : CVE-2026-61949
+KEV Date         : 2026-11-10
+Github Timestamp : 2026-08-07  (August 2026 run)
+Rating           : warm
+File             : HEAD\2026-august.txt
+Line             : CVE-2026-61949	PUBLISHED	Patchstack	2026-07-23T11:18:28.614Z	WordPress Bookly plugin <= 27.7 - SQL Injection vulnerability	Unauthenticated SQL Injection in Bookly <= 27.7 versions.	Bookly	Bookly	9.3	CRITICAL	CWE-89	FALSE	warm	['CWE-89']	["Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"]
+
 CVE              : CVE-2026-65761
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
@@ -2483,15 +2710,21 @@ File             : HEAD\2026-august.txt
 Line             : CVE-2026-7273	PUBLISHED	Zyxel	2026-06-16T02:20:29.847Z		A stack-based buffer overflow vulnerability in the CGI program of Zyxel GS1900-48HPv2 firmware versions through 2.90(ABTQ.1)C0 could allow a LAN-based, unauthenticated attacker to exploit the flaw and potentially execute OS commands via a crafted HTTP request.	Zyxel	GS1900-48HPv2 firmware | GS1900-8 firmware | GS1900-8HP firmware | GS1900-10HP firmware | GS1900-16 firmware | GS1900-24 firmware | GS1900-24E firmware | GS1900-24EP firmware | GS1900-24HPv2 firmware | GS1900-48 firmware	8.8	HIGH	CWE-121	FALSE	warm	['CWE-121']	['Stack-based Buffer Overflow']
 
 CVE              : CVE-2026-7465
-KEV Date         : 2026-06-02
+KEV Date         : 2026-06-03
 Github Timestamp : 2026-06-02  (June 2026 run)
 Rating           : warm
 File             : 2026\2026-june-1.txt
 Line             : CVE-2026-7465	Wordfence	2026-05-30T09:29:00.397Z	Spectra Gutenberg Blocks <= 2.19.25 - Authenticated (Contributor+) Remote Code Execution via Arbitrary PHP Function Call via Block Attributes	The Spectra Gutenberg Blocks – Website Builder for the Block Editor plugin for WordPress is vulnerable to Remote Code Execution in all versions up to, and including, 2.19.25. This makes it possible for authenticated attackers, with Contributor-level access and above, to execute code on the server. Exploitation requires a two-block payload embedded in post content: the first block registers a fake uagb/-prefixed block type with an attacker-specified render_callback, and the second block of the same fake type triggers invocation of that callback via call_user_func() during sequential block rendering in the same page request.	brainstormforce	Spectra Gutenberg Blocks – Website Builder for the Block Editor	8.8	HIGH	CWE-269	FALSE	warm
-STATUS           : MISS (rated non-cold only on/after the KEV date -- not a valid lead-time example)
+
+CVE              : CVE-2026-76466
+KEV Date         : 2026-11-20
+Github Timestamp : 2026-11-16  (November 2026 run)
+Rating           : warm
+File             : HEAD\2026-november-16-run.tsv
+Line             : CVE-2026-76466	cisco	2026-10-21T16:14:19.225Z	Cisco Expressway Series Remote Code Execution Vulnerability	A vulnerability in the database service feature of Cisco Expressway Series could allow an unauthenticated, remote attacker with network access to a Cisco Expressway device to execute arbitrary operating system commands as&nbsp;root. This vulnerability is due to the use of persistent cookies. Additionally, there is insufficient validation of client certificates when the TLS Verify Mode is set to Enabled for clustering, which means that client certificates are not validated. An attacker with possession of the cookies could exploit this vulnerability by connecting to the database service and invoking specific remote procedure call (RPC) commands. A successful exploit could allow the attacker to execute arbitrary commands as root on the underlying operating system of an affected device. Note: Cisco Expressway Series refers to Cisco Expressway Core (Expressway-C) devices and Cisco Expressway Edge (Expressway-E) devices.	Cisco	Cisco TelePresence Video Communication Server (VCS) Expressway	9.8	CRITICAL	CWE-798	warm	CWE-798	Use of Hard-coded Credentials	warm
 
 CVE              : CVE-2026-7873
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
@@ -2505,7 +2738,7 @@ File             : HEAD\2026-august.txt
 Line             : CVE-2026-8452	PUBLISHED	NetScaler	2026-06-30T12:41:07.622Z	Memory overflow vulnerability leading to unpredictable or erroneous behavior and Denial of Service	Memory overflow vulnerability NetScaler ADC and NetScaler Gateway leading to unpredictable or erroneous behavior and Denial of Service if the appliance is configured as a Gateway (SSL VPN, ICA Proxy, CVPN, RDP Proxy) or AAA virtual server	Citrix	NetScaler	8.8	HIGH	None	FALSE	hot	['None']	[]
 
 CVE              : CVE-2026-9290
-KEV Date         : 
+KEV Date         : 2026-10-29
 Github Timestamp : 2026-08-07  (August 2026 run)
 Rating           : warm
 File             : HEAD\2026-august.txt
